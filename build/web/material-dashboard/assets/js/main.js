@@ -327,6 +327,27 @@ $(".editarUsuario").click(function (e){
             reader.readAsDataURL(input.files[0]);
         }
     }
+////////////////////Funciones para validar password email y telefono////////////////7
+    $.validator.addMethod("pwcheck1", function(value) {
+       return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) 
+           && /[a-z]/.test(value) // evalua que tenga una minuscula como minimo
+    });
+    $.validator.addMethod("pwcheck2", function(value) {
+       return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) 
+           && /\d/.test(value) // evalua que tenga un digito como minimo
+    });
+    $.validator.addMethod("pwcheck3", function(value) {
+       return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) 
+           && /[A-Z]/.test(value) // evalua que tenga una mayuscula como minimo
+    });
+    $.validator.addMethod("validarEmail", function(value){
+       var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+       return pattern.test(value);
+    });
+    $.validator.addMethod("validarTelefono", function(value){
+       var pattern = /^3[0,1,2,3,5][0-9]{8}$/;
+       return pattern.test(value);
+    });
 ////////////////////////////////////////////////////////////// REGISTRO DE UN JUGADOR////////////////////////////////
 var $validator = $('#frmJugador').validate({
             rules: {
@@ -342,18 +363,23 @@ var $validator = $('#frmJugador').validate({
                     required:true
                 },
                 telefonoJugador:{
-                    required:true
+                    required:true,
+                    validarTelefono:true
                 },
                 generoJugador:{
                     required:true
                 },
                 emailJugador:{
                     required:true,
-                    email:true
+                    validarEmail:true
                 },
                 passwordJugador:{
                     required:true,
-                    minlength:5
+                    minlength:8,
+                    maxlength:15,
+                    pwcheck1:true,
+                    pwcheck2:true,
+                    pwcheck3:true
                 },
                 passwordJugadorConfirm:{
                     equalTo:"#passwordJugador"
@@ -381,8 +407,72 @@ var $validator = $('#frmJugador').validate({
                     required:true
                 }
         },
+        messages:{
+            nombresJugador:{
+                required:"Ingresa tus nombres",
+                minlength:"Ingresa 3 caracteres como minimo"
+            },
+            apellidosJugador:{
+                required:"Ingresa tus apellidos",
+                minlength:"Ingresa 3 caracteres como minimo"
+            },
+            fechanacimientoJugador:{
+                required:"Selecciona tu fecha de nacimiento"
+            },
+            telefonoJugador:{
+                required:"Ingresa tu numero telefonico",
+                validarTelefono:"Ingresa un numero telefonico valido"
+            },
+            generoJugador:{
+                required:"Selecciona tu genero"
+            },
+            emailJugador:{
+                required:"Ingresa tu correo electronico",
+                validarEmail:"Ingresa un correo electronico valido",
+                email:"Ingresa un correo electronico valido"
+            },
+            passwordJugador:{
+                required:"Ingresa una contraseña",
+                minlength:"Ingresa 8 caracteres como minimo",
+                maxlength:"Ingresa 15 caracteres como maximo",
+                pwcheck1:"La contraseña debe contener una minuscula como minimo",
+                pwcheck2:"La contraseña debe contener un digito como minimo",
+                pwcheck3:"La contraseña debe contener una mayuscula como minimo"
+            },
+            passwordJugadorConfirm:{
+                equalTo:"Ambas contraseñas deben coincidir"
+            },
+            txtAliasJugador:{
+                required:"Ingresa tu alias",
+                minlength:"Ingresa 5 caracteres como minimo"
+            },
+            cmbPosicionJugador:{
+                required:"Selecciona tu posicion"
+            },
+            cmbPiernaJugador:{
+                required:"Selecciona tu pierna habil"
+            },
+            txtDescripcionJugador:{
+                required:"Danos una breve descripcion sobre ti"
+            },
+            pregunta1:{
+                required:"Selecciona una opcion"
+            },
+            pregunta2:{
+                required:"Selecciona una opcion"
+            },
+            pregunta3:{
+                required:"Selecciona una opcion"
+            }
+        },
+        errorElement : 'div',
         errorPlacement: function(error, element) {
-            $(element).parent('div').addClass('has-error');
+          var placement = $(element).data('error');
+          if (placement) {
+            $(placement).append(error);
+          } else {
+            error.insertAfter(element);
+          }
         },
         submitHandler: function(){
             var UNombre = $("#nombresJugador").val();
