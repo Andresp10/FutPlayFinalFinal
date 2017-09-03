@@ -3,12 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/migue/Videos/FutPlayFinal/web/material-dashboard/assets/js/main.js</file>
-            <file>file:/C:/Users/migue/Videos/FutPlayFinal/web/material-dashboard/assets/js/basePropietario.js</file>
-            <file>file:/C:/Users/migue/Videos/FutPlayFinal/web/material-dashboard/pages/includes/sidebarPropietario.jsp</file>
-            <file>file:/C:/Users/migue/Videos/FutPlayFinal/web/material-dashboard/pages/campo/actualizarCampo.jsp</file>
-            <file>file:/C:/Users/migue/Videos/FutPlayFinal/web/material-dashboard/pages/jugador/registrarJugador.jsp</file>
-            <file>file:/C:/Users/migue/Videos/FutPlayFinal/src/java/Controlador/uploadfiles.java</file>
+            <file>file:/C:/Users/Andres/Documents/NetBeansProjects/FutPlayFinalFinal/web/material-dashboard/pages/includes/notificacionesPropietario.jsp</file>
+            <file>file:/C:/Users/Andres/Documents/NetBeansProjects/FutPlayFinalFinal/web/material-dashboard/pages/jugador/verJugadores.jsp</file>
+            <file>file:/C:/Users/Andres/Documents/NetBeansProjects/FutPlayFinalFinal/web/material-dashboard/pages/includes/headerPropietario.jsp</file>
+            <file>file:/C:/Users/Andres/Documents/NetBeansProjects/FutPlayFinalFinal/src/java/Controlador/notificacion.java</file>
+            <file>file:/C:/Users/Andres/Documents/NetBeansProjects/FutPlayFinalFinal/src/java/Controlador/inicio.java</file>
+            <file>file:/C:/Users/Andres/Documents/NetBeansProjects/FutPlayFinalFinal/src/java/Controlador/encuentros.java</file>
+            <file>file:/C:/Users/Andres/Documents/NetBeansProjects/FutPlayFinalFinal/web/material-dashboard/assets/js/main.js</file>
+            <file>file:/C:/Users/Andres/Documents/NetBeansProjects/FutPlayFinalFinal/web/material-dashboard/pages/propietario/indexPropietario.jsp</file>
+            <file>file:/C:/Users/Andres/Documents/NetBeansProjects/FutPlayFinalFinal/web/material-dashboard/assets/js/basePropietario.js</file>
+            <file>file:/C:/Users/Andres/Documents/NetBeansProjects/FutPlayFinalFinal/web/material-dashboard/pages/includes/header.jsp</file>
         </group>
     </open-files>
 </project-private>

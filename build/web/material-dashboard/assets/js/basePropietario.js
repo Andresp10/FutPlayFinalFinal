@@ -892,5 +892,47 @@ $(document).ready(function(){
             });
         }
     });
+    /////////////////////// NOTIFICACIONES ///////////////////////////
+    
+    ////////////////////////////////////////////////// VER NOTIFICACIONES ////////////////////////////////////////////
+    $(".verNotificacionesPropietario").click(function (){
+        
+        $.post("/FutPlayFinal/notificacion/vernotificacionespropietario",function (responseText){
+
+            $("#notificacionesContenedor").html("");
+            $("#notificacionesContenedor").append(responseText);
+
+        });
+        
+    });
+    //////////////////////////////////////// DEJAR EN VISTO LAS NOTIFICACIONES //////////////////////////////////
+    $(".actualizarNotificacionesPropietario").click(function (){
+        alert("actualizarNotificacionesPropietario");
+        $.post("/FutPlayFinal/notificacion/vistonotificacionpropietario",function (responseText){
+
+            if(responseText === "1"){
+
+                CargarNotificaciones();
+
+            }
+
+        });
+
+    });
+    function CargarNotificacionesPropietario (){
+    
+        alert("cargarNotificacioness");
+        $.ajax({
+            async: true,
+            type: 'POST',
+            url: "/FutPlayFinal/notificacion/cargarnotificacionespropietario",
+            cache:false
+        }).done(function (responseText){
+
+            $("#numeroNotificacionesContainer").html(responseText);
+            //ESTAR PERDIENE DE VOLVER A DESCOMENTAR ESTE TIMEOUT -> setTimeout('CargarNotificaciones()',10000);
+
+        });
+    };
 });
 /////End of document ready//////
