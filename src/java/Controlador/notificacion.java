@@ -493,10 +493,6 @@ public class notificacion extends HttpServlet {
             Query query = sesion.createQuery("FROM Notificacion WHERE PropietarioRecibe = "+objPropietario.getIdPropietario()+"");
             List<Notificacion> ListaNotificacion = query.list();
 
-            System.out.println("NUMERO DE NOTIFICACIONES RECIBIDAS -------> "+ListaNotificacion.size());
-
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/plain");
             for(Notificacion notificacion : ListaNotificacion){
                 //System.out.println("CARGANDO LAS NOTIFICACIONES ------>     "+notificacion.getTipo());
                 String visto [] = notificacion.getVisto().split("/");
@@ -534,16 +530,11 @@ public class notificacion extends HttpServlet {
             Propietario objPropietario = (Propietario) request.getSession().getAttribute("PropietarioIngresado");
             
             Session sesion = HibernateUtil.getSessionFactory().openSession();
-                
-
             Query query = sesion.createQuery("FROM Notificacion WHERE PropietarioRecibe = "+objPropietario.getIdPropietario()+"");
             List<Notificacion> ListaNotificacion = query.list();
 
-            System.out.println("NUMERO DE NOTIFICACIONES RECIBIDAS -------> "+ListaNotificacion.size());
-
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("text/plain");
             for(Notificacion notificacion : ListaNotificacion){
+                
                 
                 switch (notificacion.getTipo()){
                 
@@ -552,18 +543,55 @@ public class notificacion extends HttpServlet {
                         String fecha [] = notificacion.getFecha().toString().split(" ");
                         String contenidoNot[] = notificacion.getDatosAdicionales().split("/");
 
-                        response.getWriter().write("<a href='#' id='"+notificacion.getDatosAdicionales()+"' class='NotificationP'>"
-                                                        +"<div class='Notification-iconP'>"
-                                                            +"<i class='material-icons' style='background-color: #FF9800; font-size: 25px;'>flash_on</i>"
-                                                        +"</div>"
-                                                        +"<div class='Notification-textP' style='margin-left: 70px;'>"
-                                                            +"<p style='padding-top: 10px;'>"
-                                                                +"<strong class='description'>Un equipo desea progamar un encuentro de futbol "+contenidoNot[0]+" en tu campo.</strong><br>"
-                                                                +"<small>"+fecha[0]+"</small>"    
-                                                            +"</p>"
-                                                        +"</div>"
-                                                   +"</a>");
-
+                        Query queryEquipo1 = sesion.createQuery("FROM Equipo WHERE idEquipo = "+contenidoNot[1]+"");
+                        List<Equipo>listaEquipo1 = queryEquipo1.list();
+                        Query queryEquipo2 = sesion.createQuery("FROM Equipo WHERE idEquipo = "+contenidoNot[2]+"");
+                        List<Equipo>listaEquipo2 = queryEquipo2.list();
+                        
+                        for(Equipo equipo : listaEquipo1){
+                            
+                            for(Equipo eq : listaEquipo2){
+                            
+                                response.getWriter().write("<a href='#' data-toggle='modal' data-target='#noticeModal' id='"+notificacion.getDatosAdicionales()+"' class='NotificationP'>"
+                                                                +"<div class='Notification-iconP'>"
+                                                                    +"<i class='material-icons' style='background-color: #FF9800; font-size: 25px;'>flash_on</i>"
+                                                                +"</div>"
+                                                                +"<div class='Notification-textP' style='margin-left: 70px;'>"
+                                                                    +"<p style='padding-top: 10px;'>"
+                                                                        +"<strong class='description'>Los equipos "+equipo.getNombre()+" y "+eq.getNombre()+" desean progamar un encuentro.</strong><br>"
+                                                                        +"<small>"+fecha[0]+"</small>"    
+                                                                    +"</p>"
+                                                                +"</div>"
+                                                           +"</a>"
+                                                           + "<div class='modal fade' id='noticeModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none'>"
+                                                                +"<div class='modal-dialog modal-notice'>"
+                                                                    +"<div class='modal-content'>"
+                                                                        +"<div class='modal-header'>"
+                                                                            +"<button type='button' class='close' data-dismiss='modal' aria-hidden='true'><i class='material-icons'>clear</i></button>"
+                                                                            +"<h5 class='modal-title' id='myModalLabel'>Confirmar encuentro</h5>"
+                                                                        +"</div>"
+                                                                    +"</div>"
+                                                                    +"<div class='modal-body'>"
+                                                                        +"<div class='row'>"
+                                                                            +"<div class='col-md-10 col-md-offset-1'>"
+                                                                                +"<div class='form-group label-floating is-empty'>"
+                                                                                    +"<label class='control-label'>Nombre</label>"
+                                                                                    +"<input type='text' class='form-control' id='txtNombreEquipo'>"
+                                                                                    +"<span class='help-block'>Ingresa el nombre de tu equipo</span>"
+                                                                                    +"<span class='material-input'></span>"
+                                                                                +"</div>"
+                                                                            +"</div>"
+                                                                        +"</div>"
+                                                                    +"</div>"
+                                                                +"</div>"
+                                                            +"</div>");
+                                                                
+                                                            
+                            }
+                        
+                        
+                        }
+                        
                     break;
                     
                 }
