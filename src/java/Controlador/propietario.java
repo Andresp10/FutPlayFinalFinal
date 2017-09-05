@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -73,6 +74,9 @@ public class propietario extends HttpServlet {
                 s.update(per);
                 s.getTransaction().commit();
                 s.close();
+                request.getSession().removeAttribute("PropietarioIngresado");
+                Propietario prp = new Propietario(id, per);
+                request.getSession().setAttribute("PropietarioIngresado", prp);
                 response.getWriter().write("1");
             }
             catch(IOException | HibernateException ex){

@@ -717,9 +717,35 @@ $(document).ready(function(){
            data:{campo:campo ,numcancha:numcancha, tipocancha:tipoCancha}
         }).done(function(data){
             if(data>"0"){
+                $.notify({
+                    icon: "check",
+                    message: "Cancha añadida exitosamente"
+
+                },{
+                    type: 'success',
+                    timer: 2500,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
                 $("#añadirCancha").modal("hide");
                 $("#numeroCancha").val("");
                 $("#cmbTipoCancha").prop("selectedIndex",0);
+            }
+            else{
+                $.notify({
+                    icon: "sentiment_very_dissatisfied",
+                    message: "Ocurrio un error al momento de procesar la solicitud"
+
+                },{
+                    type: 'danger',
+                    timer: 2500,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
             }
         });
     }); 
@@ -735,16 +761,28 @@ $(document).ready(function(){
             method:"post",
             dataType:"json",
             data:{idcampo:idcampo}
-        }).done(function(data){              
+        }).done(function(data){   
             $("#tblCanchas").children().remove();
-            for (var i = 0; i < data.numerocancha.length; i++) {              
-                for (var x = 0; x < data.tipocancha.length; x++) {
-                    $("#tblCanchas").append("<tr><td>"+data.numerocancha[i]+"</td></tr>");
-                    $("#tblCanchas").append("<tr><td>"+data.tipocancha[i]+"</td></tr>");
+            for (var i = 0; i < data.idcancha.length; i++) {
+                for (var x = 0; x < data.numerocancha.length; x++) {
+                    
                 }
-            }
-            
-            //$("#tblCanchas").append("<tr><td>"+data.numerocancha+"</td><td>"+data.tipocancha+"</td><td><button class='btn btn-success btn-simple' value="+data.idcancha+"><i class='material-icons'>mode_edit</i></button><button class='btn btn-danger btn-simple btnEliminarCancha' value="+data.idcancha+"><i class='material-icons'>delete</i></button></td></tr>");                       
+                for (var y = 0; y < data.tipocancha.length; y++) {
+                    
+                }              
+                $("#tblCanchas").append("<tr>\n\
+                    <td>"+data["numerocancha"][i]+"</td>\n\
+                    <td>"+data["tipocancha"][i]+"</td>\n\
+                    <td>\n\
+                        <button type='button' class='btn btn-info btn-simple' value="+data["idcancha"][i]+">\n\
+                            <i class='material-icons'>mode_edit</i>\n\
+                        </button>\n\
+                        <button type='button' class='btn btn-danger btn-simple' value="+data["idcancha"][i]+">\n\
+                            <i class='material-icons'>delete</i>\n\
+                        </button>\n\
+                    </td></tr>");
+                $("#tblCanchas").children("tr").children("td").children("button").removeClass("btn-simple");
+            }                    
         }); 
     });
 /////////////////////////////////Peticion de ajax para eliminar una cancha///////////////////////////////
@@ -840,7 +878,7 @@ $(document).ready(function(){
            }
        }).then(function(retorno){
            if(retorno>"0"){
-               window.location.href="/FutPlayFinal/index.html";
+               window.location.href="/FutPlayFinal/material-dashboard/pages/usuario/login.html";
            }
            else{
                swal("Error","Ocurrio un error al momento de procesar la solicitud","error");

@@ -189,7 +189,7 @@ public class encuentros extends HttpServlet {
                 objCalendar.setColor("");*/
                 
                 Canchas objCancha = new Canchas();
-                objCancha.setIdCancha(5);
+                objCancha.setIdCancha(6);
                 
                 System.out.println(""+objCancha);
                 

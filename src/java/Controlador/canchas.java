@@ -252,19 +252,38 @@ public class canchas extends HttpServlet {
     protected void eliminarEvento(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
-            int id = Integer.valueOf(request.getParameter("idevento"));
-            Calendar cal = new Calendar();
-            cal.setId(id);
-            Session s = HibernateUtil.getSessionFactory().openSession();
-            try{
-                s.beginTransaction();
-                s.delete(cal);
-                s.getTransaction().commit();
-                s.close();
-                response.getWriter().write("1");
+            String id = request.getParameter("idevento");
+            String id2[] = id.split("_fc");
+            if(id2[0].equals("")){
+                Calendar cal = new Calendar();
+                cal.setId(Integer.valueOf(id2[1]));
+                Session s = HibernateUtil.getSessionFactory().openSession();
+                try{
+                    s.beginTransaction();
+                    s.delete(cal);
+                    s.getTransaction().commit();
+                    s.close();
+                    response.getWriter().write("1");
+                }
+                catch(IOException | HibernateException ex){
+                    response.getWriter().write("0");
+                }
             }
-            catch(IOException | HibernateException ex){
-                response.getWriter().write("0");
+            else{
+                int id3 = Integer.valueOf(request.getParameter("idevento"));
+                Calendar cal = new Calendar();
+                cal.setId(id3);
+                Session s = HibernateUtil.getSessionFactory().openSession();
+                try{
+                    s.beginTransaction();
+                    s.delete(cal);
+                    s.getTransaction().commit();
+                    s.close();
+                    response.getWriter().write("1");
+                }
+                catch(IOException | HibernateException ex){
+                    response.getWriter().write("0");
+                }
             }
         }
         catch(IOException | NumberFormatException | HibernateException ex){

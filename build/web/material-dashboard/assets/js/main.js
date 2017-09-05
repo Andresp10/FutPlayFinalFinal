@@ -984,7 +984,7 @@ function verMensajes (){
                                                     +"<h6 class='category text-gray'>¿No tienes mensajes?</h6>"
                                                     +"<h4 class='card-title'>FutPlay te informa</h4>"
                                                     +"<p class='description'>"
-                                                        +"Hola, por el momento no haces parte de un equipo. Nos gustaria que crearass tu propio equipo con el que podras competir en los torneo, on en su defecto pidele a un amigo que te agregue su equipo :)."
+                                                        +"Hola, por el momento no haces parte de un equipo. Nos gustaria que crearas tu propio equipo con el que podras competir en los torneo, on en su defecto pidele a un amigo que te agregue su equipo :)."
                                                     +"</p>"
                                                     +"<a href='/FutPlayFinal/material-dashboard/pages/equipo/verEquipo.jsp' class='btn btn-rose btn-round'>Ir a crear equipo</a>"
                                                 +"</div>"

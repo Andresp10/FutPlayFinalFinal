@@ -1,4 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+    response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
+    response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+    response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
+    try{      
+        if(session.getAttribute("PropietarioIngresado").equals("")){
+            response.sendRedirect("/FutPlayFinal/index.html");
+        }
+        else{
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,7 +42,7 @@
                                                 <div class="picture">
                                                     <img src="/FutPlayFinal/material-dashboard/assets/img/avatares/<%=objPropietario.getPersona().getAvatar()%>" class="picture-src" id="wizardPicturePreview" title="">
                                                     <input type="file" id="avatarPropietarioUP">
-                                                    <input type="text" hidden id="avatarPropietarioNombreUP">
+                                                    <input type="text" hidden id="avatarPropietarioNombreUP" value="<%=objPropietario.getPersona().getAvatar()%>">
                                                 </div>
                                                 <h6>Selecciona tu avatar</h6>
                                                 <small>(Opcional)</small>
@@ -134,3 +145,9 @@
         </script>
     </body>
 </html>
+<%        }
+    }  
+    catch(NullPointerException ex){
+        response.sendRedirect("/FutPlayFinal/material-dashboard/pages/usuario/404.html");
+    }
+%>
