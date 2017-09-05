@@ -1,0 +1,37 @@
+SMAP
+indexJugador_jsp.java
+JSP
+*S JSP
+*F
++ 0 indexJugador.jsp
+material-dashboard/pages/jugador/indexJugador.jsp
++ 1 importsCSS.jsp
+material-dashboard/pages/jugador/../includes/importsCSS.jsp
++ 2 notificaciones.jsp
+material-dashboard/pages/jugador/../includes/notificaciones.jsp
++ 3 sidebarJugador.jsp
+material-dashboard/pages/jugador/../includes/sidebarJugador.jsp
++ 4 header.jsp
+material-dashboard/pages/jugador/../includes/header.jsp
++ 5 importsJS.jsp
+material-dashboard/pages/jugador/../includes/importsJS.jsp
+*L
+1,7:55
+1#1,38:62
+7#0,5:100
+1#2,193:105
+11#0,2:297
+2#3,20:300
+21,4:320
+26,4:325
+29,15:329
+44:344,3
+45,3:347
+48:350,3
+49,51:353
+12#0,3:404
+1#4,41:407
+14#0,95:447
+1#5,62:542
+108#0,8:603
+*E
