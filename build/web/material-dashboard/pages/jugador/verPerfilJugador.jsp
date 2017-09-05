@@ -98,7 +98,7 @@
                                     <i class="material-icons" style="font-size: 30px; color: #d8bb21">stars</i>
                                     <i class="material-icons" style="font-size: 30px; color: #d8bb21">stars</i><br>-->
                                     
-                                    <a href="../jugador/editarPerfilJugador.jsp" class="btn btn-rose btn-round">Editar perfil</a>
+                                    <a href="../jugador/editarPerfilJugador.jsp" class="btn btn-danger btn-round">Editar perfil</a>
                                 </div>
                             </div>
                         </div>

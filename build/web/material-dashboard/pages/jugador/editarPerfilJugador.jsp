@@ -17,7 +17,7 @@
                     <div class="container-fluid">
                         <div class="col-md-10 col-md-offset-1">
                             <div class="card">
-                                <div class="card-header card-header-icon" data-background-color="rose">
+                                <div class="card-header card-header-icon" data-background-color="red">
                                     <i class="material-icons">perm_identity</i>
                                 </div>
                                 <div class="card-content">
@@ -107,7 +107,7 @@
                                                     <span class="material-input"></span></div>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-rose pull-right editarJugador">Actualizar Perfil</button>
+                                            <button type="submit" class="btn btn-danger pull-right editarJugador">Actualizar Perfil</button>
                                             <div class="clearfix"></div>
                                         </div>
                                     </form>

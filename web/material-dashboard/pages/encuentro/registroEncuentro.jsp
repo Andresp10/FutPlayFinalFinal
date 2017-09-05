@@ -23,7 +23,7 @@
                         <%if (objJugador.getEquipo().toString().equals("1")) {%>
                         <div class="col-md-8 col-md-offset-2">
                             <div class='card card-profile'>
-                                <div class='card-header card-header-icon' data-background-color='rose'>
+                                <div class='card-header card-header-icon' data-background-color='red'>
                                     <i class="material-icons">speaker_notes_off</i>
                                 </div>
                                 <div class="card-content">
@@ -42,7 +42,7 @@
                         <div class="col-sm-10 col-sm-offset-1">
                             <!--      Wizard container        -->
                             <div class="wizard-container">
-                                <div class="card wizard-card" data-color="rose" id="wizardProfile">
+                                <div class="card wizard-card" data-color="red" id="wizardProfile">
                                     <form novalidate="novalidate">
                                         <!--        You can switch " data-color="purple" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
                                         <div class="wizard-header">
@@ -182,8 +182,8 @@
                                         </div>
                                         <div class="wizard-footer">
                                             <div class="pull-right">
-                                                <input type="button" class="btnTipo btn btn-next btn-fill btn-rose btn-wd" name="next" value="Next">
-                                                <input type="button" class="btn btn-finish btn-fill btn-rose btn-wd ingresarEncuentro" name="finish" value="Finish" style="display: none;">
+                                                <input type="button" class="btnTipo btn btn-next btn-fill btn-danger btn-wd" name="next" value="Next">
+                                                <input type="button" class="btn btn-finish btn-fill btn-danger btn-wd ingresarEncuentro" name="finish" value="Finish" style="display: none;">
                                             </div>
                                             <div class="pull-left">
                                                 <input type="button" class=" btn btn-previous btn-fill btn-default btn-wd disabled" name="previous" value="Previous">

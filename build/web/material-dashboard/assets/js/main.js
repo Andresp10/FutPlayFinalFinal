@@ -1387,6 +1387,7 @@ $(".likeJugador").click(function (){
                     align: 'right'
                 }
             });
+            window.location = "/FutPlayFinal/material-dashboard/pages/jugador/verJugador.jsp";
         }
         
     });
@@ -1425,7 +1426,7 @@ $(".dislikeJugador").click(function (){
                 }
             });
             
-            //window.location='/FutPlayFinal/material-dashboard/pages/jugador/verJugador.jsp';
+            window.location = "/FutPlayFinal/material-dashboard/pages/jugador/verJugador.jsp";
         }
         
     });
@@ -1649,7 +1650,37 @@ $('.btnCampo').on('click',function(e){
 
         $.post("/FutPlayFinal/encuentros/aceptarencuentro",{equipo:informacion[1],campo:informacion[2],tipo:informacion[3]},function (responseText) {
            
-            alert(responseText);
+            if (responseText == "1") {
+                
+                $.notify({
+                    icon: "perm_identity",
+                    message: "El encuentro ha sido programado con exito."
+
+                },{
+                    type: 'success',
+                    timer: 3000,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
+                
+            }else if(responseText == "2"){
+                
+                $.notify({
+                    icon: "perm_identity",
+                    message: "El encuentro no pudo ser programado porque ya tienes un encuentro pendiente con este equipo."
+
+                },{
+                    type: 'danger',
+                    timer: 3000,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
+                
+            }
             
         });
          

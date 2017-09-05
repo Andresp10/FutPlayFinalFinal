@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="modal-footer text-center">
-                        <button class="btn btn-rose btn-round crearEquipo">Crear equipo</button>
+                        <button class="btn btn-danger btn-round crearEquipo">Crear equipo</button>
                     </div>
                 </div>
             </div>
@@ -133,7 +133,7 @@
                         </div>
                     </div>
                     <div class="modal-footer text-center">
-                        <button class="btn btn-rose btn-round editarEquipo">Editar</button>
+                        <button class="btn btn-danger btn-round editarEquipo">Editar</button>
                     </div>
                 </div>
             </div>
