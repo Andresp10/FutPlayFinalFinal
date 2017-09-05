@@ -24,7 +24,7 @@
                                     <h6 class="category text-gray" style="">FutPlay te informa</h6>
                                     <h4 class="card-title">Alec Thompson</h4>
                                     <p class="description">
-                                        Hola <%=objJugador.getAlias()%>, por el momento no haces parte de un equipo. Nos gustaria que crearass tu propio equipo con el que podras competir en los torneo, on en su defecto pidele a un amigo que te agregue su equipo :).
+                                        Hola %=//objJugador.getAlias()%>, por el momento no haces parte de un equipo. Nos gustaria que crearass tu propio equipo con el que podras competir en los torneo, on en su defecto pidele a un amigo que te agregue su equipo :).
                                     </p>
                                     <button class="btn btn-rose btn-round" data-toggle="modal" data-target="#noticeModal">Crear equipo</button>
                                 </div>

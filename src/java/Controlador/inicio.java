@@ -102,7 +102,7 @@ public class inicio extends HttpServlet {
             }
             
         }catch(IOException ex){
-            response.sendRedirect("/FutPlay/index.jsp");    
+            response.sendRedirect("/FutPlayFinal/index.jsp");    
         }
         
     }

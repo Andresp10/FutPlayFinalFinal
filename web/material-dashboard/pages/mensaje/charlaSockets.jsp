@@ -10,6 +10,7 @@
         <div class="wrapper">
             <%@include file="../includes/notificaciones.jsp" %>
             <%@include file="../includes/sidebarJugador.jsp" %>
+            <%if(objJugador != null & objPersona != null){%>
             <div class="main-panel">
                 <%@include file="../includes/header.jsp" %>
                 <div class="content">
@@ -196,6 +197,6 @@
                 CargarNotificaciones();
             };
             
-        </script>
+        </script><%}%>
     </body>
 </html>
