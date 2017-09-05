@@ -118,6 +118,9 @@ $(document).ready(function(){
     $("#fotocampouploadUP").change(function(){
         readURL(this); 
     });
+    $("#avatarJugador").change(function(){
+        readURL(this);
+    });
     var fileTypes = ["jpg","jpeg","png"];
     function readURL(input) {
         if (input.files && input.files[0]) {
@@ -132,6 +135,7 @@ $(document).ready(function(){
                     $("#campoFotoNombre").val(input.files[0].name);
                     $("#campoFotoNombreUP").val(input.files[0].name);
                     $("#avatarPropietarioNombreUP").val(input.files[0].name);
+                    $("#avatarJugadorNombre").val(input.files[0].name);
                 }
                 reader.readAsDataURL(input.files[0]);
             }

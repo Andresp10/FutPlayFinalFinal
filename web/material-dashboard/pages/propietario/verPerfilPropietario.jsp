@@ -8,6 +8,7 @@
     </head>
     <body>
         <div class="wrapper">
+            <%@include file="../includes/notificacionesPropietario.jsp" %>
             <%@include file="../includes/sidebarPropietario.jsp"%>
             <div class="main-panel">
                 <%@include file="../includes/headerPropietario.jsp"%>
@@ -38,6 +39,8 @@
             $("#nombrepagina").text("Mi perfil");
             $("#verperfil").addClass("active");
             $("#opcionesPerfil").addClass("in");
+            
+            CargarNotificacionesPropietario();
         </script>
     </body>
 </html>
