@@ -1,3 +1,6 @@
+<%@page import="Modelo.Equipo"%>
+<%@page import="Modelo.Notificacion"%>
+<%@page import="Controlador.notificacion"%>
 <%@page import="Modelo.Canchas"%>
 <%@page import="Modelo.Canchas"%>
 <%@page import="Controlador.canchas"%>
@@ -41,7 +44,7 @@
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <button class="btn btn-primary btn-lg btn-round btnGuardarCambios">Guardar cambios</button>
+                                    <button class="btn btn-danger btn-lg btn-round btnGuardarCambios">Confirmar encuentros</button>
                                 </div>
                             </div>
                             <div class="col-lg-9">
@@ -53,6 +56,84 @@
                             </div>                    
                         </div>                         
                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL PARA AGREGAR UN JUGADOR -->
+        <div class="modal fade" id="modalEncuentro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-notice">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+                        <h5 class="modal-title" id="myModalLabel">Fichar jugador</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group label-floating is-empty">
+
+                                    <div class="modal-body col-md-12">
+                                        <%
+                                            notificacion ntf = new notificacion();
+                                            List<Notificacion> listNtf = ntf.listarEncuentroPendientes(objPropietario.getIdPropietario());
+                                            List<Equipo> listEquipo1 = ntf.listEquipo1(objPropietario.getIdPropietario());
+                                            List<Equipo> listEquipo2 = ntf.listEquipo2(objPropietario.getIdPropietario());
+
+                                        %>
+                                        <%for (Notificacion nf : listNtf) {
+
+                                            String NombreEquipo1 = "", NombreEquipo2 = "";
+                                            String Contenido[] = nf.getDatosAdicionales().split("/");
+
+                                            for (Equipo equipo1 : listEquipo1) {
+
+                                                if (equipo1.getIdEquipo()==Integer.valueOf(Contenido[1])) {
+
+                                                    NombreEquipo1 = equipo1.getNombre();
+
+                                                }
+
+                                            }
+                                            for (Equipo equipo2 : listEquipo2) {
+
+                                                if (String.valueOf(equipo2.getIdEquipo()).equals(Contenido[2])) {
+
+                                                    NombreEquipo2 = equipo2.getNombre();
+
+                                                }
+
+                                            }
+                                        %>
+                                        <div class="row">
+                                            <div class="material-datatables">
+                                                <table class="table table-responsive">
+                                                    <thead>
+                                                        <th>Equipo A</th>
+                                                        <th>Equipo B</th>
+                                                        <th>Tipo</th>
+                                                        <th>Fecha</th>
+                                                        <th>Hora</th>
+                                                        <th>Acciones</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><%=NombreEquipo1%></td>
+                                                            <td><%=NombreEquipo2%></td>
+                                                            <td><%=Contenido[0]%></td>
+                                                            <td><input id="fechaEncuentro" type="date"></td>
+                                                            <td><input id="horaEncuentro" type="time"></td>
+                                                            <td><button class="btn btn-success btn-simple btnAceptarEncuentro" value="<%=nf.getIdNotificacion()%>" rel="tooltip" title="Aceptar solicitud" data-placement="bottom"><i class="material-icons">check</i></button></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <%}%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

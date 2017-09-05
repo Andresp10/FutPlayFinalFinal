@@ -8,12 +8,12 @@
 %>
 <div class="sidebar" data-active-color="red" data-background-color="black" data-image="../../assets/img/sidebar-1.jpg">
     <div class="logo">
-        <a href="http://localhost:8080/FutPlayFinal/material-dashboard/pages/jugador/indexJugador.jsp" class="simple-text">
+        <a href="/FutPlayFinal/material-dashboard/pages/jugador/indexJugador.jsp" class="simple-text">
             FutPlay
         </a>
     </div>
     <div class="logo logo-mini">
-        <a href="http://localhost:8080/FutPlayFinal/material-dashboard/pages/jugador/indexJugador.jsp" class="simple-text">
+        <a href="/FutPlayFinal/material-dashboard/pages/jugador/indexJugador.jsp" class="simple-text">
             <img src="../../assets/img/favicon.png" style="width:35px;height: 35px;"/>
         </a>
     </div>
@@ -70,7 +70,7 @@
             <li id="encuentro">
                 <a href="../encuentro/verEncuentros.jsp">
                     <i class="material-icons">flash_on</i>
-                    <p>Encunetros</p>
+                    <p>Encuentros</p>
                 </a>
             </li>
         </ul>

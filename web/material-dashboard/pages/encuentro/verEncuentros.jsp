@@ -42,7 +42,7 @@
                                 <div class="col-md-12">
                                     <div class="card card-product">
                                         <div class="card-image" data-header-animation="true">
-                                            <img src="/FutPlayFinal/material-dashboard/assets/img/jugadorimg/Pirlo-redimensionado.jpg" class="responsive-img">
+                                            <img src="../../assets/img/jugadorimg/encuentro-iloveimg-cropped.jpg" class="responsive-img">
                                             <!--<span class="card-title">Los mejores campos</span>-->
                                             <div class="ripple-container"></div>
                                         </div>
@@ -53,7 +53,7 @@
                                                     <div class="ripple-container"></div>
                                                 </a>
                                                 <a href="../encuentro/registroEncuentro.jsp" class="btn btn-default btn-simple btn-success" rel="tooltip" data-placement="bottom" title="" data-original-title="Ver jugadores">
-                                                    <i class="material-icons" style="font-size: 25px;">remove_red_eye</i>
+                                                    <i class="material-icons" style="font-size: 25px;">add</i>
                                                     <div class="ripple-container"></div>
                                                 </a>
 

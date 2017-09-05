@@ -317,14 +317,20 @@ $(".editarUsuario").click(function (e){
     $("#avatarJugador").change(function(){
         readURL(this);
     });
+    var fileTypes = ["jpg","jpeg","png"];
     function readURL(input) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
-                $("#avatarJugadorNombre").val(input.files[0].name);
+            var extension = input.files[0].name.split('.').pop().toLowerCase(),  //file extension from input file
+            isSuccess = fileTypes.indexOf(extension) > -1;  //is extension in acceptable types
+
+            if (isSuccess) { 
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+                    $("#avatarJugadorNombre").val(input.files[0].name);
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-            reader.readAsDataURL(input.files[0]);
         }
     }
 ////////////////////Funciones para validar password email y telefono////////////////7
@@ -651,7 +657,7 @@ function ficharJugador(url){
             if (responseText == "1") {
 
                 $.notify({
-                    icon: "perm_identity",
+                    icon: "sentiment_neutral",
                     message: "No puedes fichar a "+datosJugador[2]+" porque hacen parte del mismo equipo."
 
                 },{
@@ -666,7 +672,7 @@ function ficharJugador(url){
             }else if (responseText == "2") {
                 
                 $.notify({
-                    icon: "perm_identity",
+                    icon: "sentiment_neutral",
                     message: "Ya le enviaste una notificacion  a "+datosJugador[2]+"."
 
                 },{
@@ -721,7 +727,7 @@ function agregarJugador(url){
                     if (responseText == "1") {
 
                         $.notify({
-                            icon: "speaker_notes_off",
+                            icon: "sentiment_neutral",
                             message: "Ya haces parte del equipo de "+datos[0]+"."
                         },{
                             type: 'danger',
@@ -735,7 +741,7 @@ function agregarJugador(url){
                     }else if (responseText == "2") {
 
                         $.notify({
-                            icon: "speaker_notes_off",
+                            icon: "sentiment_very_satisfied",
                             message: "Exelente, ahora haces parte del equipo de "+datos[0]+"."
                         },{
                             type: 'success',
@@ -891,7 +897,7 @@ $(".crearEquipo").click(function (e){
                         
                     });*/
                     $.notify({
-                        icon: "perm_identity",
+                        icon: "sentiment_very_dissatisfied",
                         message: "Solo puedes hacer parte de un equipo."
 
                     },{
@@ -1236,15 +1242,15 @@ function verEquipo(){
             if(item.Nombre == "FutPlay"){
                 
                $.notify({
-                        icon: "people",
-                        message: "La informacion de tu equipo aparecerá cuando hagas parte de uno."
-                    },{
-                    type: 'warning',
-                    timer: 2500,
-                    placement: {
-                        from: 'bottom',
-                        align: 'right'
-                    }
+                    icon: "people",
+                    message: "La informacion de tu equipo aparecerá cuando hagas parte de uno."
+                },{
+                type: 'warning',
+                timer: 2500,
+                placement: {
+                    from: 'bottom',
+                    align: 'right'
+                }
                 });
                   $("#contenedorEquipo").html("<div class='col-md-8 col-md-offset-2'>"
                                                     +"<div class='card card-profile'>"
@@ -1375,7 +1381,7 @@ $(".likeJugador").click(function (){
         if (responseText == "1") {
             
             $.notify({
-                icon: "perm_identity",
+                icon: "sentiment_satisfied",
                 message: "Solo puedes dar like una vez al jugador."
 
             },{
@@ -1390,7 +1396,7 @@ $(".likeJugador").click(function (){
         }else if (responseText =="2") {
             
             $.notify({
-                icon: "perm_identity",
+                icon: "mood",
                 message: "La calificacion del jugador fue exitosa."
 
             },{
@@ -1413,7 +1419,7 @@ $(".dislikeJugador").click(function (){
         
         if (responseText == "1") {
             $.notify({
-                icon: "perm_identity",
+                icon: "sentiment_satisfied",
                 message: "Solo puedes dar like una vez al jugador."
 
             },{
@@ -1427,7 +1433,7 @@ $(".dislikeJugador").click(function (){
         }else if (responseText == "2") {
             
             $.notify({
-                icon: "perm_identity",
+                icon: "mood",
                 message: "La calificacion del jugador fue exitosa."
 
             },{
@@ -1466,7 +1472,7 @@ function NoEquipo(from, align){
     color = Math.floor((Math.random() * 6) + 1);
 
     $.notify({
-            icon: "notifications",
+            icon: "people",
             message: "La informacion de tu equipo aparecerá cuando hagas parte de uno."
 
     },{
@@ -1504,7 +1510,7 @@ function NoEquipo(from, align){
                 if(responseText == "1"){
                     
                     $.notify({
-                        icon: "perm_identity",
+                        icon: "whatshot",
                         message: "La solicitud del encuentro ha sido enviada exitosamente."
 
                     },{
@@ -1519,7 +1525,7 @@ function NoEquipo(from, align){
                 }else{
                     
                     $.notify({
-                        icon: "perm_identity",
+                        icon: "sentiment_dissatisfied",
                         message: "Al parecer este equipo no esta disponible para el tipo de encuentro que elegiste :("
 
                     },{
