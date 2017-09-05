@@ -42,7 +42,7 @@
                                                 <div class="picture">
                                                     <img src="/FutPlayFinal/material-dashboard/assets/img/avatares/<%=objPropietario.getPersona().getAvatar()%>" class="picture-src" id="wizardPicturePreview" title="">
                                                     <input type="file" id="avatarPropietarioUP">
-                                                    <input type="text" hidden id="avatarPropietarioNombreUP">
+                                                    <input type="text" hidden id="avatarPropietarioNombreUP" value="<%=objPropietario.getPersona().getAvatar()%>">
                                                 </div>
                                                 <h6>Selecciona tu avatar</h6>
                                                 <small>(Opcional)</small>
