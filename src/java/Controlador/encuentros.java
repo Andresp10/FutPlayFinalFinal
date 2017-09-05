@@ -125,19 +125,27 @@ public class encuentros extends HttpServlet {
             
             Session sesion = HibernateUtil.getSessionFactory().openSession();
             
+            Query queryEncuentro = sesion.createQuery("FROM Encuentros WHERE Equipo_A = "+equipo+" or Equipo_A = "+objJugador.getEquipo()+" AND Equipo_B = "+equipo+" or Equipo_B = "+objJugador.getEquipo()+" AND Estado = 'En espera'");
+            List<Encuentros>listaEncuentro = queryEncuentro.list();
+            if (listaEncuentro.size() == 0) {
             
-            Query queryCampo = sesion.createQuery("FROM Campos WHERE idCampo = "+campo+"");
-            List<Campos>listaCampo = queryCampo.list();
-            for (Campos campos : listaCampo) {
-                
-                System.out.println(campos.getPropietario());
-                
-                Notificacion objNotificacion = new Notificacion(new Date(), "01:28 P.M", "ConfirmarEncuentro", "", 0, 0, 0, Integer.parseInt(String.valueOf(campos.getPropietario())), tipo+"/"+equipo+"/"+objJugador.getEquipo(), Integer.parseInt(equipo), 0);
-                sesion.beginTransaction();
-                sesion.save(objNotificacion);
-                sesion.getTransaction().commit();
-                
-                response.getWriter().write("1");
+                Query queryCampo = sesion.createQuery("FROM Campos WHERE idCampo = "+campo+"");
+                List<Campos>listaCampo = queryCampo.list();
+                for (Campos campos : listaCampo) {
+
+                    System.out.println(campos.getPropietario());
+
+                    Notificacion objNotificacion = new Notificacion(new Date(), "01:28 P.M", "ConfirmarEncuentro", "", 0, 0, 0, Integer.parseInt(String.valueOf(campos.getPropietario())), tipo+"/"+equipo+"/"+objJugador.getEquipo(), Integer.parseInt(equipo), 0);
+                    sesion.beginTransaction();
+                    sesion.save(objNotificacion);
+                    sesion.getTransaction().commit();
+
+                    response.getWriter().write("1");
+                }
+
+            }else{
+            
+                response.getWriter().write("2");
             }
             
             sesion.close();

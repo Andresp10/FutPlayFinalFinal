@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> camilo
 //! moment.js locale configuration
 //! locale : Spanish [es]
 //! author : Julio Napurí : https://github.com/julionc
@@ -81,6 +84,7 @@ var es = moment.defineLocale('es', {
 
 return es;
 
+<<<<<<< HEAD
 =======
 //! moment.js locale configuration
 //! locale : Spanish [es]
@@ -164,5 +168,7 @@ var es = moment.defineLocale('es', {
 
 return es;
 
+>>>>>>> camilo
+=======
 >>>>>>> camilo
 })));

@@ -18,6 +18,7 @@
         <div class="wrapper">
             <%@include file="../includes/notificaciones.jsp" %>
             <%@include file="../includes/sidebarJugador.jsp" %>
+            <%if(objJugador != null & objPersona != null & objJugadorVisto != null & objPersonaVisto != null){%>
             <div class="main-panel">
                 <%@include file="../includes/header.jsp" %>
                 <div class="content">
@@ -116,7 +117,7 @@
                                         <%}%>
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <div class="col-md-2 col-md-offset-2" style="margin-top: 25px; margin-right: 40px;">
+                                                <div class="col-md-2 col-md-offset-2" style="margin-top: 25px; margin-right: 30px;">
                                                     <button class="dropdown-toggle btn btn-simple likeJugador" data-toggle="dropdown" rel="tooltip" data-placement="bottom" data-original-title="Like">
                                                         <%if (visto == 1) {%>
                                                             <i class="material-icons" style="font-size: 50px; color: #00abc0;">thumb_up</i>
@@ -159,6 +160,6 @@
                 CargarNotificaciones();
                 
             }
-        </script>
+        </script><%}%>
     </body>
 </html>

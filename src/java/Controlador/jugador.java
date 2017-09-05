@@ -325,7 +325,7 @@ public class jugador extends HttpServlet {
                                                 + "<i class='material-icons' style='font-size: 25px; color: "+colorStar4+"'>stars</i>"
                                                 + "<i class='material-icons' style='font-size: 25px; color: "+colorStar5+"'>stars</i><br>"
                                                 //+ "<p class='card-description'>"+jugador.getDescripcion()+"</p>"
-                                                + "<a href='/FutPlayFinal/jugador/verjugador/"+jugador.getIdJugador()+"' class='btn btn-rose btn-round'>Ver perfil</a>"
+                                                + "<a href='/FutPlayFinal/jugador/verjugador/"+jugador.getIdJugador()+"' class='btn btn-danger btn-round'>Ver perfil</a>"
                                             + "</div>"
                                         + "</div>"
                                     + "</div>");

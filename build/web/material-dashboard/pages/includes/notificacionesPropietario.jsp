@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> camilo
 <!-- Notifications area -->
 <section class="NotificationAreaP">
     <div class="text-center NotificationArea-titleP">
@@ -174,6 +177,7 @@
         </a>-->
     </div>
 </section>
+<<<<<<< HEAD
 =======
 <!-- Notifications area -->
 <section class="NotificationAreaP">
@@ -350,4 +354,6 @@
         </a>-->
     </div>
 </section>
+>>>>>>> camilo
+=======
 >>>>>>> camilo

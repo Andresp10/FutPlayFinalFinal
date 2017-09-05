@@ -52,12 +52,21 @@ public final class editarPerfilJugador_jsp extends org.apache.jasper.runtime.Htt
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
+<<<<<<< HEAD
       out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
       out.write("        <title>FutPlay - Editar perfil</title>\n");
+=======
+      out.write("\r\n");
+      out.write("<!DOCTYPE html>\r\n");
+      out.write("<html>\r\n");
+      out.write("    <head>\r\n");
+      out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n");
+      out.write("        <title>FutPlay - Editar perfil</title>\r\n");
+>>>>>>> camilo
       out.write("        ");
       out.write("    <link rel=\"apple-touch-icon\" sizes=\"76x76\" href=\"../../assets/img/apple-icon.png\" />\n");
       out.write("    <link rel=\"icon\" type=\"shortcut-icon\" href=\"../../assets/img/favicon.png\" />\n");
@@ -97,10 +106,17 @@ public final class editarPerfilJugador_jsp extends org.apache.jasper.runtime.Htt
       out.write("    <!--     Fonts and icons     -->\n");
       out.write("    <link href=\"http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css\" rel=\"stylesheet\">\n");
       out.write("    <link rel=\"stylesheet\" type=\"text/css\" href=\"https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons\" />");
+<<<<<<< HEAD
       out.write("\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
       out.write("        <div class=\"wrapper\">\n");
+=======
+      out.write("\r\n");
+      out.write("    </head>\r\n");
+      out.write("    <body>\r\n");
+      out.write("        <div class=\"wrapper\">\r\n");
+>>>>>>> camilo
       out.write("            ");
       out.write("<!-- Notifications area -->\n");
       out.write("<section class=\"NotificationAreaP\">\n");
@@ -112,6 +128,7 @@ public final class editarPerfilJugador_jsp extends org.apache.jasper.runtime.Htt
       out.write("    \n");
       out.write("    <div id=\"notificacionesContenedor\" style=\"overflow-y: auto; overflow-x: hidden;height: 600px;\">\n");
       out.write("        <!-- NOTIFICACION OKKKKK!!!! -->\n");
+<<<<<<< HEAD
       out.write("        <!--<a class=\"row col-md-12\" >\n");
       out.write("            <div class=\"col-md-3\" style=\"background-color: #00bbff; border-radius: 50%;\">\n");
       out.write("                <div class=\"label-infoinfo\">\n");
@@ -129,6 +146,9 @@ public final class editarPerfilJugador_jsp extends org.apache.jasper.runtime.Htt
       out.write("            </div>\n");
       out.write("        </a>-->\n");
       out.write("        <a href=\"#\" class=\"NotificationP\">\n");
+=======
+      out.write("        <!--<a href=\"#\" class=\"NotificationP\">\n");
+>>>>>>> camilo
       out.write("            <div class=\"Notification-iconP\">\n");
       out.write("                <i class=\"material-icons\" style=\"background-color: #05ae0e; font-size: 25px;\">people</i>\n");
       out.write("            </div>\n");
@@ -138,6 +158,7 @@ public final class editarPerfilJugador_jsp extends org.apache.jasper.runtime.Htt
       out.write("                    <small>Justo ahora</small>\n");
       out.write("                </p>\n");
       out.write("            </div>\n");
+<<<<<<< HEAD
       out.write("        </a>\n");
       out.write("        <!--<a href=\"#\" class=\"row btn-simple NotificationP\">\n");
       out.write("            <div class=\"col-md-3\">\n");
@@ -295,6 +316,12 @@ public final class editarPerfilJugador_jsp extends org.apache.jasper.runtime.Htt
       out.write("    </div>\n");
       out.write("</section>\n");
       out.write("\n");
+=======
+      out.write("        </a>-->\n");
+      out.write("    </div>\n");
+      out.write("</section>\n");
+      out.write("\r\n");
+>>>>>>> camilo
       out.write("            ");
       out.write("\r\n");
       out.write("\r\n");
@@ -401,11 +428,19 @@ public final class editarPerfilJugador_jsp extends org.apache.jasper.runtime.Htt
 
       out.write("\r\n");
       out.write("\r\n");
+<<<<<<< HEAD
       out.write("\n");
       out.write("            ");
 if(objJugador != null & objPersona != null){
       out.write("\n");
       out.write("            <div class=\"main-panel\">\n");
+=======
+      out.write("\r\n");
+      out.write("            ");
+if(objJugador != null & objPersona != null){
+      out.write("\r\n");
+      out.write("            <div class=\"main-panel\">\r\n");
+>>>>>>> camilo
       out.write("                ");
       out.write("<nav class=\"navbar navbar-transparent navbar-absolute\">\r\n");
       out.write("    <div class=\"container-fluid\">\r\n");
@@ -447,6 +482,7 @@ if(objJugador != null & objPersona != null){
       out.write("        </div>\r\n");
       out.write("    </div>\r\n");
       out.write("</nav>\r\n");
+<<<<<<< HEAD
       out.write("\n");
       out.write("                <div class=\"content\">\n");
       out.write("                    <div class=\"container-fluid\">\n");
@@ -577,6 +613,138 @@ if(objJugador.getPierna().equals("Derecha")){
 }
       out.write("\n");
       out.write("        </div>\n");
+=======
+      out.write("\r\n");
+      out.write("                <div class=\"content\">\r\n");
+      out.write("                    <div class=\"container-fluid\">\r\n");
+      out.write("                        <div class=\"col-md-10 col-md-offset-1\">\r\n");
+      out.write("                            <div class=\"card\">\r\n");
+      out.write("                                <div class=\"card-header card-header-icon\" data-background-color=\"rose\">\r\n");
+      out.write("                                    <i class=\"material-icons\">perm_identity</i>\r\n");
+      out.write("                                </div>\r\n");
+      out.write("                                <div class=\"card-content\">\r\n");
+      out.write("                                    <h4 class=\"card-title\">Editar perfil -\r\n");
+      out.write("                                        <small class=\"category\">Complete su perfil</small>\r\n");
+      out.write("                                    </h4>\r\n");
+      out.write("                                    <form>\r\n");
+      out.write("                                        <div class=\"col-sm-4 col-sm-offset-1\">\r\n");
+      out.write("                                            <div class=\"picture-container\">\r\n");
+      out.write("                                                <div class=\"picture\">\r\n");
+      out.write("                                                    <img src=\"../../assets/img/avatares/av.jpg\" class=\"picture-src\" id=\"wizardPicturePreview\" title=\"\">\r\n");
+      out.write("                                                    <input type=\"file\" id=\"avatarJugador\">\r\n");
+      out.write("                                                    <input type=\"text\" hidden id=\"avatarJugadorNombre\">\r\n");
+      out.write("                                                </div>\r\n");
+      out.write("                                                <h6>Selecciona tu avatar</h6>\r\n");
+      out.write("                                            </div>\r\n");
+      out.write("                                        </div>\r\n");
+      out.write("                                        <div class=\"col-lg-6\">\r\n");
+      out.write("                                            <div class=\"row\">\r\n");
+      out.write("                                                <div class=\"col-md-12\">\r\n");
+      out.write("                                                    <div class=\"form-group\">\r\n");
+      out.write("                                                        <label class=\"control-label active\">Alias</label>\r\n");
+      out.write("                                                        <input type=\"text\" value=\"");
+      out.print(objJugador.getAlias());
+      out.write("\" class=\"form-control\" id=\"txtAliasEditarJugador\">\r\n");
+      out.write("                                                    <span class=\"material-input\"></span></div>\r\n");
+      out.write("                                                </div>\r\n");
+      out.write("                                            </div>\r\n");
+      out.write("                                            <div class=\"row\">\r\n");
+      out.write("                                                <div class=\"col-md-12\">\r\n");
+      out.write("                                                    <div class=\"form-group\">\r\n");
+      out.write("                                                        <label class=\"control-label\">Posicion</label>\r\n");
+      out.write("                                                        <select class=\"form-control\" id=\"cmbPosicionEditarJugador\">\r\n");
+      out.write("                                                            ");
+if (objJugador.getPosicion().equals("Portero")) {
+      out.write("\r\n");
+      out.write("                                                                <option value=\"Portero\">Portero</option>\r\n");
+      out.write("                                                                <option value=\"Defensor\">Defensa</option>\r\n");
+      out.write("                                                                <option value=\"Mediocampista\">Mediocampista</option>\r\n");
+      out.write("                                                                <option value=\"Delantero\">Delantero</option>\r\n");
+      out.write("                                                            ");
+}else if(objJugador.getPosicion().equals("Defensor")) {
+      out.write("\r\n");
+      out.write("                                                                <option value=\"Defensor\">Defensa</option>\r\n");
+      out.write("                                                                <option value=\"Portero\">Portero</option>\r\n");
+      out.write("                                                                <option value=\"Mediocampista\">Mediocampista</option>\r\n");
+      out.write("                                                                <option value=\"Delantero\">Delantero</option>\r\n");
+      out.write("                                                            ");
+}else if (objJugador.getPosicion().equals("Mediocampista")){
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("                                                                <option value=\"Mediocampista\">Mediocampista</option>\r\n");
+      out.write("                                                                <option value=\"Defensor\">Defensa</option>\r\n");
+      out.write("                                                                <option value=\"Portero\">Portero</option>\r\n");
+      out.write("                                                                <option value=\"Delantero\">Delantero</option>\r\n");
+      out.write("                                                            ");
+}else if (objJugador.getPosicion().equals("Delantero")) {
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("                                                                <option value=\"Delantero\">Delantero</option>\r\n");
+      out.write("                                                                <option value=\"Mediocampista\">Mediocampista</option>\r\n");
+      out.write("                                                                <option value=\"Defensor\">Defensa</option>\r\n");
+      out.write("                                                                <option value=\"Portero\">Portero</option>\r\n");
+      out.write("                                                            ");
+}
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("                                                        </select>\r\n");
+      out.write("                                                    <span class=\"material-input\"></span></div>\r\n");
+      out.write("                                                </div>\r\n");
+      out.write("                                            </div>\r\n");
+      out.write("                                            <div class=\"row\">\r\n");
+      out.write("                                                <div class=\"col-md-12\">\r\n");
+      out.write("                                                    <div class=\"form-group\">\r\n");
+      out.write("                                                        <label class=\"control-label\">Pierna hábil</label>\r\n");
+      out.write("                                                        <select class=\"form-control\" id=\"cmbPiernaEditarJugador\">\r\n");
+      out.write("                                                            ");
+if(objJugador.getPierna().equals("Derecha")){
+      out.write("\r\n");
+      out.write("                                                                <option value=\"Derecha\">Derecha</option>\r\n");
+      out.write("                                                                <option value=\"Izquierda\">Izquierda</option>\r\n");
+      out.write("                                                                <option value=\"Ambas\">Ambas</option>\r\n");
+      out.write("                                                            ");
+}else if(objJugador.getPierna().equals("Izquierda")){
+      out.write("\r\n");
+      out.write("                                                                <option value=\"Izquierda\">Izquierda</option>\r\n");
+      out.write("                                                                <option value=\"Derecha\">Derecha</option>\r\n");
+      out.write("                                                                <option value=\"Ambas\">Ambas</option>\r\n");
+      out.write("                                                            ");
+}else if(objJugador.getPierna().equals("Ambas")){
+      out.write("\r\n");
+      out.write("                                                                <option value=\"Ambas\">Ambas</option>\r\n");
+      out.write("                                                                <option value=\"Derecha\">Derecha</option>\r\n");
+      out.write("                                                                <option value=\"Izquierda\">Izquierda</option>\r\n");
+      out.write("                                                            ");
+}
+      out.write("\r\n");
+      out.write("                                                        </select>\r\n");
+      out.write("                                                    <span class=\"material-input\"></span></div>\r\n");
+      out.write("                                                </div>\r\n");
+      out.write("                                            </div>\r\n");
+      out.write("                                            <div class=\"row\">\r\n");
+      out.write("                                                <div class=\"col-md-12\">\r\n");
+      out.write("                                                    <div class=\"form-group\">\r\n");
+      out.write("                                                        <label class=\"control-label\">Descripcion</label>\r\n");
+      out.write("                                                        <textarea class=\"form-control\" id=\"txtDescripcionEditarJugador\">");
+      out.print(objJugador.getDescripcion());
+      out.write("</textarea>\r\n");
+      out.write("                                                    <span class=\"material-input\"></span></div>\r\n");
+      out.write("                                                </div>\r\n");
+      out.write("                                            </div>\r\n");
+      out.write("                                            <button type=\"submit\" class=\"btn btn-rose pull-right editarJugador\">Actualizar Perfil</button>\r\n");
+      out.write("                                            <div class=\"clearfix\"></div>\r\n");
+      out.write("                                        </div>\r\n");
+      out.write("                                    </form>\r\n");
+      out.write("                                </div>\r\n");
+      out.write("                            </div>\r\n");
+      out.write("                        </div>\r\n");
+      out.write("                    </div>\r\n");
+      out.write("                </div>\r\n");
+      out.write("            </div>");
+}
+      out.write("\r\n");
+      out.write("        </div>\r\n");
+>>>>>>> camilo
       out.write("        ");
       out.write("<!--   Core JS Files   -->\r\n");
       out.write("<script src=\"../../assets/js/jquery-3.1.1.min.js\" type=\"text/javascript\"></script>\r\n");
@@ -639,6 +807,7 @@ if(objJugador.getPierna().equals("Derecha")){
       out.write("    \r\n");
       out.write("\r\n");
       out.write("\r\n");
+<<<<<<< HEAD
       out.write("\n");
       out.write("        <script>\n");
       out.write("            $(\"#nombrepagina\").text(\"Editar perfil\");\n");
@@ -650,6 +819,19 @@ if(objJugador.getPierna().equals("Derecha")){
       out.write("        </script>\n");
       out.write("    </body>\n");
       out.write("</html>\n");
+=======
+      out.write("\r\n");
+      out.write("        <script>\r\n");
+      out.write("            $(\"#nombrepagina\").text(\"Editar perfil\");\r\n");
+      out.write("            window.onload = function (){\r\n");
+      out.write("                \r\n");
+      out.write("                CargarNotificaciones();\r\n");
+      out.write("                \r\n");
+      out.write("            }\r\n");
+      out.write("        </script>\r\n");
+      out.write("    </body>\r\n");
+      out.write("</html>\r\n");
+>>>>>>> camilo
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){
         out = _jspx_out;
