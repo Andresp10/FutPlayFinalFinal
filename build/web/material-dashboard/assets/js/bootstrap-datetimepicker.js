@@ -295,7 +295,7 @@
                 if (!use24Hours) {
                     topRow.append($('<td>').addClass('separator'));
                     middleRow.append($('<td>')
-                        .append($('<button>').addClass('btn btn-primary btn-round').attr({'data-action': 'togglePeriod', tabindex: '-1', 'title': options.tooltips.togglePeriod})));
+                        .append($('<button>').addClass('btn btn-danger btn-round').attr({'data-action': 'togglePeriod', tabindex: '-1', 'title': options.tooltips.togglePeriod})));
                     bottomRow.append($('<td>').addClass('separator'));
                 }
 
@@ -2459,7 +2459,7 @@
             pickSecond: 'Elegir segundo',
             incrementSecond: 'Incrementar segundo',
             decrementSecond: 'Disminuir segundo',
-            togglePeriod: 'Toggle Period',
+            togglePeriod: 'Cambiar horario',
             selectTime: 'Select Time'
         },
         useStrict: false,

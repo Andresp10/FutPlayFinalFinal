@@ -5,13 +5,10 @@
     response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
     response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
     try{      
-        if(session.getAttribute("UsuarioIngresado") == null || session.getAttribute("PropietarioIngresado") == null){
+        if(session.getAttribute("PropietarioIngresado").equals("")){
             response.sendRedirect("/FutPlayFinal/index.html");
-        }     
-    }  
-    catch(Exception ex){
-        response.sendRedirect("/FutPlayFinal/index.html");
-    }
+        }
+        else{
 %>
 <!DOCTYPE html>
 <html>
@@ -115,3 +112,9 @@
         </script>
     </body>
 </html>
+<%        }
+    }  
+    catch(NullPointerException ex){
+        response.sendRedirect("/FutPlayFinal/material-dashboard/pages/usuario/404.html");
+    }
+%>

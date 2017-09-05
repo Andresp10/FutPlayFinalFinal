@@ -1,19 +1,15 @@
 <%@page import="Modelo.Propietario"%>
-<%  
-    Propietario objPropietario = new Propietario();
-    objPropietario=(Propietario)session.getAttribute("PropietarioIngresado");
+<%
     response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
     response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
     response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
     response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
+    Propietario objPropietario = (Propietario)session.getAttribute("PropietarioIngresado");
     try{      
-        if(objPropietario==null){
+        if(session.getAttribute("PropietarioIngresado").equals("")){
             response.sendRedirect("/FutPlayFinal/index.html");
-        }     
-    }  
-    catch(Exception ex){
-        response.sendRedirect("/FutPlayFinal/index.html");
-    }
+        }
+        else{
 %>
 <div class="sidebar" data-active-color="red" data-background-color="black" data-image="/FutPlayFinal/GaiaTemplate/assets/img/campofooter.jpg">
     <div class="logo">
@@ -101,3 +97,9 @@
         </ul>
     </div>
 </div>
+<%        }
+    }  
+    catch(NullPointerException ex){
+        response.sendRedirect("/FutPlayFinal/index.html");
+    }
+%>
