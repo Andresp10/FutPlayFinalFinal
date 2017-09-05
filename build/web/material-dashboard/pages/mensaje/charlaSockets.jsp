@@ -10,6 +10,7 @@
         <div class="wrapper">
             <%@include file="../includes/notificaciones.jsp" %>
             <%@include file="../includes/sidebarJugador.jsp" %>
+            <%if(objJugador != null & objPersona != null){%>
             <div class="main-panel">
                 <%@include file="../includes/header.jsp" %>
                 <div class="content">
@@ -17,7 +18,7 @@
                         <%if (objJugador.getEquipo().toString().equals("1")) {%>
                         <div class="col-md-8 col-md-offset-2">
                             <div class='card card-profile'>
-                                <div class='card-header card-header-icon' data-background-color='rose'>
+                                <div class='card-header card-header-icon' data-background-color='red'>
                                     <i class="material-icons">speaker_notes_off</i>
                                 </div>
                                 <div class="card-content">
@@ -34,7 +35,7 @@
                         <p id="sinMSJ" style="display: none">no</p>
                         <%}else{%>
                         <div class="card">
-                            <div class="card-header card-header-icon" data-background-color="rose">
+                            <div class="card-header card-header-icon" data-background-color="red">
                                 <i class="material-icons">message</i>
                             </div>
                             <div class="card-content">
@@ -59,7 +60,7 @@
                                                 <textarea class="form-control" rows="3" id="txtContenidoMensaje"></textarea>
                                             <span class="material-input"></span></div>
                                         </div>
-                                        <button class="btn btn-rose pull-right" onclick="enviarMensaje()">Enviar</button>
+                                        <button class="btn btn-danger pull-right" onclick="enviarMensaje()">Enviar</button>
                                     </div>
                                 </div>
                             </div>
@@ -196,6 +197,6 @@
                 CargarNotificaciones();
             };
             
-        </script>
+        </script><%}%>
     </body>
 </html>
