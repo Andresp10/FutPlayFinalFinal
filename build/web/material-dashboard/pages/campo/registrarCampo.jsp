@@ -22,6 +22,7 @@
     </head>
     <body>
         <div class="wrapper">
+            <%@include file="../includes/notificacionesPropietario.jsp" %>
             <%@include file="../includes/sidebarPropietario.jsp"%>
             <div class="main-panel">
                 <%@include file="../includes/headerPropietario.jsp"%>
@@ -109,6 +110,8 @@
             $("#campos").addClass("active");
             $("#registrarcampos").addClass("active");
             $("#camposOptions").addClass("in");
+            
+            CargarNotificacionesPropietario();
         </script>
     </body>
 </html>

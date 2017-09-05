@@ -313,26 +313,6 @@ $(".editarUsuario").click(function (e){
                 refreshAnimation($wizard, index);
             }
       	});
-/////////////////////Funcion para recargar avatar, foto del campo y obtener datos////////////////////
-    $("#avatarJugador").change(function(){
-        readURL(this);
-    });
-    var fileTypes = ["jpg","jpeg","png"];
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var extension = input.files[0].name.split('.').pop().toLowerCase(),  //file extension from input file
-            isSuccess = fileTypes.indexOf(extension) > -1;  //is extension in acceptable types
-
-            if (isSuccess) { 
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
-                    $("#avatarJugadorNombre").val(input.files[0].name);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-    }
 ////////////////////Funciones para validar password email y telefono////////////////7
     $.validator.addMethod("pwcheck1", function(value) {
        return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) 
