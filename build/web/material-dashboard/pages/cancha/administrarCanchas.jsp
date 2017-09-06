@@ -169,6 +169,6 @@
 <%        }
     }  
     catch(NullPointerException ex){
-        response.sendRedirect("/FutPlayFinal/material-dashboard/pages/usuario/404.html");
+        response.sendRedirect("/FutPlayFinal/index.html");
     }
 %>
