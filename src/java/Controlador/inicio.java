@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -52,6 +53,9 @@ public class inicio extends HttpServlet {
             String Email = request.getParameter("email");
             String Contrasenia = request.getParameter("pass");
             try{
+                
+                String textoEncriptadp = DigestUtils.md5Hex(Contrasenia);
+                System.out.println("---------- contaseña encriptada : " + textoEncriptadp);
 
                 Session sesion = HibernateUtil.getSessionFactory().openSession();
                 Query query = sesion.createQuery("FROM Persona WHERE Correo='"+Email+"' AND Contrasenia='"+Contrasenia+"'");
