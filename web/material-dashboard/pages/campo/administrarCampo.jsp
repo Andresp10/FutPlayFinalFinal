@@ -47,10 +47,10 @@
                                     </div>
                                     <div class="card-content">
                                         <div class="card-actions">  
-                                            <button type="button" data-toggle="modal" type="button" class="btn btn-info btn-simple btnModalCancha" rel="tooltip" data-placement="bottom" title="Añadir canchas" value="<%=lc.getIdCampo()%>">
+                                            <button type="button" class="btn btn-info btn-simple btnModalCancha" rel="tooltip" data-placement="bottom" title="Añadir canchas" value="<%=lc.getIdCampo()%>">
                                                  <i class="material-icons" style="font-size: 30px;">add</i>
                                             </button>  
-                                            <button type="button" type="button" class="btn btn-warning btn-simple btnAdminCancha" rel="tooltip" data-placement="bottom" title="Administrar canchas" value="<%=lc.getIdCampo()%>">
+                                            <button type="button" class="btn btn-warning btn-simple btnAdminCancha" rel="tooltip" data-placement="bottom" title="Administrar canchas" value="<%=lc.getIdCampo()%>">
                                                  <i class="material-icons" style="font-size: 30px;">list</i>
                                             </button>      
                                             <!-- Classic Modal -->

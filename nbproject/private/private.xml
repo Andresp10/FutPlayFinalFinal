@@ -3,8 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Liquid/Desktop/FutPlayFinalFinal/web/material-dashboard/assets/js/basePropietario.js</file>
             <file>file:/C:/Users/Liquid/Desktop/FutPlayFinalFinal/web/material-dashboard/pages/includes/sidebarPropietario.jsp</file>
+=======
+            <file>file:/C:/Users/Andres/Pictures/BackupFinalFinal/FutPlayFinalFinal/src/java/Controlador/canchas.java</file>
+            <file>file:/C:/Users/Andres/Pictures/BackupFinalFinal/FutPlayFinalFinal/src/java/Controlador/encuentros.java</file>
+            <file>file:/C:/Users/Andres/Pictures/BackupFinalFinal/FutPlayFinalFinal/src/java/Controlador/propietario.java</file>
+            <file>file:/C:/Users/Andres/Pictures/BackupFinalFinal/FutPlayFinalFinal/src/java/Controlador/campos.java</file>
+>>>>>>> e5a097574913330de27f79b2f0c36634fc1c3a65
         </group>
     </open-files>
 </project-private>
