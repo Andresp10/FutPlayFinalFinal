@@ -69,13 +69,15 @@ public class propietario extends HttpServlet {
             int id = Integer.valueOf(request.getParameter("UId"));
            // Date dt = new Date(request.getParameter("UFechaNacimiento"));
             Persona per = new Persona(id, request.getParameter("UNombre"), request.getParameter("UApellido"), new Date(), request.getParameter("UTelefono"), request.getParameter("UGenero"), request.getParameter("UCorreo"), request.getParameter("UContrasenia"), request.getParameter("UAvatar"));
+            Propietario prp = new Propietario(id, per);
             try{
                 s.beginTransaction();
                 s.update(per);
                 s.getTransaction().commit();
                 s.close();
-                request.getSession().removeAttribute("PropietarioIngresado");
-                Propietario prp = new Propietario(id, per);
+                HttpSession invalidarSesion = request.getSession();
+                invalidarSesion.removeAttribute("PropietarioIngresado");
+                invalidarSesion.invalidate();
                 request.getSession().setAttribute("PropietarioIngresado", prp);
                 response.getWriter().write("1");
             }
