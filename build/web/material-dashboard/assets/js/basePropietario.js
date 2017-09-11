@@ -140,8 +140,6 @@ $(document).ready(function(){
                 reader.readAsDataURL(input.files[0]);
             }
             else{
-                $("#pene").removeClass("fileinput-preview");
-                $("#pene").removeClass("fileinput-new");
                 swal("Advertencia","El archivo seleccionado no es una imagen, solo puedes subir archivos con extension jpg, jpeg y png","warning");
             }
         }
@@ -516,9 +514,9 @@ $(document).ready(function(){
 ////////////////////Mapa del campo///////////////////////
     $(".btnMapCampo").on("click", function(){
         var coordenadas = $(this).val().split("/");
-        $(".btnMapCampo").each(function(){
+        $(this).each(function(){
             $("#mapModal").modal("show");
-            $('#map-canvas').addClass('loading');    
+              $('#map-canvas').addClass('loading');    
               var latlng = new google.maps.LatLng(coordenadas[0] ,coordenadas[1]); 
               var settings = {
                   zoom: 16,
@@ -534,9 +532,9 @@ $(document).ready(function(){
               };
               var map = new google.maps.Map(document.getElementById("map-canvas"), settings);
 
-              google.maps.event.addDomListener(window, "resize", function() {
+              google.maps.event.addDomListener(map, "load", function() {
                   var center = map.getCenter();
-                  google.maps.event.trigger(map, "resize");
+                  google.maps.event.trigger(map, "load");
                   map.setCenter(center);
                   $('#map-canvas').removeClass('loading');
               });
@@ -777,13 +775,17 @@ $(document).ready(function(){
                         <button type='button' class='btn btn-info btn-simple' value="+data["idcancha"][i]+">\n\
                             <i class='material-icons'>mode_edit</i>\n\
                         </button>\n\
-                        <button type='button' class='btn btn-danger btn-simple' value="+data["idcancha"][i]+">\n\
+                        <button type='button' class='btn btn-danger btn-simple' id='pene' value="+data["idcancha"][i]+">\n\
                             <i class='material-icons'>delete</i>\n\
                         </button>\n\
                     </td></tr>");
-                $("#tblCanchas").children("tr").children("td").children("button").removeClass("btn-simple");
+                
             }                    
         }); 
+    });
+    $("#tblCanchas").children("tr").children("td").children("button").addClass("pene");
+    $(".pene").on("click",function(){
+       alert("hi"); 
     });
 /////////////////////////////////Peticion de ajax para eliminar una cancha///////////////////////////////
     $(".btnEliminarCancha").on("click",function(e){
@@ -814,7 +816,7 @@ $(document).ready(function(){
                     else{
                         swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
                     }
-                });
+                });hj
             },2000);
            }            
         });
