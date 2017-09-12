@@ -70,7 +70,7 @@
             <li id="encuentro">
                 <a href="../encuentro/verEncuentros.jsp">
                     <i class="material-icons">flash_on</i>
-                    <p>Encunetros</p>
+                    <p>Encuentros</p>
                 </a>
             </li>
         </ul>
