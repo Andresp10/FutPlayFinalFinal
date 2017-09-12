@@ -1,4 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+    response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
+    response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+    response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
+    try{      
+        if(session.getAttribute("PropietarioIngresado").equals("")){
+            response.sendRedirect("/FutPlayFinal/index.html");
+        }
+        else{
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,7 +19,7 @@
     </head>
     <body>
         <div class="wrapper">
-            <%@include file="../includes/notificacionesPropietario.jsp" %>%>
+            <%@include file="../includes/notificacionesPropietario.jsp" %>
             <%@include file="../includes/sidebarPropietario.jsp" %>
             <div class="main-panel">
                 <%@include file="../includes/headerPropietario.jsp" %>
@@ -32,9 +43,8 @@
                                     </div>
                                   <p>Añade tus campos y canchas, comienza a conectarte con jugadores y planea encuentos</p>
                                 </div>
-                                  <%Propietario prop = (Propietario) session.getAttribute("PropietarioIngresado");%>
                                   <div class="card-footer">
-                                      <button class="btn btn-danger btnVerCampos" value="<%=prop.getIdPropietario()%>">Administrar campos</button>
+                                      <button class="btn btn-danger btnVerCampos" value="<%=objPropietario.getIdPropietario()%>">Administrar campos</button>
                                   </div>
                               </div>
                             </div>
@@ -53,7 +63,7 @@
                                     <p>Lleva un control especifico y organizado de tus canchas dia a dia</p>
                                   </div>
                                     <div class="card-footer">
-                                        <a href="/FutPlayFinal/material-dashboard/pages/cancha/administrarCanchas.jsp" class="btn btn-danger">Administrar canchas</a>
+                                        <button class="btn btn-danger btnVerCanchas">Administrar canchas</button>
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +76,6 @@
         <script type="text/javascript">
             $("#nombrepagina").text("Inicio");
             $("#inicio").addClass("active");
-            
             window.onload = function (){
                 
                 CargarNotificacionesPropietario();
@@ -75,3 +84,9 @@
         </script>
     </body>
 </html>
+<%        }
+    }  
+    catch(NullPointerException ex){
+        response.sendRedirect("/FutPlayFinal/index.html");
+    }
+%>

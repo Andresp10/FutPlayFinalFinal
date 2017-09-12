@@ -13,7 +13,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class uploadfiles extends HttpServlet {
 
-    private final String UPLOAD_DIRECTORY = "C:\\Users\\migue\\Videos\\FutPlayFinal\\web\\Imagenes";
+    private final String UPLOAD_DIRECTORY = "/Imagenes";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -39,12 +39,13 @@ public class uploadfiles extends HttpServlet {
                 for(FileItem item : multiparts){
                     if(!item.isFormField()){
                         String name = new File(item.getName()).getName();
-                        item.write( new File(UPLOAD_DIRECTORY + File.separator + name));
+                        item.write( new File(this.getServletContext().getRealPath(UPLOAD_DIRECTORY) + File.separator + name));
                     }
                 }           
                 
             } catch (Exception ex) {
                 System.out.println("file uploading has failed");
+                System.err.println(ex);
             }                  
 
         }else{

@@ -26,10 +26,32 @@ $(document).ready(function(){
                 data:{id:id,title:title,start:start,end:end,color:color,campo:campo}
             }).done(function(rt){
                 if(rt>"0"){
-                    swal("Excelente","Evento guardado exitosamente","success");   
+                    $.notify({
+                        icon: "check",
+                        message: "Evento guardado exitosamente"
+
+                    },{
+                        type: 'success',
+                        timer: 2500,
+                        placement: {
+                            from: 'bottom',
+                            align: 'right'
+                        }
+                    });  
                 }
                 else{
-                    swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
+                    $.notify({
+                        icon: "sentiment_very_dissatisfied",
+                        message: "Ocurrio un error al momento de procesar la solicitud"
+
+                    },{
+                        type: 'danger',
+                        timer: 2500,
+                        placement: {
+                            from: 'bottom',
+                            align: 'right'
+                        }
+                    });
                 }
             });
         },
@@ -46,22 +68,44 @@ $(document).ready(function(){
                 data:{id:id,title:title,start:start,end:end,color:color,campo:campo}
             }).done(function(rt){
                 if(rt>"0"){
-                    swal("Excelente","Evento guardado exitosamente","success");   
+                    $.notify({
+                        icon: "check",
+                        message: "Evento guardado exitosamente"
+
+                    },{
+                        type: 'success',
+                        timer: 2500,
+                        placement: {
+                            from: 'bottom',
+                            align: 'right'
+                        }
+                    });  
                 }
                 else{
-                    swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
+                    $.notify({
+                        icon: "sentiment_very_dissatisfied",
+                        message: "Ocurrio un error al momento de procesar la solicitud"
+
+                    },{
+                        type: 'danger',
+                        timer: 2500,
+                        placement: {
+                            from: 'bottom',
+                            align: 'right'
+                        }
+                    });
                 }
             });
         },
         eventClick: function(calEvent, jsEvent, view) {
            var idcampo = $("#cmbCampos").val();
+           var idevento = calEvent._id;
            swal({
                title:"Advertencia",
                text:"Deseas eliminar el siguiente evento?",
                type:"warning",
                showCancelButton:true,
                showLoaderOnConfirm:true,
-               closeOnConfirm:false,
                confirmButtonColor: "#DD6B55", 
                cancelButtonText:"Cancelar",
                confirmButtonText:"Sí",
@@ -70,7 +114,7 @@ $(document).ready(function(){
                        $.ajax({
                            url:"/FutPlayFinal/canchas/eliminarEvento",
                            type:"post",
-                           data:{idevento:calEvent.id}
+                           data:{idevento:idevento}
                        }).done(function(rt){
                           if(rt>"0"){
                               swal("Excelente","Evento eliminado exitosamente","success");
@@ -85,23 +129,6 @@ $(document).ready(function(){
            });
        }
     }); 
-
-/* inicializa los eventos externos drag & drop */
-    /*$('#external-events .fc-event').each(function() {
-        
-        $(this).data('event', {
-            title: $.trim($(this).text()),
-            stick: true, 
-            color: "#F77168"
-        });
-
-        $(this).draggable({
-            zIndex: 999,
-            revert: true,      
-            revertDuration: 0  
-        });
-
-    });*/
 /* Funcion para recargar los eventos*/
     function recargarEventos(idCampo){
         var events = {
@@ -109,7 +136,7 @@ $(document).ready(function(){
            type: 'POST'         
         };
         $("#calendar").fullCalendar('removeEvents');
-        $('#calendar').fullCalendar( 'addEventSource', events);
+        $('#calendar').fullCalendar('addEventSource', events);
     }
 /* actualiza los eventos del calendario y carga las canchas de cada campo*/
     $("#cmbCampos").on("change",function(){
@@ -124,24 +151,15 @@ $(document).ready(function(){
            data:{campo:campo}
         }).done(function(data){
             for (var i = 0; i < data.canchas.length; i++) {
-                $("#cardEvents").append("<div class='fc-event btn btn-round btn-xs' style='background-color:#9C27B0;'>"+data.canchas[i]+"</div>");
-                //asignarDroppable();
-                $(".fc-event").draggable({
-                zIndex: 999,
-                revert: true,      
-                revertDuration: 0  
-            });
-            $(".fc-event").data('event', {
-                title: $(".fc-event").html(),
-                stick: true,
-                color: "#F44336"
-            }); 
+                $("#cardEvents").append("<div class='fc-event btn btn-round btn-xs' style='background-color:#48A44C;'>"+data.canchas[i]+"</div>");
+                //asignar atributo droppable a cada evento;
+                asignarDroppable($("#cardEvents").children()); 
             }
         });
     });
 /*funcion para asignar atributos a los fc-events despues de ser cargados en el DOM*/
-    function asignarDroppable(){
-        $.each(".fc-event",function(){
+    function asignarDroppable(eventoHijo){
+        $.each(eventoHijo,function(){
             $(this).draggable({
                 zIndex: 999,
                 revert: true,      

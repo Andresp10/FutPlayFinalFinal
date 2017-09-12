@@ -5,11 +5,15 @@
  */
 package Controlador;
 
+import Modelo.Calendar;
 import Modelo.Campos;
+import Modelo.Canchas;
 import Modelo.Encuentros;
+import Modelo.Equipo;
 import Modelo.HibernateUtil;
 import Modelo.Jugador;
 import Modelo.Notificacion;
+import Modelo.Propietario;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -48,6 +52,9 @@ public class encuentros extends HttpServlet {
                     break;
                 case "aceptarencuentro":
                     aceptarEncuentro(request,response);
+                    break;
+                case "crearencuentro":
+                    crearEncuentro(request,response);
                     break;
             
             }    
@@ -118,19 +125,27 @@ public class encuentros extends HttpServlet {
             
             Session sesion = HibernateUtil.getSessionFactory().openSession();
             
+            Query queryEncuentro = sesion.createQuery("FROM Encuentros WHERE Equipo_A = "+equipo+" or Equipo_A = "+objJugador.getEquipo()+" AND Equipo_B = "+equipo+" or Equipo_B = "+objJugador.getEquipo()+" AND Estado = 'En espera'");
+            List<Encuentros>listaEncuentro = queryEncuentro.list();
+            if (listaEncuentro.size() == 0) {
             
-            Query queryCampo = sesion.createQuery("FROM Campos WHERE idCampo = "+campo+"");
-            List<Campos>listaCampo = queryCampo.list();
-            for (Campos campos : listaCampo) {
-                
-                System.out.println(campos.getPropietario());
-                
-                Notificacion objNotificacion = new Notificacion(new Date(), "01:28 P.M", "ConfirmarEncuentro", "", 0, 0, 0, Integer.parseInt(String.valueOf(campos.getPropietario())), tipo+"/"+equipo+"/"+objJugador.getEquipo(), Integer.parseInt(equipo), 0);
-                sesion.beginTransaction();
-                sesion.save(objNotificacion);
-                sesion.getTransaction().commit();
-                
-                response.getWriter().write("1");
+                Query queryCampo = sesion.createQuery("FROM Campos WHERE idCampo = "+campo+"");
+                List<Campos>listaCampo = queryCampo.list();
+                for (Campos campos : listaCampo) {
+
+                    System.out.println(campos.getPropietario());
+
+                    Notificacion objNotificacion = new Notificacion(new Date(), "01:28 P.M", "ConfirmarEncuentro", "", 0, 0, 0, Integer.parseInt(String.valueOf(campos.getPropietario())), tipo+"/"+equipo+"/"+objJugador.getEquipo(), Integer.parseInt(equipo), 0);
+                    sesion.beginTransaction();
+                    sesion.save(objNotificacion);
+                    sesion.getTransaction().commit();
+
+                    response.getWriter().write("1");
+                }
+
+            }else{
+            
+                response.getWriter().write("2");
             }
             
             sesion.close();
@@ -141,6 +156,86 @@ public class encuentros extends HttpServlet {
             System.err.println(ex);
         }
         
+    }
+    protected void crearEncuentro(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        try{
+            Propietario objPropietario = (Propietario) request.getSession().getAttribute("PropietarioIngresado");
+            
+            int notificacion1 = Integer.parseInt(request.getParameter("idNotificacion"));
+            String Fecha = request.getParameter("fecha");
+            String Hora = request.getParameter("hora");
+            
+            String horaf[] = Hora.split(":");
+            int hora2 = Integer.parseInt(horaf[0]);
+            
+            int fechaFinalFinal = hora2 + 1;
+            
+            System.out.println(Fecha + "   --> " + fechaFinalFinal);
+            
+            Session sesion = HibernateUtil.getSessionFactory().openSession();
+            Query query = sesion.createQuery("FROM Notificacion WHERE idNotificacion = "+notificacion1+"");
+            List<Notificacion>listaNotificacion = query.list();
+            for (Notificacion notificacion : listaNotificacion) {
+                
+                System.out.println("-----------------------> ESTOY EN EL FOREACH EN EL CONTROLADOR ENCUENTROS");
+                
+                String datos[] = notificacion.getDatosAdicionales().split("/");
+                /*Calendar objCalendar = new Calendar();
+                objCalendar.setTitle("Encuentro");
+                objCalendar.setStart(Hora);
+                objCalendar.setEnd(Hora);
+                objCalendar.setColor("");*/
+                
+                Canchas objCancha = new Canchas();
+                objCancha.setIdCancha(6);
+                
+                System.out.println(""+objCancha);
+                
+                Equipo objEquipo1 = new Equipo();
+                objEquipo1.setIdEquipo(Integer.parseInt(datos[1]));
+                
+                Equipo objequipo2 = new Equipo();
+                objequipo2.setIdEquipo(Integer.parseInt(datos[2]));
+                
+                System.out.println("------------------> CRANDO EL ENCUENTRO.......||.|..|.|.|.|..|.|");
+                
+                Encuentros objEncuentro = new Encuentros(datos[0], new Date(), "", "En espera", objCancha, objEquipo1, objequipo2);
+                sesion.beginTransaction();
+                sesion.save(objEncuentro);
+                sesion.getTransaction().commit();
+                
+                
+                
+                System.out.println("---------------------> GENERANDO LAS NOTIFICACIONES °°°°°°°°°°°°°°°°°°°°°°°°°°|");
+                ////////////////////////////// NOTIFICACIONES DE CONFIRMACION DEL ENCUENTRO ////////////////////
+                Session sesionNotificacion1 = HibernateUtil.getSessionFactory().openSession();
+                Notificacion objNotificacionEquipo1 = new Notificacion(new Date(), "07:35 P.M", "EncuentroConfirmado", "", 0, 0, objPropietario.getIdPropietario(), 0, "", 0, Integer.parseInt(datos[1]));
+                sesionNotificacion1.beginTransaction();
+                sesionNotificacion1.save(objNotificacionEquipo1);
+                sesionNotificacion1.getTransaction().commit();
+                sesionNotificacion1.close();
+                
+                Session sesionNotificacion2 = HibernateUtil.getSessionFactory().openSession();
+                Notificacion objNotificacionEquipo2 = new Notificacion(new Date(), "07:35 P.M", "EncuentroConfirmado", "", 0, 0, objPropietario.getIdPropietario(), 0, "", 0, Integer.parseInt(datos[2]));
+                sesionNotificacion2.beginTransaction();
+                sesionNotificacion2.save(objNotificacionEquipo2);
+                sesionNotificacion2.getTransaction().commit();
+                sesionNotificacion2.close();
+                
+                
+                response.getWriter().write("1");
+            }
+            
+            sesion.close();
+        
+        }catch(HibernateException ex){
+            System.err.println(ex);
+        }catch(Exception ex){
+            System.err.println(ex);
+        }
+    
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

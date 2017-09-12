@@ -118,17 +118,30 @@ $(document).ready(function(){
     $("#fotocampouploadUP").change(function(){
         readURL(this); 
     });
+    $("#avatarJugador").change(function(){
+        readURL(this);
+    });
+    var fileTypes = ["jpg","jpeg","png"];
     function readURL(input) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
-                $("#avatarFotoNombre").val(input.files[0].name);
-                $("#campoFotoNombre").val(input.files[0].name);
-                $("#campoFotoNombreUP").val(input.files[0].name);
-                $("#avatarPropietarioNombreUP").val(input.files[0].name);
+            var extension = input.files[0].name.split('.').pop().toLowerCase(),  //file extension from input file
+            isSuccess = fileTypes.indexOf(extension) > -1;  //is extension in acceptable types
+
+            if (isSuccess) { 
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+                    $("#avatarFotoNombre").val(input.files[0].name);
+                    $("#campoFotoNombre").val(input.files[0].name);
+                    $("#campoFotoNombreUP").val(input.files[0].name);
+                    $("#avatarPropietarioNombreUP").val(input.files[0].name);
+                    $("#avatarJugadorNombre").val(input.files[0].name);
+                }
+                reader.readAsDataURL(input.files[0]);
             }
-            reader.readAsDataURL(input.files[0]);
+            else{
+                swal("Advertencia","El archivo seleccionado no es una imagen, solo puedes subir archivos con extension jpg, jpeg y png","warning");
+            }
         }
     }
 ////////////////////////Registro de un propietario///////////////////
@@ -149,7 +162,7 @@ $(document).ready(function(){
        return pattern.test(value);
     });
     $.validator.addMethod("validarTelefono", function(value){
-       var pattern = /^3[0,1,2,3,5][0-9]{8}$/;
+       var pattern = /^3[0,1,2,3,5][0-9][0-9]{7}$/;
        return pattern.test(value);
     });
     var $validator = $('#frmPropietario').validate({
@@ -264,7 +277,7 @@ $(document).ready(function(){
                                        url:"/FutPlayFinal/usuario/registrar",
                                        method:"post",
                                        data:{UNombre:UNombre,UApellido:UApellido,UFechaNacimiento:UFechaNacimiento,UTelefono:UTelefono,UGenero:UGenero,UCorreo:UCorreo,UContrasenia:UContrasenia,UAvatar:UAvatar},
-                                       complete: function(){
+                                       success: function(){
                                            ////////Subir Avatar/////////
                                             var data = new FormData();
                                             $.each($('#avatarPropietario')[0].files, function(i, file) {
@@ -292,6 +305,8 @@ $(document).ready(function(){
                                                title:"Bienvenido!",
                                                text:"Ahora haces parte de la comunidad futplay inicia sesion y disfruta",
                                                type:"success",
+                                               confirmButtonText:"Aceptar",
+                                               showCancelButton:false,
                                                preConfirm: function(){
                                                    window.location.href = "/FutPlayFinal/material-dashboard/pages/usuario/login.html";
                                                }
@@ -384,32 +399,33 @@ $(document).ready(function(){
                             });
                         }
                         getUbicacion(function(ubi){                       
-                            var data = new FormData();
-                            $.each($('#fotocampoupload')[0].files, function(i, file) {
-                                 data.append('file-'+i, file);
-                            });
-                            $.ajax({
-                                url: '/FutPlayFinal/uploadfiles',
-                                data: data,
-                                dataType: 'text',
-                                processData: false,
-                                contentType: false,
-                                type: 'POST'
-                            });
-
                             $.ajax({
                                 url:"/FutPlayFinal/campos/registrarcampo",
                                 type:"post",
                                 data:{nombrecampo:nombrecampo,direccioncampo:direccioncampo,ubicacion:ubi,horarioapertura:horarioapertura,horariocierre:horariocierre,fotocampo:fotocampo},
-                                cache:false
+                                cache:false,
+                                success: function(){
+                                    var data = new FormData();
+                                    $.each($('#fotocampoupload')[0].files, function(i, file) {
+                                         data.append('file-'+i, file);
+                                    });
+                                    $.ajax({
+                                        url: '/FutPlayFinal/uploadfiles',
+                                        data: data,
+                                        dataType: 'text',
+                                        processData: false,
+                                        contentType: false,
+                                        type: 'POST'
+                                    });
+                                }
                             }).done(function(rt){          
                                 if(rt!=="0"){
                                     swal({
                                         title:"Exito",
                                         text:"Campo registrado exitosamente!",
                                         type:"success",
+                                        confirmButtonText:"Aceptar",
                                         closeOnConfirm:true,
-                                        showCancelButton:true,
                                         preConfirm: function(){
                                            window.location="/FutPlayFinal/material-dashboard/pages/campo/administrarCampo.jsp";   
                                         }
@@ -439,7 +455,7 @@ $(document).ready(function(){
             type: "warning",   
             showCancelButton: true,   
             confirmButtonColor: "#DD6B55",   
-            confirmButtonText: "Sí",
+            confirmButtonText: "Aceptar",
             animation: "slide-from-top",   
             closeOnConfirm: false,
             cancelButtonText: "Cancelar",
@@ -449,15 +465,41 @@ $(document).ready(function(){
                     $.ajax({
                         url:"/FutPlayFinal/campos/eliminar",
                         method:"post",
-                        data:{idcampo:idcampo}
+                        dataType:"json",
+                        data:{idcampo:idcampo},
+                        cache:false
                     }).done(function(rt){
-                        if(rt!=="0"){
-                            swal({
-                                title:"Exito",
-                                text:"Campo elimiado exitosamente",
-                                type:"success",
-                                preConfirm: function(){
-                                    window.location.href="/FutPlayFinal/material-dashboard/pages/campo/administrarCampo.jsp";    
+                        if(rt>"0"){
+                            var idPropietario = $("#idVerCampos").val();
+                            $.ajax({
+                               url:"/FutPlayFinal/campos/checkCampos",
+                               method:"post",
+                               dataType:"json",
+                               data:{idPropietario:idPropietario},
+                               cache:false
+                            }).done(function(data){
+                                console.log(data);
+                                if(data>"0"){
+                                    swal({
+                                        title:"Exito",
+                                        text:"Campo eliminado exitosamente",
+                                        type:"success",
+                                        confirmButtonText:"Aceptar",
+                                        preConfirm: function(){
+                                            window.location.href="/FutPlayFinal/material-dashboard/pages/campo/administrarCampo.jsp";    
+                                        }
+                                    });
+                                }
+                                else{
+                                    swal({
+                                        title:"Exito",
+                                        text:"Campo eliminado exitosamente",
+                                        type:"success",
+                                        confirmButtonText:"Aceptar",
+                                        preConfirm: function(){
+                                            window.location.href="/FutPlayFinal/material-dashboard/pages/propietario/indexPropietario.jsp";    
+                                        }
+                                    });
                                 }
                             });
                         }
@@ -472,9 +514,9 @@ $(document).ready(function(){
 ////////////////////Mapa del campo///////////////////////
     $(".btnMapCampo").on("click", function(){
         var coordenadas = $(this).val().split("/");
-        $(".btnMapCampo").each(function(){
+        $(this).each(function(){
             $("#mapModal").modal("show");
-            $('#map-canvas').addClass('loading');    
+              $('#map-canvas').addClass('loading');    
               var latlng = new google.maps.LatLng(coordenadas[0] ,coordenadas[1]); 
               var settings = {
                   zoom: 16,
@@ -490,9 +532,9 @@ $(document).ready(function(){
               };
               var map = new google.maps.Map(document.getElementById("map-canvas"), settings);
 
-              google.maps.event.addDomListener(window, "resize", function() {
+              google.maps.event.addDomListener(map, "load", function() {
                   var center = map.getCenter();
-                  google.maps.event.trigger(map, "resize");
+                  google.maps.event.trigger(map, "load");
                   map.setCenter(center);
                   $('#map-canvas').removeClass('loading');
               });
@@ -601,28 +643,31 @@ $(document).ready(function(){
                         });
                     }
                     getUbicacion(function(ubi){
-                        var data = new FormData();
-                        $.each($('#fotocampouploadUP')[0].files, function(i, file) {
-                             data.append('file-'+i, file);
-                        });
-                        $.ajax({
-                            url: '/FutPlayFinal/uploadfiles',
-                            data: data,
-                            dataType: 'text',
-                            processData: false,
-                            contentType: false,
-                            type: 'POST'
-                        });
                         $.ajax({
                             url:"/FutPlayFinal/campos/actualizarcampo",
                             method:"post",
-                            data:{nombrecampoUP:nombrecampoUP,direccioncampoUP:direccioncampoUP,ubicacionUP:ubi,horarioatencionabreUP:horarioatencionabreUP,horarioatencioncierreUP:horarioatencioncierreUP,fotocampoUP:fotocampoUP}
+                            data:{nombrecampoUP:nombrecampoUP,direccioncampoUP:direccioncampoUP,ubicacionUP:ubi,horarioatencionabreUP:horarioatencionabreUP,horarioatencioncierreUP:horarioatencioncierreUP,fotocampoUP:fotocampoUP},
+                            success: function(){
+                                var data = new FormData();
+                                $.each($('#fotocampouploadUP')[0].files, function(i, file) {
+                                     data.append('file-'+i, file);
+                                });
+                                $.ajax({
+                                    url: '/FutPlayFinal/uploadfiles',
+                                    data: data,
+                                    dataType: 'text',
+                                    processData: false,
+                                    contentType: false,
+                                    type: 'POST'
+                                });
+                            }
                         }).done(function(rt){
                              if(rt!=="0"){
                                  swal({
                                      title:"Exito",
                                      text:"Campo actualizado exitosamente",
                                      type:"success",
+                                     confirmButtonText:"Aceptar",
                                      preConfirm: function(){                                       
                                         window.location.href = "/FutPlayFinal/material-dashboard/pages/campo/administrarCampo.jsp";                  
                                      }
@@ -661,7 +706,7 @@ $(document).ready(function(){
     $(".btnAñadirCancha").on("click",function(e){
         e.preventDefault();               
         var campo = getIdCampo();
-        var numcancha = 1;        
+        var numcancha = $("#numeroCancha").val();        
         var tipoCancha = $("#cmbTipoCancha").val();
         $.ajax({
            url:"/FutPlayFinal/canchas/registrarCancha",
@@ -670,12 +715,78 @@ $(document).ready(function(){
            data:{campo:campo ,numcancha:numcancha, tipocancha:tipoCancha}
         }).done(function(data){
             if(data>"0"){
+                $.notify({
+                    icon: "check",
+                    message: "Cancha añadida exitosamente"
+
+                },{
+                    type: 'success',
+                    timer: 2500,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
                 $("#añadirCancha").modal("hide");
+                $("#numeroCancha").val("");
                 $("#cmbTipoCancha").prop("selectedIndex",0);
+            }
+            else{
+                $.notify({
+                    icon: "sentiment_very_dissatisfied",
+                    message: "Ocurrio un error al momento de procesar la solicitud"
+
+                },{
+                    type: 'danger',
+                    timer: 2500,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
             }
         });
     }); 
-    
+////////////////////////////Funcion para mostrar canchas para cado campo////////////////////////////
+    $(".btnAdminCancha").on("click",function(e){
+       e.preventDefault();
+       var idcampo = $(this).attr("value");
+       $(this).each(function(){
+            $("#canchaModal").modal("show");      
+       });
+       $.ajax({
+            url:"/FutPlayFinal/canchas/getAll",
+            method:"post",
+            dataType:"json",
+            data:{idcampo:idcampo}
+        }).done(function(data){   
+            $("#tblCanchas").children().remove();
+            for (var i = 0; i < data.idcancha.length; i++) {
+                for (var x = 0; x < data.numerocancha.length; x++) {
+                    
+                }
+                for (var y = 0; y < data.tipocancha.length; y++) {
+                    
+                }              
+                $("#tblCanchas").append("<tr>\n\
+                    <td>"+data["numerocancha"][i]+"</td>\n\
+                    <td>"+data["tipocancha"][i]+"</td>\n\
+                    <td>\n\
+                        <button type='button' class='btn btn-info btn-simple' value="+data["idcancha"][i]+">\n\
+                            <i class='material-icons'>mode_edit</i>\n\
+                        </button>\n\
+                        <button type='button' class='btn btn-danger btn-simple' id='pene' value="+data["idcancha"][i]+">\n\
+                            <i class='material-icons'>delete</i>\n\
+                        </button>\n\
+                    </td></tr>");
+                
+            }                    
+        }); 
+    });
+    $("#tblCanchas").children("tr").children("td").children("button").addClass("pene");
+    $(".pene").on("click",function(){
+       alert("hi"); 
+    });
 /////////////////////////////////Peticion de ajax para eliminar una cancha///////////////////////////////
     $(".btnEliminarCancha").on("click",function(e){
         e.preventDefault();
@@ -705,7 +816,7 @@ $(document).ready(function(){
                     else{
                         swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
                     }
-                });
+                });hj
             },2000);
            }            
         });
@@ -715,14 +826,10 @@ $(document).ready(function(){
         e.preventDefault();
         
     });
-////////////////////////////////////Peticion de ajax para actualizar una cancha/////////////////////////////
-    $("#frmCanchaUP").on("submit",function(e){
-        e.preventDefault();
-    });
 //////////////////////////////////Chequeo de campos registrados fancy button////////////////////////////////
     $(".btnVerCampos").on("click",function(e){
        e.preventDefault();
-       var idPropietario = $(this).val();
+       var idPropietario = $("#idVerCampos").val();
        $.ajax({
            url:"/FutPlayFinal/campos/checkCampos",
            method:"post",
@@ -738,17 +845,15 @@ $(document).ready(function(){
        });
     });
 //////////////////////////////////////Chequeo de canchas registradas fancy button/////////////////////////////
-    $(".btnCheckCanchas").on("click",function(){
-        var idcampo = $(this).attr("value");
+    $(".btnVerCanchas").on("click",function(){
         $.ajax({
-            url:"/FutPlay/canchas/checkCanchas",
-            type:"post",
-            data:{idcampo:idcampo}
+            url:"/FutPlayFinal/canchas/checkCanchas",
+            type:"post"
         }).done(function(rt){
             if(rt>"0"){ 
-                
+                window.location.href = "/FutPlayFinal/material-dashboard/pages/cancha/administrarCanchas.jsp"
             }else{  
-                swal("Informacion","No tienes canchas registradas en este campo","info");                             
+                swal("Informacion","No tienes canchas registradas, empieza por añadir algunas","info");                             
             }           
         });
     });
@@ -756,7 +861,7 @@ $(document).ready(function(){
     $("#btnCerrarSesion").on("click",function(){
        swal({
            title:"Advertencia",
-           text:"Deseas cerrar sesión?",
+           text:"¿Deseas cerrar sesión?",
            type:"warning",
            showCancelButton:true,
            closeOnConfirm:false,
@@ -775,7 +880,7 @@ $(document).ready(function(){
            }
        }).then(function(retorno){
            if(retorno>"0"){
-               window.location.href="/FutPlayFinal/index.html";
+               window.location.href="/FutPlayFinal/material-dashboard/pages/usuario/login.html";
            }
            else{
                swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
@@ -785,23 +890,29 @@ $(document).ready(function(){
 ////////////////////////////Editar propietario//////////////////////////
     $("#frmEditarPropietario").validate({
        rules: {
-                nombresPropietarioUP:{
-                    required:true,
-                    minlength:3
-                },
-                apellidosPropietarioUP:{
-                    required:true,
-                    minlength:3
-                },
-                fechanacimientoPropietarioUP:{
-                    required:true
-                },
-                telefonoPropietarioUP:{
-                    required:true
-                },
-                generoPropietarioUP:{
-                    required:true
-                }
+            nombresPropietarioUP:{
+                required:true,
+                minlength:3
+            },
+            apellidosPropietarioUP:{
+                required:true,
+                minlength:3
+            },
+            fechanacimientoPropietarioUP:{
+                required:true
+            },
+            telefonoPropietarioUP:{
+                required:true,
+                validarTelefono:true
+            },
+            emailPropietarioUP:{
+                required:true,
+                validarEmail:true,
+                email:true
+            },
+            generoPropietarioUP:{
+                required:true
+            }
         },
         messages:{
             nombresPropietarioUP:{
@@ -816,7 +927,13 @@ $(document).ready(function(){
                 required:"Selecciona tu fecha de nacimiento"
             },
             telefonoPropietarioUP:{
-                required:"Ingresa tu numero telefonico"
+                required:"Ingresa tu numero telefonico",
+                validarTelefono:"Ingresa un numero telefonico valido"
+            },
+            emailPropietarioUP:{
+                required:"Ingresa tu correo electronico",
+                validarEmail:"Ingresa un correo electronico valido",
+                email:"Ingresa un correo electronico valido"
             },
             generoPropietarioUP:{
                 required:"Selecciona tu genero"
@@ -857,7 +974,7 @@ $(document).ready(function(){
                             method:"post",
                             dataType:"json",
                             data:{UId:UId,UNombre:UNombre,UApellido:UApellido,UFechaNacimiento:UFechaNacimiento,UTelefono:UTelefono,UGenero:UGenero,UCorreo:UCorreo,UContrasenia:UContrasenia,UAvatar:UAvatar},
-                            complete: function(){
+                            success: function(){
                             ////////Subir Avatar/////////
                                  var data = new FormData();
                                  $.each($('#avatarPropietarioUP')[0].files, function(i, file) {
@@ -895,7 +1012,7 @@ $(document).ready(function(){
     /////////////////////// NOTIFICACIONES ///////////////////////////
     
     ////////////////////////////////////////////////// VER NOTIFICACIONES ////////////////////////////////////////////
-    $(".verNotificacionesPropietario").click(function (){
+        $(".verNotificacionesPropietario").click(function (){
         
         $.post("/FutPlayFinal/notificacion/vernotificacionespropietario",function (responseText){
 
@@ -912,14 +1029,64 @@ $(document).ready(function(){
 
             if(responseText === "1"){
 
-                CargarNotificaciones();
+                CargarNotificacionesPropietario();
 
             }
 
         });
 
     });
+////////////////////////Funcion para aceptar el encuentro///////////////////////
+ $(".btnGuardarCambios").on("click",function(){
+    $("#modalEncuentro").modal("show"); 
+ });
+ 
+ ////////////////////// ACEPTAR EL ENCUANTRO //////////////////////7
+ $(".btnAceptarEncuentro").on("click",function(){
+  
+     var idNotificacion = $(this).attr("value");
+     var fecha = $("#fechaEncuentro").val();
+     var hora = $("#horaEncuentro").val();
+     
+  
+    $.post("/FutPlayFinal/encuentros/crearencuentro",{idNotificacion:idNotificacion,fecha:fecha,hora:hora},function (responseText) {
+       
+            if (responseText == "1") {
+            
+                $.notify({
+                    icon: "<material-icons",
+                    message: "El encuentro ha sido registrado con exito, los jugadores serán notificados."
+
+                },{
+                    type: 'success',
+                    timer: 2500,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
+            
+            }else{
+                $.notify({
+                    icon: "material-icons",
+                    message: "Lo sentimos pero el encuentro no pudo ser agregado :'(."
+
+                },{
+                    type: 'danger',
+                    timer: 2500,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
+               
+            }
+        
+    });
+     
+ });
 });
+/////End of document ready//////
 function CargarNotificacionesPropietario (){
     
     $.ajax({

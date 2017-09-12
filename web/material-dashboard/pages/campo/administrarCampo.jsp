@@ -5,6 +5,17 @@
 <%@page import="java.util.List"%>
 <%@page import="Controlador.campos"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+    response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
+    response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+    response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
+    try{      
+        if(session.getAttribute("PropietarioIngresado").equals("")){
+            response.sendRedirect("/FutPlayFinal/index.html");
+        }
+        else{
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,6 +25,7 @@
     </head>
     <body>
         <div class="wrapper">
+            <%@include file="../includes/notificacionesPropietario.jsp" %>
             <%@include file="../includes/sidebarPropietario.jsp"%>
             <div class="main-panel">
                 <%@include file="../includes/headerPropietario.jsp"%>
@@ -34,10 +46,13 @@
                                         <span class="card-title"><%=lc.getNombre()%></span>                                   
                                     </div>
                                     <div class="card-content">
-                                        <div class="card-actions">
-                                            <button type="button" data-toggle="modal" type="button" class="btn btn-info btn-simple btnModalCancha" rel="tooltip" data-placement="bottom" title="Añadir canchas" value="<%=lc.getIdCampo()%>">
+                                        <div class="card-actions">  
+                                            <button type="button" class="btn btn-info btn-simple btnModalCancha" rel="tooltip" data-placement="bottom" title="Añadir canchas" value="<%=lc.getIdCampo()%>">
                                                  <i class="material-icons" style="font-size: 30px;">add</i>
-                                            </button>                                           
+                                            </button>  
+                                            <button type="button" class="btn btn-warning btn-simple btnAdminCancha" rel="tooltip" data-placement="bottom" title="Administrar canchas" value="<%=lc.getIdCampo()%>">
+                                                 <i class="material-icons" style="font-size: 30px;">list</i>
+                                            </button>      
                                             <!-- Classic Modal -->
                                             <div class="modal fade" id="canchaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
@@ -57,19 +72,8 @@
                                                                             <th>Tipo</th>
                                                                             <th>Acciones</th>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <%
-                                                                                canchas canchaC = new canchas();
-                                                                                List<Canchas> listCan = canchaC.getAll(11);
-                                                                            %>
-                                                                            <%for (Canchas lcan : listCan) { %>
-                                                                            <tr>
-                                                                                <td><%=lcan.getNumero()%></td>
-                                                                                <td><%=lcan.getTipo_Cancha()%></td>
-                                                                                <td><button class="btn btn-info btn-simple" rel="tooltip" title="Actualizar" value="<%=lcan.getIdCancha()%>"><i class="material-icons" style="font-size:20px;">mode_edit</i></button>
-                                                                                <button class="btn btn-danger btn-simple btnEliminarCancha" rel="tooltip" title="Eliminar" value="<%=lcan.getIdCancha()%>"><i class="material-icons" style="font-size:20px;">delete</i></button></td>
-                                                                            </tr>
-                                                                            <%}%>
+                                                                        <tbody id="tblCanchas">
+                                                                            
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -115,16 +119,20 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
                     </div>
                     <div class="modal-body text-center">
-                        <h5>Tipo de cancha </h5>
-                        <select class="form-control" name="cmbTipoCancha" id="cmbTipoCancha">
-                            <option disabled="" selected=""></option>
-                            <option value="Futbol 5">Futbol 5</option>
-                            <option value="Futbol 8">Futbol 8</option>
-                            <option value="Futbol12">Futbol 12</option>
-                        </select>
+                        <form method="post" id="frmCancha">
+                            <h5>Numero</h5>
+                            <input type="number" class="form-control" name="numeroCancha" id="numeroCancha" required>
+                            <h5>Tipo de cancha </h5>
+                            <select class="form-control" name="cmbTipoCancha" id="cmbTipoCancha" required>
+                                <option disabled="" selected=""></option>
+                                <option value="Futbol 5">Futbol 5</option>
+                                <option value="Futbol 8">Futbol 8</option>
+                                <option value="Futbol12">Futbol 12</option>
+                            </select>
+                        </form>
                     </div>
                     <div class="modal-footer text-center">
-                        <button type="button" class="btn btn-danger btn-simple btnAñadirCancha">Añadir</button>
+                        <button type="submit" class="btn btn-danger btn-simple btnAñadirCancha">Añadir</button>
                     </div>
                 </div>
             </div>
@@ -152,6 +160,16 @@
         <script type="text/javascript">
             $("#nombrepagina").text("Administrar campos");
             $("#campos").addClass("active");
+            $("#administrarcampos").addClass("active");
+            $("#camposOptions").addClass("in");
+            
+            CargarNotificacionesPropietario();
         </script>
     </body>
 </html>
+<%        }
+    }  
+    catch(NullPointerException ex){
+        response.sendRedirect("/FutPlayFinal/index.html");
+    }
+%>

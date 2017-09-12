@@ -1,4 +1,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    response.setHeader("Cache-Control","no-cache"); //Forces caches to obtain a new copy of the page from the origin server
+    response.setHeader("Cache-Control","no-store"); //Directs caches not to store the page under any circumstance
+    response.setDateHeader("Expires", 0); //Causes the proxy cache to see the page as "stale"
+    response.setHeader("Pragma","no-cache"); //HTTP 1.0 backward compatibility
+    try{      
+        if(session.getAttribute("PropietarioIngresado").equals("")){
+            response.sendRedirect("/FutPlayFinal/index.html");
+        }
+        else{
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,7 +32,7 @@
                                         <i class="material-icons">aspect_ratio</i>
                                     </div>
                                     <div class="card-content">
-                                        <h4 class="card-title">Registra tu campo</h4>
+                                        <h4 class="card-title">Edita tu campo</h4>
                                         <div class="col-sm-4 col-sm-offset-1">
                                             <div class="fileinput fileinput-new text-center" style="margin-top:22px;" data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail">
@@ -106,3 +117,9 @@
         </script>
     </body>
 </html>
+<%        }
+    }  
+    catch(NullPointerException ex){
+        response.sendRedirect("/FutPlayFinal/index.html");
+    }
+%>

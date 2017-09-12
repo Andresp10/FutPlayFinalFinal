@@ -28,7 +28,7 @@ public class Encuentros implements Serializable{
     @Column(name = "Marcador")
     private String Marcador;
     
-    @Column(name = "Estdo")
+    @Column(name = "Estado")
     private String Estado;
     
     @ManyToOne(fetch = FetchType.LAZY)

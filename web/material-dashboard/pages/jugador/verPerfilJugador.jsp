@@ -10,6 +10,7 @@
         <div class="wrapper">
             <%@include file="../includes/notificaciones.jsp" %>
             <%@include file="../includes/sidebarJugador.jsp" %>
+            <%if(objJugador != null & objPersona != null){%>
             <div class="main-panel">
                 <%@include file="../includes/header.jsp" %>
                 <div class="content">
@@ -97,13 +98,13 @@
                                     <i class="material-icons" style="font-size: 30px; color: #d8bb21">stars</i>
                                     <i class="material-icons" style="font-size: 30px; color: #d8bb21">stars</i><br>-->
                                     
-                                    <a href="../jugador/editarPerfilJugador.jsp" class="btn btn-rose btn-round">Editar perfil</a>
+                                    <a href="../jugador/editarPerfilJugador.jsp" class="btn btn-danger btn-round">Editar perfil</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><%}%>
         </div>
     
         <%@include file="../includes/importsJS.jsp" %>

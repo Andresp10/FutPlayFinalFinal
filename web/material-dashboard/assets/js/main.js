@@ -313,20 +313,6 @@ $(".editarUsuario").click(function (e){
                 refreshAnimation($wizard, index);
             }
       	});
-/////////////////////Funcion para recargar avatar, foto del campo y obtener datos////////////////////
-    $("#avatarJugador").change(function(){
-        readURL(this);
-    });
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
-                $("#avatarJugadorNombre").val(input.files[0].name);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
 ////////////////////Funciones para validar password email y telefono////////////////7
     $.validator.addMethod("pwcheck1", function(value) {
        return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) 
@@ -651,7 +637,7 @@ function ficharJugador(url){
             if (responseText == "1") {
 
                 $.notify({
-                    icon: "perm_identity",
+                    icon: "sentiment_neutral",
                     message: "No puedes fichar a "+datosJugador[2]+" porque hacen parte del mismo equipo."
 
                 },{
@@ -666,7 +652,7 @@ function ficharJugador(url){
             }else if (responseText == "2") {
                 
                 $.notify({
-                    icon: "perm_identity",
+                    icon: "sentiment_neutral",
                     message: "Ya le enviaste una notificacion  a "+datosJugador[2]+"."
 
                 },{
@@ -721,7 +707,7 @@ function agregarJugador(url){
                     if (responseText == "1") {
 
                         $.notify({
-                            icon: "speaker_notes_off",
+                            icon: "sentiment_neutral",
                             message: "Ya haces parte del equipo de "+datos[0]+"."
                         },{
                             type: 'danger',
@@ -735,7 +721,7 @@ function agregarJugador(url){
                     }else if (responseText == "2") {
 
                         $.notify({
-                            icon: "speaker_notes_off",
+                            icon: "sentiment_very_satisfied",
                             message: "Exelente, ahora haces parte del equipo de "+datos[0]+"."
                         },{
                             type: 'success',
@@ -891,7 +877,7 @@ $(".crearEquipo").click(function (e){
                         
                     });*/
                     $.notify({
-                        icon: "perm_identity",
+                        icon: "sentiment_very_dissatisfied",
                         message: "Solo puedes hacer parte de un equipo."
 
                     },{
@@ -998,7 +984,7 @@ function verMensajes (){
                                                     +"<h6 class='category text-gray'>¿No tienes mensajes?</h6>"
                                                     +"<h4 class='card-title'>FutPlay te informa</h4>"
                                                     +"<p class='description'>"
-                                                        +"Hola, por el momento no haces parte de un equipo. Nos gustaria que crearass tu propio equipo con el que podras competir en los torneo, on en su defecto pidele a un amigo que te agregue su equipo :)."
+                                                        +"Hola, por el momento no haces parte de un equipo. Nos gustaria que crearas tu propio equipo con el que podras competir en los torneo, on en su defecto pidele a un amigo que te agregue su equipo :)."
                                                     +"</p>"
                                                     +"<a href='/FutPlayFinal/material-dashboard/pages/equipo/verEquipo.jsp' class='btn btn-rose btn-round'>Ir a crear equipo</a>"
                                                 +"</div>"
@@ -1236,15 +1222,15 @@ function verEquipo(){
             if(item.Nombre == "FutPlay"){
                 
                $.notify({
-                        icon: "people",
-                        message: "La informacion de tu equipo aparecerá cuando hagas parte de uno."
-                    },{
-                    type: 'warning',
-                    timer: 2500,
-                    placement: {
-                        from: 'bottom',
-                        align: 'right'
-                    }
+                    icon: "people",
+                    message: "La informacion de tu equipo aparecerá cuando hagas parte de uno."
+                },{
+                type: 'warning',
+                timer: 2500,
+                placement: {
+                    from: 'bottom',
+                    align: 'right'
+                }
                 });
                   $("#contenedorEquipo").html("<div class='col-md-8 col-md-offset-2'>"
                                                     +"<div class='card card-profile'>"
@@ -1375,7 +1361,7 @@ $(".likeJugador").click(function (){
         if (responseText == "1") {
             
             $.notify({
-                icon: "perm_identity",
+                icon: "sentiment_satisfied",
                 message: "Solo puedes dar like una vez al jugador."
 
             },{
@@ -1390,7 +1376,7 @@ $(".likeJugador").click(function (){
         }else if (responseText =="2") {
             
             $.notify({
-                icon: "perm_identity",
+                icon: "mood",
                 message: "La calificacion del jugador fue exitosa."
 
             },{
@@ -1401,6 +1387,7 @@ $(".likeJugador").click(function (){
                     align: 'right'
                 }
             });
+            window.location = "/FutPlayFinal/material-dashboard/pages/jugador/verJugador.jsp";
         }
         
     });
@@ -1413,7 +1400,7 @@ $(".dislikeJugador").click(function (){
         
         if (responseText == "1") {
             $.notify({
-                icon: "perm_identity",
+                icon: "sentiment_satisfied",
                 message: "Solo puedes dar like una vez al jugador."
 
             },{
@@ -1427,7 +1414,7 @@ $(".dislikeJugador").click(function (){
         }else if (responseText == "2") {
             
             $.notify({
-                icon: "perm_identity",
+                icon: "mood",
                 message: "La calificacion del jugador fue exitosa."
 
             },{
@@ -1439,7 +1426,7 @@ $(".dislikeJugador").click(function (){
                 }
             });
             
-            //window.location='/FutPlayFinal/material-dashboard/pages/jugador/verJugador.jsp';
+            window.location = "/FutPlayFinal/material-dashboard/pages/jugador/verJugador.jsp";
         }
         
     });
@@ -1466,7 +1453,7 @@ function NoEquipo(from, align){
     color = Math.floor((Math.random() * 6) + 1);
 
     $.notify({
-            icon: "notifications",
+            icon: "people",
             message: "La informacion de tu equipo aparecerá cuando hagas parte de uno."
 
     },{
@@ -1504,7 +1491,7 @@ function NoEquipo(from, align){
                 if(responseText == "1"){
                     
                     $.notify({
-                        icon: "perm_identity",
+                        icon: "whatshot",
                         message: "La solicitud del encuentro ha sido enviada exitosamente."
 
                     },{
@@ -1519,7 +1506,7 @@ function NoEquipo(from, align){
                 }else{
                     
                     $.notify({
-                        icon: "perm_identity",
+                        icon: "sentiment_dissatisfied",
                         message: "Al parecer este equipo no esta disponible para el tipo de encuentro que elegiste :("
 
                     },{
@@ -1663,7 +1650,37 @@ $('.btnCampo').on('click',function(e){
 
         $.post("/FutPlayFinal/encuentros/aceptarencuentro",{equipo:informacion[1],campo:informacion[2],tipo:informacion[3]},function (responseText) {
            
-            alert(responseText);
+            if (responseText == "1") {
+                
+                $.notify({
+                    icon: "perm_identity",
+                    message: "El encuentro ha sido programado con exito."
+
+                },{
+                    type: 'success',
+                    timer: 3000,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
+                
+            }else if(responseText == "2"){
+                
+                $.notify({
+                    icon: "perm_identity",
+                    message: "El encuentro no pudo ser programado porque ya tienes un encuentro pendiente con este equipo."
+
+                },{
+                    type: 'danger',
+                    timer: 3000,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
+                
+            }
             
         });
          

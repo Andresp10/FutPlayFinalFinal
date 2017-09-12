@@ -411,6 +411,31 @@ public class notificacion extends HttpServlet {
                                                            +"</a>");
                                 
                             }
+                        }else if (notificacion.getTipo().equals("EncuentroConfirmado")) {
+                            
+                            System.out.println("MIRANDO LA NOTIFICACION ENCUENTRO CONFIRMADO");
+                            
+                            Query queryPropietario = sesion.createQuery("FROM Propietario WHERE idPropietario = "+notificacion.getPropietarioEnvia()+"");
+                            List<Propietario>listaPropietario = queryPropietario.list();
+                            for (Propietario propietario : listaPropietario) {
+                                
+                                String fecha [] = notificacion.getFecha().toString().split(" ");
+                                String contenidoNot[] = notificacion.getDatosAdicionales().split("/");
+                                
+                                response.getWriter().write("<a href='#' class='NotificationP'>"
+                                                                +"<div class='Notification-iconP'>"
+                                                                    +"<i class='material-icons' style='background-color: #FF9800; font-size: 25px;'>flash_on</i>"
+                                                                +"</div>"
+                                                                +"<div class='Notification-textP' style='margin-left: 70px;'>"
+                                                                    +"<p style='padding-top: 10px;'>"
+                                                                        +"<strong class='description'>El propietario del campo ha aceptado el encuentro.</strong><br>"
+                                                                        +"<small>"+fecha[0]+"</small>"    
+                                                                    +"</p>"
+                                                                +"</div>"
+                                                           +"</a>");
+                                
+                            }
+                            
                         }
                     }
                 
@@ -552,7 +577,7 @@ public class notificacion extends HttpServlet {
                             
                             for(Equipo eq : listaEquipo2){
                             
-                                response.getWriter().write("<a href='#' data-toggle='modal' data-target='#noticeModal' id='"+notificacion.getDatosAdicionales()+"' class='NotificationP'>"
+                                response.getWriter().write("<a href='/FutPlayFinal/material-dashboard/pages/cancha/administrarCanchas.jsp' id='"+notificacion.getDatosAdicionales()+"' class='NotificationP'>"
                                                                 +"<div class='Notification-iconP'>"
                                                                     +"<i class='material-icons' style='background-color: #FF9800; font-size: 25px;'>flash_on</i>"
                                                                 +"</div>"
@@ -563,7 +588,7 @@ public class notificacion extends HttpServlet {
                                                                     +"</p>"
                                                                 +"</div>"
                                                            +"</a>"
-                                                           + "<div class='modal fade' id='noticeModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none'>"
+                                                           /*+ "<div class='modal fade' id='noticeModal' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true' style='display: none'>"
                                                                 +"<div class='modal-dialog modal-notice'>"
                                                                     +"<div class='modal-content'>"
                                                                         +"<div class='modal-header'>"
@@ -584,7 +609,7 @@ public class notificacion extends HttpServlet {
                                                                         +"</div>"
                                                                     +"</div>"
                                                                 +"</div>"
-                                                            +"</div>");
+                                                            +"</div>"*/);
                                                                 
                                                             
                             }
@@ -648,6 +673,65 @@ public class notificacion extends HttpServlet {
             System.err.println(ex);
         }
         
+    }
+    ////////////////////funcion listar encuentros pendientes//////////////////////////
+    public List<Notificacion> listarEncuentroPendientes(int idProp){
+        
+        List<Notificacion> listaNotificacion= null;
+        
+        try{
+            Session sesion = HibernateUtil.getSessionFactory().openSession();
+            Query query = sesion.createQuery("FROM Notificacion WHERE PropietarioRecibe = "+idProp+"");
+            listaNotificacion = query.list();
+            
+        }
+        catch(Exception ex){
+            System.err.println(ex);
+        }
+        
+        return listaNotificacion;
+    }
+    
+    public List<Equipo> listEquipo1(int idProp){
+        List<Notificacion> listaEquipo1= null;
+        List<Equipo>listaEquipo = null;
+        try{
+            Session sesion = HibernateUtil.getSessionFactory().openSession();
+            Query query = sesion.createQuery("FROM Notificacion WHERE PropietarioRecibe = "+idProp+"");
+            listaEquipo1 = query.list();
+            for (Notificacion equipo : listaEquipo1) {
+                String contenidoNot[] = equipo.getDatosAdicionales().split("/");
+
+                Query queryEquipo1 = sesion.createQuery("FROM Equipo WHERE idEquipo = "+contenidoNot[1]+"");
+                listaEquipo = queryEquipo1.list();
+            }
+        }
+        catch(Exception ex){
+            System.err.println(ex);
+        }
+        
+        return listaEquipo; 
+    }
+    
+    public List<Equipo> listEquipo2(int idProp){
+        List<Notificacion> listaEquipo2;
+        List<Equipo>listaEquipo = null;
+        try{
+            Session sesion = HibernateUtil.getSessionFactory().openSession();
+            Query query = sesion.createQuery("FROM Notificacion WHERE PropietarioRecibe = "+idProp+"");
+            listaEquipo2 = query.list();
+            for (Notificacion equipo : listaEquipo2) {
+                String contenidoNot[] = equipo.getDatosAdicionales().split("/");
+
+                Query queryEquipo1 = sesion.createQuery("FROM Equipo WHERE idEquipo = "+contenidoNot[2]+"");
+                listaEquipo = queryEquipo1.list();
+            }
+        }
+        catch(Exception ex){
+            System.err.println(ex);
+        }
+        
+        return listaEquipo; 
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

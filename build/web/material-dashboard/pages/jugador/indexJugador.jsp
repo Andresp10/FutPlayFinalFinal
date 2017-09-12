@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>FutPlay - Inicio</title>
-        <%@include file="../includes/importsCSS.jsp" %>
+        <%@include file="../includes/importsCSS.jsp"%>
     </head>
     <body>
         <div class="wrapper">

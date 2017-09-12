@@ -55,6 +55,9 @@ public class canchas extends HttpServlet {
                 case "getCanchasCalendar":
                     getCanchasCalendar(request,response);
                     break;
+                case "getAll":
+                    getAll(request,response);
+                    break;
             }
         }
     }
@@ -133,12 +136,26 @@ public class canchas extends HttpServlet {
         
     }
     
-    public List<Canchas> getAll(int idcampo){
+   protected void getAll(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String idcampo = request.getParameter("idcampo");
+        JSONArray jsonCanchas1 = new JSONArray();
+        JSONArray jsonCanchas2 = new JSONArray();
+        JSONArray jsonCanchas3 = new JSONArray();
+        JSONObject jsonCanchas = new JSONObject();
         List<Canchas> listCancha = null;
         Session s = HibernateUtil.getSessionFactory().openSession();
         Query q = s.createQuery("FROM Canchas WHERE Campo ="+idcampo+"");
         listCancha=q.list();
-        return listCancha;
+        for (Canchas ch : listCancha) {
+            jsonCanchas1.add(ch.getIdCancha());
+            jsonCanchas2.add(ch.getNumero());
+            jsonCanchas3.add(ch.getTipo_Cancha());
+        }
+        jsonCanchas.put("idcancha", jsonCanchas1);
+        jsonCanchas.put("numerocancha", jsonCanchas2);
+        jsonCanchas.put("tipocancha", jsonCanchas3);
+        response.getWriter().write(jsonCanchas.toJSONString());
     }
     
     protected void getCanchasCalendar(HttpServletRequest request, HttpServletResponse response)
@@ -161,9 +178,8 @@ public class canchas extends HttpServlet {
     protected void checkCanchas(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String rt="0";
-        String idcampo = request.getParameter("idcampo");
         Session s = HibernateUtil.getSessionFactory().openSession();
-        Query q = s.createQuery("FROM Canchas WHERE Campo = '"+idcampo+"'");
+        Query q = s.createQuery("FROM Canchas");
         List<Canchas> listCan = q.list();
         if(listCan.size()>0){
             rt="1";
@@ -236,19 +252,38 @@ public class canchas extends HttpServlet {
     protected void eliminarEvento(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
-            int id = Integer.valueOf(request.getParameter("idevento"));
-            Calendar cal = new Calendar();
-            cal.setId(id);
-            Session s = HibernateUtil.getSessionFactory().openSession();
-            try{
-                s.beginTransaction();
-                s.delete(cal);
-                s.getTransaction().commit();
-                s.close();
-                response.getWriter().write("1");
+            String id = request.getParameter("idevento");
+            String id2[] = id.split("_fc");
+            if(id2[0].equals("")){
+                Calendar cal = new Calendar();
+                cal.setId(Integer.valueOf(id2[1]));
+                Session s = HibernateUtil.getSessionFactory().openSession();
+                try{
+                    s.beginTransaction();
+                    s.delete(cal);
+                    s.getTransaction().commit();
+                    s.close();
+                    response.getWriter().write("1");
+                }
+                catch(IOException | HibernateException ex){
+                    response.getWriter().write("0");
+                }
             }
-            catch(IOException | HibernateException ex){
-                response.getWriter().write("0");
+            else{
+                int id3 = Integer.valueOf(request.getParameter("idevento"));
+                Calendar cal = new Calendar();
+                cal.setId(id3);
+                Session s = HibernateUtil.getSessionFactory().openSession();
+                try{
+                    s.beginTransaction();
+                    s.delete(cal);
+                    s.getTransaction().commit();
+                    s.close();
+                    response.getWriter().write("1");
+                }
+                catch(IOException | HibernateException ex){
+                    response.getWriter().write("0");
+                }
             }
         }
         catch(IOException | NumberFormatException | HibernateException ex){
