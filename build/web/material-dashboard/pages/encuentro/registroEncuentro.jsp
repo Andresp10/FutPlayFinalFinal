@@ -161,7 +161,10 @@
                                                                         <div class="icon icon-rose">
                                                                             <img class="avatar" src="../../assets/img/canchas/<%=LCampo.getFoto()%>" style="width: 120px;height: 120px;">
                                                                         </div>
-                                                                        <h3 class="card-title"><%=LCampo.getUbicacion()%></h3>
+                                                                        <!--<h3 class="card-title"><%=LCampo.getUbicacion()%></h3>-->
+                                                                        <a href="#mapModal" class="btn btn-primary btn-simple btnMapCampo" rel="tooltip" data-placement="bottom" title="Ubicacion" value="<%=LCampo.getUbicacion()%>">
+                                                                            <i class="material-icons" style="font-size: 25px;">location_on</i>
+                                                                        </a>
                                                                         <p class="card-description"><%=LCampo.getDireccion()%></p>
                                                                         <div class="radio">
                                                                             <label>
@@ -176,6 +179,25 @@
                                                         </div>
                                                          <%}%>
                                                   
+                                                    </div>
+                                                </div>
+                                                <!-- Modal de la localizacion -->
+                                                <div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                                    <i class="material-icons">clear</i>
+                                                                </button>
+                                                                <h4 class="modal-title">Ubicación</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div style="width: 100%; height: 300px;" id="map-canvas" class="loading"></div>
+                                                            </div>
+                                                            <div class="modal-footer">
+
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

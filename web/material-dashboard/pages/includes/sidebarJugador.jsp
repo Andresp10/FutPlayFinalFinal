@@ -17,7 +17,7 @@
                 System.out.println("EEEEEEEEESTA CONTINUANDO 000000000000000000000000000000000");
                 
             %>
-            <div class="sidebar" data-active-color="red" data-background-color="black" data-image="../../assets/img/sidebar-1.jpg">
+            <div class="sidebar" data-active-color="red" data-background-color="black" data-image="/FutPlayFinal/GaiaTemplate/assets/img/campofooter.jpg">
                 <div class="logo">
                     <a href="/FutPlayFinal/material-dashboard/pages/jugador/indexJugador.jsp" class="simple-text">
                         FutPlay

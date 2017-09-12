@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -73,8 +74,10 @@ public class usuario extends HttpServlet {
             
             try{
             
+                String contraseniaEncriptada = DigestUtils.sha512Hex(contrasenia);
+                
                 Session sesion = HibernateUtil.getSessionFactory().openSession();
-                Persona objPersona = new Persona(0, nombre, apellido, fechaNacimiento, telefono, genero, correo, contrasenia, avatar);
+                Persona objPersona = new Persona(0, nombre, apellido, fechaNacimiento, telefono, genero, correo, contraseniaEncriptada, avatar);
                 sesion.beginTransaction();
                 sesion.save(objPersona);
                 sesion.getTransaction().commit();
