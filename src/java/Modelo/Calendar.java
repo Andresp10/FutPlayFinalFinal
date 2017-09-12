@@ -29,19 +29,35 @@ public class Calendar implements Serializable{
     @Column(name="color")
     private String color;
     
+    @Column(name = "Marcador")
+    private String Marcador;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campo")
     private Campos campo;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Equipo_A")
+    private Campos Equipo_A;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Equipo_B")
+    private Campos Equipo_B;
 
     public Calendar() {
+        
     }
 
-    public Calendar(int id, String title, String start, String end, String color) {
+    public Calendar(int id, String title, String start, String end, String color, String Marcador, Campos campo, Campos Equipo_A, Campos Equipo_B) {
         this.id = id;
         this.title = title;
         this.start = start;
         this.end = end;
         this.color = color;
+        this.Marcador = Marcador;
+        this.campo = campo;
+        this.Equipo_A = Equipo_A;
+        this.Equipo_B = Equipo_B;
     }
 
     public int getId() {
@@ -84,6 +100,14 @@ public class Calendar implements Serializable{
         this.color = color;
     }
 
+    public String getMarcador() {
+        return Marcador;
+    }
+
+    public void setMarcador(String Marcador) {
+        this.Marcador = Marcador;
+    }
+
     public Campos getCampo() {
         return campo;
     }
@@ -91,7 +115,21 @@ public class Calendar implements Serializable{
     public void setCampo(Campos campo) {
         this.campo = campo;
     }
-    
-    
+
+    public Campos getEquipo_A() {
+        return Equipo_A;
+    }
+
+    public void setEquipo_A(Campos Equipo_A) {
+        this.Equipo_A = Equipo_A;
+    }
+
+    public Campos getEquipo_B() {
+        return Equipo_B;
+    }
+
+    public void setEquipo_B(Campos Equipo_B) {
+        this.Equipo_B = Equipo_B;
+    }
     
 }

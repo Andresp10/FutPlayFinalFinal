@@ -54,11 +54,10 @@ public class inicio extends HttpServlet {
             String Contrasenia = request.getParameter("pass");
             try{
                 
-                String textoEncriptadp = DigestUtils.md5Hex(Contrasenia);
-                System.out.println("---------- contaseña encriptada : " + textoEncriptadp);
+                String contraseniaEncriptada = DigestUtils.sha512Hex(Contrasenia);
 
                 Session sesion = HibernateUtil.getSessionFactory().openSession();
-                Query query = sesion.createQuery("FROM Persona WHERE Correo='"+Email+"' AND Contrasenia='"+Contrasenia+"'");
+                Query query = sesion.createQuery("FROM Persona WHERE Correo='"+Email+"' AND Contrasenia='"+contraseniaEncriptada+"'");
 
                 List<Persona> listaPersona = query.list();
 
