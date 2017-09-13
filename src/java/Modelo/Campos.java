@@ -29,8 +29,8 @@ public class Campos implements Serializable{
     @Column(name = "Horario")
     private String Horario;
     
-    @Column(name = "Like")
-    private String Like;
+    @Column(name = "Likee")
+    private String Likee;
     
     @Column(name = "Dislike")
     private String Dislike;
@@ -45,19 +45,18 @@ public class Campos implements Serializable{
     public Campos() {
     }
 
-    public Campos(int idCampo, String Nombre, String Direccion, String Ubicacion, String Horario, String Like, String Dislike, String Foto, Propietario Propietario) {
+    public Campos(int idCampo, String Nombre, String Direccion, String Ubicacion, String Horario, String Likee, String Dislike, String Foto, Propietario Propietario) {
         this.idCampo = idCampo;
         this.Nombre = Nombre;
         this.Direccion = Direccion;
         this.Ubicacion = Ubicacion;
         this.Horario = Horario;
-        this.Like = Like;
+        this.Likee = Likee;
         this.Dislike = Dislike;
         this.Foto = Foto;
         this.Propietario = Propietario;
     }
 
-    
     public int getIdCampo() {
         return idCampo;
     }
@@ -98,6 +97,22 @@ public class Campos implements Serializable{
         this.Horario = Horario;
     }
 
+    public String getLike() {
+        return Likee;
+    }
+
+    public void setLike(String Like) {
+        this.Likee = Like;
+    }
+
+    public String getDislike() {
+        return Dislike;
+    }
+
+    public void setDislike(String Dislike) {
+        this.Dislike = Dislike;
+    }
+
     public String getFoto() {
         return Foto;
     }
@@ -110,24 +125,9 @@ public class Campos implements Serializable{
         return Propietario;
     }
 
-    public String getLike() {
-        return Like;
-    }
-
-    public void setLike(String Like) {
-        this.Like = Like;
-    }
-
-    public String getDislike() {
-        return Dislike;
-    }
-
-    public void setDislike(String Dislike) {
-        this.Dislike = Dislike;
-    }
-
     public void setPropietario(Propietario Propietario) {
         this.Propietario = Propietario;
     }
+    
     
 }

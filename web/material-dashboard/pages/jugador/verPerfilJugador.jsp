@@ -32,10 +32,13 @@
                                         int dislike = 0;
                                         double rankingUsuariosFinal=0;
                                         
-                                        String [] calificado = objJugador.getRankingUsers().split("/");
+                                        String calificado [] = objJugador.getRankingUsers().split("/");
+                                        System.out.println("EEEEEEEERRRRRROOOOOORRRRR VER PERFIL JUGADOR °°°°°°° ---> " + calificado[0]);
+                                        if (calificado[0].equals("")) {
+                                            System.out.println("entró");
+                                        }else{
                                         
-                                        if (calificado[0] != "") {
-
+                                            System.out.println("no entro");
                                             for (int i = 0; i < calificado.length; i++) {
 
                                                 String[] ranking = calificado[i].split("~");

@@ -5,6 +5,7 @@
  */
 package Controlador;
 
+import Modelo.Encuentros;
 import Modelo.Equipo;
 import Modelo.HibernateUtil;
 import Modelo.Jugador;
@@ -61,6 +62,9 @@ public class equipo extends HttpServlet {
                     break;
                 case "listarEquipo":
                     ListarEquipo(request, response);
+                    break;
+                case "equipossobresalientes":
+                    mostrarEquiposSobresalientes(request, response);
                     break;
                     
             }
@@ -413,6 +417,81 @@ public class equipo extends HttpServlet {
             System.out.println(ex);
         }
         return listE;
+    }
+    
+    //////////////// MOSTRAR LOS EQUIPOS SOBRESALIENTES O EN SU DEFECTO LOS 10 PRIMEROS EQUIPOS ////////////////////////
+    public void mostrarEquiposSobresalientes(HttpServletRequest request, HttpServletResponse response){
+    
+        try{
+            System.out.println("MOSTRAR LOS EQUIPOS SOBRESALIENTES O EN SU DEFECTO LOS 10 PRIMEROS EQUIPOS ////////////////////////");
+            Session sesion = HibernateUtil.getSessionFactory().openSession();
+            Query query = sesion.createQuery("FROM Equipo");
+            query.setMaxResults(10);
+            List<Equipo>listaEquipo = query.list();
+            for(Equipo equipo : listaEquipo){
+            
+                
+                //////// CODIGO EN ESPERA POR LA TABLA ENCUENTRO O CALENDAR ///////////////
+                /*int estrellas = 0;
+                
+                Query queryEncuentrosEquipo = sesion.createQuery("FROM Encuentro WHERE Equipo_A = "+equipo.getIdEquipo()+" OR Equipo_B = "+equipo.getIdEquipo()+"");
+                List<Encuentros>listaEncuentros = queryEncuentrosEquipo.list();
+                if (listaEncuentros.size() > 0) {
+                    
+                    for(Encuentros encuentro : listaEncuentros){
+                    
+                        if (true) {
+                            
+                        }
+                    
+                    }
+                    
+                }else{
+                
+                
+                }*/
+                
+                Query queryCapitan = sesion.createQuery("FROM Jugador WHERE idJugador = "+equipo.getCapitan()+"");
+                List<Jugador>listaJugador = queryCapitan.list();
+                for(Jugador jugador : listaJugador){
+                
+                    response.getWriter().write("<div class='col-lg-4'>"
+                                                    +"<div class='card card-pricing card-raised'>"
+                                                        +"<div class='content'>"
+                                                            +"<h3 class=''>"+equipo.getNombre()+"</h3>"
+                                                            +"<div class='icon icon-rose'>"
+                                                                +"<div class='col-sm-4'>"
+                                                                    +"<div class='choice' data-toggle='wizard-radio' style='background-color: #999999; width: 130px; height: 130px; color: white; border-radius: 50%;'>"
+                                                                        +"<div class='icon text-center'>"
+                                                                            +"<h1 style='color: white;'>8</h1>"
+                                                                        +"</div>"
+                                                                    +"</div>"
+                                                                +"</div>"
+                                                            +"</div>"
+                                                            +"<h5 class='card-title category'>"+jugador.getAlias()+"</h5>"
+                                                            +"<h5 class='category'>"+equipo.getCiudad()+"</h5><br>"
+                                                            +"<i class='material-icons' style='font-size: 30px; color: #d8bb21'>stars</i>"
+                                                            +"<i class='material-icons' style='font-size: 30px; color: #d8bb21'>stars</i>"
+                                                            +"<i class=\"material-icons\" style=\"font-size: 30px; color: #d8bb21\">stars</i>"
+                                                            +"<i class=\"material-icons\" style=\"font-size: 30px; color: #999999\">stars</i>"
+                                                            +"<i class=\"material-icons\" style=\"font-size: 30px; color: #999999\">stars</i>"
+                                                            +"<br><br>"
+                                                            //+"<a href=\"/FutPlayFinal/jugador/verjugador/1\" class=\"btn btn-danger btn-round\">Ver perfil</a>"
+                                                        +"</div>"
+                                                    +"</div>"
+                                                +"</div>");
+                
+                }
+                
+            }
+            sesion.close();
+            
+        }catch(HibernateException ex){
+            System.err.println(ex);
+        }catch(Exception ex){
+            System.err.println(ex);
+        }
+    
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

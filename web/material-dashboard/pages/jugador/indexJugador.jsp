@@ -57,7 +57,7 @@
                                                 <i class="material-icons" style="font-size: 25px;">replay</i>
                                                 <div class="ripple-container"></div>
                                             </a>
-                                            <a href="#" class="btn btn-default btn-simple btn-success" rel="tooltip" data-placement="bottom" title="" data-original-title="Ver equipos">
+                                            <a href="../equipo/equiposSobresalientes.jsp" class="btn btn-default btn-simple btn-success" rel="tooltip" data-placement="bottom" title="" data-original-title="Ver equipos">
                                                 <i class="material-icons" style="font-size: 25px;">remove_red_eye</i>
                                                 <div class="ripple-container"></div>
                                             </a>
@@ -85,7 +85,7 @@
                                                 <i class="material-icons" style="font-size: 25px;">replay</i>
                                                 <div class="ripple-container"></div>
                                             </a>
-                                            <a href="#" class="btn btn-default btn-simple btn-success" rel="tooltip" data-placement="bottom" title="" data-original-title="Ver campos">
+                                            <a href="../campo/camposSobresalientes.jsp" class="btn btn-default btn-simple btn-success" rel="tooltip" data-placement="bottom" title="" data-original-title="Ver campos">
                                                 <i class="material-icons" style="font-size: 25px;">remove_red_eye</i>
                                                 <div class="ripple-container"></div>
                                             </a>

@@ -1687,3 +1687,90 @@ $('.btnCampo').on('click',function(e){
      });
      
  }
+ //////////////////// MOSTRAR LA UBICACION DEL CAMPO EN EL REGISTRO DEL ENCUENTRO ///////////////////////
+ function verUbicacionCampos (ubicacion){
+    var coordenadas = ubicacion.split("/");
+    $("#mapModal").modal("show");
+    $('#map-canvas').addClass('loading');    
+    var latlng = new google.maps.LatLng(coordenadas[0] ,coordenadas[1]); 
+    var settings = {
+        zoom: 16,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: false,
+        scrollwheel: false,
+        draggable: true,
+        styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}],
+        mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+        navigationControl: false,
+        navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},           
+    };
+    var map = new google.maps.Map(document.getElementById("map-canvas"), settings);
+
+    google.maps.event.addDomListener(map, "load", function() {
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "load");
+        map.setCenter(center);
+        $('#map-canvas').removeClass('loading');
+    });
+
+
+    var campoImage = new google.maps.MarkerImage('/FutPlayFinal/material-dashboard/assets/img/map-marker.png',
+        new google.maps.Size(36,62),
+        new google.maps.Point(0,0),
+        new google.maps.Point(18,52)
+    );
+
+    var campoPos = new google.maps.LatLng(coordenadas[0],coordenadas[1]);
+
+    var campoMarker = new google.maps.Marker({
+        position: campoPos,
+        map: map,
+        icon: campoImage,
+        title:"Shapeshift Interactive",
+        zIndex: 3
+    });
+     
+ }
+ ////////////////////// MOSTRAR LOS EQUIPOS SOBRESALIENTES /////////////////////////
+ function mostrarEquiposSobresaliente(){
+     
+     $.post("/FutPlayFinal/equipo/equipossobresalientes",function (responseText){
+         
+         
+        if (responseText == "1") {
+            
+            $.notify({
+                    icon: "perm_identity",
+                    message: "El encuentro no pudo ser programado porque ya tienes un encuentro pendiente con este equipo."
+
+                },{
+                    type: 'danger',
+                    timer: 3000,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
+            
+        }else if (responseText == "2") {
+            
+        }else{
+            
+            $("#contenidoEquipoSobresalientes").html(responseText);   
+            
+        }
+         
+         
+     });
+ }
+ //////////////////// MOSTRAR LOS CAMPOS SOBRESALIENTES /////////////////////////////
+ function mostrarCamposSobresalientes(){
+     
+     $.post("/FutPlayFinal/campo/sdfdfdfs",function (responseText){
+        
+         
+         
+     });
+     
+ }
