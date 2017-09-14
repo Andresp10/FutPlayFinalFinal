@@ -120,13 +120,7 @@ public class usuario extends HttpServlet {
             Persona objPersona = (Persona) request.getSession().getAttribute("UsuarioIngresado");
             String nombre = request.getParameter("UNombre");
             String apellido = request.getParameter("UApellido");
-<<<<<<< HEAD
-            //String fechaNacimiento = request.getParameter("UFechaNacimiento");
             String telefono = request.getParameter("UTelefono");
-=======
-            String fechaNacimiento = request.getParameter("UFechaNacimiento");
-            String telefono = request.getParameter("UTelefono");    
->>>>>>> dcc2f4926d721c61d17c5d8868fe4434d9ab10b9
             String genero = request.getParameter("UGenero");
             //String correo = request.getParameter("UCorreo");
             //String contrasenia = request.getParameter("UContrasenia");

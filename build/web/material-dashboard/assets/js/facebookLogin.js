@@ -1,45 +1,3 @@
-<<<<<<< HEAD
-window.fbAsyncInit = function() {
-    FB.init({
-      appId            : '147631892478300',
-      autoLogAppEvents : true,
-      xfbml            : true,
-      version          : 'v2.10'
-    });
-    
-    FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-    });
-      
-  };
-
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-  
-  function statusChangeCallback(response){
-      if(response.status === "connected"){
-          alert("yes");
-      }
-      else{
-          alert("no");
-      }
-  }
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/all.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-   
-  $("#loginBtn").on("click",function(){
-    FB.login(function(response) {
-        statusChangeCallback(response);
-    });
-=======
 window.fbAsyncInit = function() {
     FB.init({
       appId            : '147631892478300',
@@ -167,5 +125,4 @@ window.fbAsyncInit = function() {
     FB.login(function(response) {
         statusChangeCallback(response);
     },{scope: 'public_profile,email,user_birthday'});
->>>>>>> dcc2f4926d721c61d17c5d8868fe4434d9ab10b9
   });
