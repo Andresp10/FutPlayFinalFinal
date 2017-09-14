@@ -39,7 +39,7 @@
                         <!--      Wizard container        -->
                         <div class="wizard-container">
                             <div class="card wizard-card" data-color="red" id="wizardProfile">
-                                <form action="" method="" novalidate="novalidate" id="frmJugadorFB">
+                                <form action="" method="post" novalidate="novalidate" id="frmJugadorFB">
                                     <!--        You can switch " data-color="purple" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
                                     <div class="wizard-header">
                                         <h3 class="wizard-title">
@@ -170,7 +170,7 @@
                                     <div class="wizard-footer">
                                         <div class="pull-right">
                                             <input type="button" class="btn btn-next btn-fill btn-danger btn-wd" name="next" value="Siguiente">
-                                            <input type="submit" class="btn btn-finish btn-fill btn-danger btn-wd btnRegistrarJugadorFB" name="finish" value="Finalizar" style="display: none;">
+                                            <input type="submit" class="btn btn-finish btn-fill btn-danger btn-wd" name="finish" value="Finalizar" style="display: none;">
                                         </div>
                                         <div class="pull-left">
                                             <input type="button" class="btn btn-previous btn-fill btn-default btn-wd disabled" name="previous" value="Volver">
@@ -213,7 +213,7 @@
                     <p class="copyright pull-right">
                         &copy;
                         <script>
-                            document.write(new Date().getFullYear())
+                            document.write(new Date().getFullYear());
                         </script>
                         <a href="#">FutPlay Team</a>, hecho con amor
                     </p>
@@ -227,6 +227,26 @@
             font-size:12px;
         }
     </style>
+    <input type="text" hidden="" id="unombre"/>
+    <input type="text" hidden="" id="uapellido"/>
+    <input type="text" hidden="" id="ufecha"/>
+    <input type="text" hidden="" id="utelefono"/>
+    <input type="text" hidden="" id="ugenero"/>
+    <input type="text" hidden="" id="ucorreo"/>
+    <input type="text" hidden="" id="ucontrasenia"/>
+    <input type="text" hidden="" id="uavatar"/>
     <%@include file="../includes/importsJS.jsp"%>
+    <script type="text/javascript">
+        var data = localStorage.getItem('JSONFacebook');
+        var dt = JSON.parse(data);
+        $("#unombre").val(dt.UNombre);
+        $("#uapellido").val(dt.UApellido);
+        $("#ufecha").val(dt.UFechaNacimiento);
+        $("#utelefono").val(dt.UTelefono);
+        $("#ugenero").val(dt.genero);
+        $("#ucorreo").val(dt.UCorreo);
+        $("#ucontrasenia").val(dt.UContrasenia);
+        $("#uavatar").val(dt.UAvatar);
+    </script>
 </body>
 </html>

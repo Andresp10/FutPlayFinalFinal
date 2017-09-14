@@ -20,7 +20,7 @@ window.fbAsyncInit = function() {
   
   function statusChangeCallback(response){
       if(response.status === "connected"){
-          FB.api("/me?fields=first_name,last_name,email,birthday,gender,picture",function(response){
+          FB.api("/me", { access_token : response.authResponse.accessToken },{fields: ['first_name', 'last_name', 'email', 'birthday', 'gender', 'picture.width(300).height(300)']},function(response){
              if(response && !response.error){
                 $.ajax({
                    url:"/FutPlayFinal/inicio/facebook",
@@ -28,7 +28,6 @@ window.fbAsyncInit = function() {
                    dataType:"json",
                    data:{email:response.email},
                    complete:function(data){
-                        console.log(data);
                         if(data.responseText==="1"){
                             window.location.href = "/FutPlayFinal/material-dashboard/pages/propietario/indexPropietario.jsp";
                         }
@@ -38,6 +37,7 @@ window.fbAsyncInit = function() {
                         else{
                             $("#modalRuta").modal("show");
                             $(".btnPropFacebook").on("click",function(){
+                                alert(response.email);
                                 var gender = response.gender;
                                 var genero="";
                                 if(gender==="male"){
@@ -85,25 +85,26 @@ window.fbAsyncInit = function() {
                                 var gender = response.gender;
                                 var genero="";
                                 if(gender==="male"){
-                                    genero="Masculino";
+                                    genero = "Masculino";
                                 }
-                                else{
-                                    genero="Femenino";
+                                else if(gender==="female"){
+                                    genero = "Femenino";
                                 }
-                               $.ajax({
-                                  url:"/FutPlayFinal/usuario/registrar",
-                                  method:"post",
-                                  dataType:"json",
-                                  data:{UNombre:response.first_name,UApellido:response.last_name,UFechaNacimiento:response.birthday,UTelefono:"",UGenero:genero,UCorreo:response.email,UContrasenia:"",UAvatar:response.picture.data.url},
-                                  success: function(data){
-                                      if(data>"0"){
-                                          window.location.href = "/FutPlayFinal/material-dashboard/jugador/completarPerfilFB.jsp";
-                                      }
-                                      else{
-                                          swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
-                                      }
-                                  }
-                               });
+                                else if(gender==="Hombre"){
+                                    genero = "Masculino";
+                                }
+                                else if(gender==="Mujer"){
+                                    genero = "Femenino";
+                                }
+                                var UNombre = response.first_name;
+                                var UApellido = response.last_name;
+                                var UFechaNacimiento = response.birthday;
+                                var UTelefono = "";
+                                var UCorreo = response.email;
+                                var UContrasenia = "";
+                                var UAvatar = response.picture.data.url;
+                                localStorage.setItem('JSONFacebook', JSON.stringify({UNombre:UNombre,UApellido:UApellido,UFechaNacimiento:UFechaNacimiento,UTelefono:UTelefono,UCorreo:UCorreo,UContrasenia:UContrasenia,UAvatar:UAvatar,genero:genero}));
+                                window.location.href = "/FutPlayFinal/material-dashboard/pages/jugador/completarPerfilFB.jsp";
                             });
                         }
                    }

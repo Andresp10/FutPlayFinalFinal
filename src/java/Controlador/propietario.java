@@ -44,15 +44,16 @@ public class propietario extends HttpServlet {
             Persona person = new Persona();
             Propietario prop = new Propietario();
             String correo = request.getParameter("UCorreo");
-            Query q = s.createQuery("FROM Persona WHERE Correo = '"+correo+"'");
+            Query q = s.createQuery("FROM Persona WHERE Correo = :emailParam");
+            q.setParameter("emailParam", correo);
             List<Persona> listPe = q.list();
             for (Persona pr : listPe) {
                 person.setIdPersona(pr.getIdPersona());
                 Query q2 = s.createQuery("FROM Propietario WHERE Persona = "+pr.getIdPersona()+"");
                 List<Propietario> listProp = q2.list();
-                for (Propietario prp : listProp) {
-                    prop.setIdPropietario(prp.getIdPropietario());
-                }
+                //for (Propietario prp : listProp) {
+                    person.setIdPersona(pr.getIdPersona());
+                //}
             }
             prop.setPersona(person);
             s.beginTransaction();

@@ -147,12 +147,6 @@ public class inicio extends HttpServlet {
                             response.getWriter().write("1");
                         }
                     }
-                    else{
-                        response.setContentType("application/json");
-                        response.getWriter().write("0");
-                    }
-                }
-                else{
                     Query q3 = s.createQuery("FROM Jugador WHERE Persona = "+pr.getIdPersona()+"");
                     List<Jugador> listJu = q3.list();
                     if(listJu.size()>0){
@@ -161,12 +155,11 @@ public class inicio extends HttpServlet {
                             request.getSession().setAttribute("JugadorIngresado", jug);
                             response.setContentType("application/json");
                             response.getWriter().write("2");
-                        }
+                        }   
                     }
-                    else{
-                        response.setContentType("application/json");
-                        response.getWriter().write("0");
-                    }
+                }
+                else{
+                    response.getWriter().write("0");
                 }
             }
         }

@@ -5,16 +5,7 @@ $(document).ready(function(){
           autoLogAppEvents : true,
           xfbml            : true,
           version          : 'v2.10'
-        });
-
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "https://connect.facebook.net/en_US/all.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk')); 
-
+        }); 
     };
 /////////////////////Funcion para animar los tabs de los formularios//////////////
     function refreshAnimation($wizard, index){
@@ -800,10 +791,6 @@ $(document).ready(function(){
             }                    
         }); 
     });
-    $("#tblCanchas").children("tr").children("td").children("button").addClass("pene");
-    $(".pene").on("click",function(){
-       alert("hi"); 
-    });
 /////////////////////////////////Peticion de ajax para eliminar una cancha///////////////////////////////
     $(".btnEliminarCancha").on("click",function(e){
         e.preventDefault();
@@ -875,7 +862,11 @@ $(document).ready(function(){
         });
     });
 ///////////////////////////////////Funcion para cerrar sesion//////////////////////////////////
-
+    function logout(){
+        FB.logout(function(response){
+            
+        });
+    }
     $("#btnCerrarSesion").on("click",function(){
        swal({
            title:"Advertencia",
@@ -888,12 +879,12 @@ $(document).ready(function(){
            confirmButtonText:"Sí",
            confirmButtonColor:"#DD6B55",
            preConfirm:function(){
+               logout();
                return new Promise(function (resolve) {  
                  $.ajax({
                     url:"/FutPlayFinal/inicio/cerrar"
                  }).done(function(data){
                      resolve();
-
                  });   
                });  
            }
@@ -1104,6 +1095,14 @@ $(document).ready(function(){
     });
      
  });
+ 
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/all.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 });
 /////End of document ready//////
 function CargarNotificacionesPropietario (){
