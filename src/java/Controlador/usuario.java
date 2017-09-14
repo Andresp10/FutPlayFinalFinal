@@ -8,6 +8,7 @@ package Controlador;
 import Modelo.HibernateUtil;
 import Modelo.Persona;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -60,14 +61,16 @@ public class usuario extends HttpServlet {
     protected void registrarPersona(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         try{
+            //SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
             String nombre = request.getParameter("UNombre");
             String apellido = request.getParameter("UApellido");
-            Date fechaNacimiento = new Date(request.getParameter("UFechaNacimiento"));
+            //Date fechaNacimiento = formatter.parse(request.getParameter("UFechaNacimiento"));
             String telefono = request.getParameter("UTelefono");
             String genero = request.getParameter("UGenero");
             String correo = request.getParameter("UCorreo");
             String contrasenia = request.getParameter("UContrasenia");
             String avatar = request.getParameter("UAvatar");
+            System.out.println(correo);
             if(avatar.equals("")){
                 avatar="av.jpg";
             }
@@ -77,15 +80,12 @@ public class usuario extends HttpServlet {
                 String contraseniaEncriptada = DigestUtils.sha512Hex(contrasenia);
 
                 Session sesion = HibernateUtil.getSessionFactory().openSession();
-                Persona objPersona = new Persona(0, nombre, apellido, fechaNacimiento, telefono, genero, correo, contraseniaEncriptada, avatar);
+                Persona objPersona = new Persona(0, nombre, apellido, new Date(), telefono, genero, correo, contraseniaEncriptada, avatar);
                 sesion.beginTransaction();
                 sesion.save(objPersona);
                 sesion.getTransaction().commit();
                 sesion.close();
-                
-                
-                response.setCharacterEncoding("UTF-8");
-                response.setContentType("text/plain");
+                response.setContentType("application/json");
                 response.getWriter().write("1");
                 
                 /////////////////Sesion para continuar con el registro del jugador NO BORRAR/////////////////
@@ -120,8 +120,13 @@ public class usuario extends HttpServlet {
             Persona objPersona = (Persona) request.getSession().getAttribute("UsuarioIngresado");
             String nombre = request.getParameter("UNombre");
             String apellido = request.getParameter("UApellido");
+<<<<<<< HEAD
             //String fechaNacimiento = request.getParameter("UFechaNacimiento");
             String telefono = request.getParameter("UTelefono");
+=======
+            String fechaNacimiento = request.getParameter("UFechaNacimiento");
+            String telefono = request.getParameter("UTelefono");    
+>>>>>>> dcc2f4926d721c61d17c5d8868fe4434d9ab10b9
             String genero = request.getParameter("UGenero");
             //String correo = request.getParameter("UCorreo");
             //String contrasenia = request.getParameter("UContrasenia");
