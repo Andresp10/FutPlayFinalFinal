@@ -48,12 +48,18 @@ public class propietario extends HttpServlet {
             List<Persona> listPe = q.list();
             for (Persona pr : listPe) {
                 person.setIdPersona(pr.getIdPersona());
+                Query q2 = s.createQuery("FROM Propietario WHERE Persona = "+pr.getIdPersona()+"");
+                List<Propietario> listProp = q2.list();
+                for (Propietario prp : listProp) {
+                    prop.setIdPropietario(prp.getIdPropietario());
+                }
             }
             prop.setPersona(person);
             s.beginTransaction();
             s.save(prop);
             s.getTransaction().commit();
             s.close();
+            request.getSession().setAttribute("PropietarioIngresado", prop);
             response.getWriter().write("1");
         }
         catch(HibernateException ex){

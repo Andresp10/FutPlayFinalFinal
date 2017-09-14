@@ -476,71 +476,84 @@ var $validator = $('#frmJugador').validate({
                     data:{UCorreo:UCorreo}
                 }).done(function(data){
                    if(data>"0"){
-                       swal({
-                           title:"Advertencia",
-                           text:"¿Estas seguro de que todo tus datos son correctos?",
-                           type:"warning",
-                           showCancelButton:true,
-                           closeOnConfirm:false,
-                           showLoaderOnConfirm:true,
-                           cancelButtonText:"Cancelar",
-                           confirmButtonText:"Si",
-                           preConfirm: function(){
-                               setTimeout(function(){                                 
-                                   $.ajax({
-                                       url:"/FutPlayFinal/usuario/registrar",
-                                       method:"post",
-                                       data:{UNombre:UNombre,UApellido:UApellido,UFechaNacimiento:UFechaNacimiento,UTelefono:UTelefono,UGenero:UGenero,UCorreo:UCorreo,UContrasenia:UContrasenia,UAvatar:UAvatar},
-                                       complete: function(){
-                                           ////////Subir Avatar/////////
-                                            var data = new FormData();
-                                            $.each($('#avatarJugador')[0].files, function(i, file) {
-                                                data.append('file-'+i, file);
-                                            });
-                                            $.ajax({
-                                                url: '/FutPlayFinal/uploadAvatar',
-                                                data: data,
-                                                dataType: 'text',
-                                                processData: false,
-                                                contentType: false,
-                                                type: 'POST'
-                                            }); 
-                                           /////////Registrar jugador////////
-                                           var alias = $("#txtAliasJugador").val();
-                                           var posicion = $("#cmbPosicionJugador").val();
-                                           var pierna = $("#cmbPiernaJugador").val();
-                                           var descripcion = $("#txtDescripcionJugador").val();
-                                           var rankingSystem1 = $("#pregunta1").val();
-                                           var rankingSystem2 = $("#pregunta2").val();
-                                           var rankingSystem3 = $("#pregunta3").val();
-                                           $.ajax({
-                                              url:"/FutPlayFinal/jugador/registrar",
-                                              method:"post",
-                                              dataType:"json",
-                                              data:{UCorreo:UCorreo,Alias:alias,Posicion:posicion,Pierna:pierna,Descripcion:descripcion,rankingSystem1:rankingSystem1,rankingSystem2:rankingSystem2,rankingSystem3:rankingSystem3}
-                                           }).done(function(data){
-                                               console.log(data);
-                                               $.ajax({
-                                                  url:"/FutPlayFinal/notificacion/notificacionregistro"
-                                               });
-                                           });
-                                       }
-                                   }).done(function(data){
-                                       if(data>"0"){
-                                           swal({
-                                               title:"Bienvenido!",
-                                               text:"Ahora haces parte de la comunidad futplay inicia sesion y disfruta",
-                                               type:"success",
-                                               preConfirm: function(){
-                                                   window.location.href = "/FutPlayFinal/material-dashboard/pages/usuario/login.html";
-                                               }
-                                           });
-                                       }
-                                       else{
-                                           swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
-                                       }
-                                   });
-                               },2000);
+                       var alias = $("#txtAliasJugador").val();
+                       $.ajax({
+                          url:"/FutPlayFinal/jugador/verificarAlias",
+                          method:"post",
+                          dataType:"json",
+                          data:{alias:alias}
+                       }).done(function(data){
+                           if(data>"0"){
+                               swal({
+                                title:"Advertencia",
+                                text:"¿Estas seguro de que todo tus datos son correctos?",
+                                type:"warning",
+                                showCancelButton:true,
+                                closeOnConfirm:false,
+                                showLoaderOnConfirm:true,
+                                cancelButtonText:"Cancelar",
+                                confirmButtonText:"Si",
+                                preConfirm: function(){
+                                    setTimeout(function(){                                 
+                                        $.ajax({
+                                            url:"/FutPlayFinal/usuario/registrar",
+                                            method:"post",
+                                            data:{UNombre:UNombre,UApellido:UApellido,UFechaNacimiento:UFechaNacimiento,UTelefono:UTelefono,UGenero:UGenero,UCorreo:UCorreo,UContrasenia:UContrasenia,UAvatar:UAvatar},
+                                            complete: function(){
+                                                ////////Subir Avatar/////////
+                                                 var data = new FormData();
+                                                 $.each($('#avatarJugador')[0].files, function(i, file) {
+                                                     data.append('file-'+i, file);
+                                                 });
+                                                 $.ajax({
+                                                     url: '/FutPlayFinal/uploadAvatar',
+                                                     data: data,
+                                                     dataType: 'text',
+                                                     processData: false,
+                                                     contentType: false,
+                                                     type: 'POST'
+                                                 }); 
+                                                /////////Registrar jugador////////
+                                                var alias = $("#txtAliasJugador").val();
+                                                var posicion = $("#cmbPosicionJugador").val();
+                                                var pierna = $("#cmbPiernaJugador").val();
+                                                var descripcion = $("#txtDescripcionJugador").val();
+                                                var rankingSystem1 = $("#pregunta1").val();
+                                                var rankingSystem2 = $("#pregunta2").val();
+                                                var rankingSystem3 = $("#pregunta3").val();
+                                                $.ajax({
+                                                   url:"/FutPlayFinal/jugador/registrar",
+                                                   method:"post",
+                                                   dataType:"json",
+                                                   data:{UCorreo:UCorreo,Alias:alias,Posicion:posicion,Pierna:pierna,Descripcion:descripcion,rankingSystem1:rankingSystem1,rankingSystem2:rankingSystem2,rankingSystem3:rankingSystem3}
+                                                }).done(function(data){
+                                                    console.log(data);
+                                                    $.ajax({
+                                                       url:"/FutPlayFinal/notificacion/notificacionregistro"
+                                                    });
+                                                });
+                                            }
+                                        }).done(function(data){
+                                            if(data>"0"){
+                                                swal({
+                                                    title:"Bienvenido!",
+                                                    text:"Ahora haces parte de la comunidad futplay inicia sesion y disfruta",
+                                                    type:"success",
+                                                    preConfirm: function(){
+                                                        window.location.href = "/FutPlayFinal/material-dashboard/pages/usuario/login.html";
+                                                    }
+                                                });
+                                            }
+                                            else{
+                                                swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
+                                            }
+                                        });
+                                    },2000);
+                                }
+                            });
+                           }
+                           else{
+                               swal("Advertencia","El alias que ingresaste ya esta en uso","warning");
                            }
                        });
                    } 

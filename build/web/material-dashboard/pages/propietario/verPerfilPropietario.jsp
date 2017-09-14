@@ -29,7 +29,11 @@
                             <div class="card card-profile">
                                 <div class="card-avatar">
                                     <a href="#">
-                                        <img class="img" src="/FutPlayFinal/material-dashboard/assets/img/avatares/<%=objPropietario.getPersona().getAvatar()%>">
+                                        <%if(objPropietario.getPersona().getAvatar().length()>=100){%>
+                                            <img class="img" src="<%=objPropietario.getPersona().getAvatar()%>">
+                                        <%}else{%>
+                                            <img class="img" src="/FutPlayFinal/material-dashboard/assets/img/avatares/<%=objPropietario.getPersona().getAvatar()%>">
+                                        <%}%>
                                     </a>
                                 </div>
                                 <div class="card-content">

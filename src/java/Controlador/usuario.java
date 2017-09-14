@@ -121,7 +121,7 @@ public class usuario extends HttpServlet {
             System.out.println("------------------->pppppppppppppppppppppppeeeeeeeeeeerrrrrrrsssssssooooonnnnnnnnaaaaaa"+nombre);
             String apellido = request.getParameter("UApellido");
             String fechaNacimiento = request.getParameter("UFechaNacimiento");
-            String telefono = request.getParameter("UTelefono");
+            String telefono = request.getParameter("UTelefono");    
             String genero = request.getParameter("UGenero");
             String correo = request.getParameter("UCorreo");
             String contrasenia = request.getParameter("UContrasenia");

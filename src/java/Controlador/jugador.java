@@ -84,6 +84,9 @@ public class jugador extends HttpServlet {
                 case "dislikejugador":
                     dislikeJugador(request, response);
                     break;
+                case "verificarAlias":
+                    verificarAlias(request, response);
+                    break;
             }
         }
         
@@ -939,6 +942,19 @@ public class jugador extends HttpServlet {
         }
     
     
+    }
+    protected void verificarAlias(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+//        String alias = request.getParameter("alias");
+//        Session s = HibernateUtil.getSessionFactory().openSession();
+//        Query q = s.createQuery("FROM Jugador WHERE Alias = "+alias+"");
+//        List<Jugador> listJ = q.list();
+//        if(listJ.size()>0){
+//            response.getWriter().write("0");
+//        }
+//        else{
+//            response.getWriter().write("1");
+//        }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

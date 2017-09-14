@@ -39,7 +39,9 @@ public class inicio extends HttpServlet {
                     
                     break;
                     
-                default:
+                case "facebook":
+                    inicioFacebook(request, response);
+                    break;
             }
             
         }
@@ -122,6 +124,55 @@ public class inicio extends HttpServlet {
         catch(Exception ex){
             response.getWriter().write("0");
             System.out.println("Error "+ex);
+        }
+    }
+    
+    protected void inicioFacebook(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try{
+            String email = request.getParameter("email");
+            Session s = HibernateUtil.getSessionFactory().openSession();
+            Query q = s.createQuery("FROM Persona WHERE Correo = :emailParam");
+            q.setParameter("emailParam", email);
+            List<Persona> listPer = q.list();
+            for (Persona pr : listPer) {
+                if(listPer.size()>0){
+                    Query q2 = s.createQuery("FROM Propietario WHERE Persona = "+pr.getIdPersona()+"");
+                    List<Propietario> listPro = q2.list();
+                    if(listPro.size()>0){
+                        for (Propietario prop : listPro) {
+                            Propietario prp = new Propietario(prop.getIdPropietario(), prop.getPersona());
+                            request.getSession().setAttribute("PropietarioIngresado", prp);
+                            response.setContentType("application/json");
+                            response.getWriter().write("1");
+                        }
+                    }
+                    else{
+                        response.setContentType("application/json");
+                        response.getWriter().write("0");
+                    }
+                }
+                else{
+                    Query q3 = s.createQuery("FROM Jugador WHERE Persona = "+pr.getIdPersona()+"");
+                    List<Jugador> listJu = q3.list();
+                    if(listJu.size()>0){
+                        for (Jugador ju : listJu) {
+                            Jugador jug = new Jugador(ju.getIdJugador(),ju.getAlias(), ju.getPosicion(), ju.getPierna(), ju.getDescripcion(), ju.getRankingSystem(), ju.getRankingUsers(), ju.getEstado(), ju.getCapitan(), ju.getEquipo(), ju.getPersona());
+                            request.getSession().setAttribute("JugadorIngresado", jug);
+                            response.setContentType("application/json");
+                            response.getWriter().write("2");
+                        }
+                    }
+                    else{
+                        response.setContentType("application/json");
+                        response.getWriter().write("0");
+                    }
+                }
+            }
+        }
+        catch(IOException | HibernateException ex){
+            response.setContentType("application/json");
+            response.getWriter().write("0");
         }
     }
 

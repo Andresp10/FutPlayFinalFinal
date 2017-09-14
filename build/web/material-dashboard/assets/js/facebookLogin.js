@@ -20,10 +20,96 @@ window.fbAsyncInit = function() {
   
   function statusChangeCallback(response){
       if(response.status === "connected"){
-          alert("yes");
-      }
-      else{
-          alert("no");
+          FB.api("/me?fields=first_name,last_name,email,birthday,gender,picture",function(response){
+             if(response && !response.error){
+                $.ajax({
+                   url:"/FutPlayFinal/inicio/facebook",
+                   method:"post",
+                   dataType:"json",
+                   data:{email:response.email},
+                   complete:function(data){
+                        console.log(data);
+                        if(data.responseText==="1"){
+                            window.location.href = "/FutPlayFinal/material-dashboard/pages/propietario/indexPropietario.jsp";
+                        }
+                        else if(data.responseText==="2"){
+                            window.location.href = "/FutPlayFinal/material-dashboard/pages/jugador/indexJugador.jsp";
+                        }
+                        else{
+                            $("#modalRuta").modal("show");
+                            $(".btnPropFacebook").on("click",function(){
+                                var gender = response.gender;
+                                var genero="";
+                                if(gender==="male"){
+                                    genero="Masculino";
+                                }
+                                else{
+                                    genero="Femenino";
+                                }
+                               $.ajax({
+                                  url:"/FutPlayFinal/usuario/registrar",
+                                  method:"post",
+                                  dataType:"json",
+                                  data:{UNombre:response.first_name,UApellido:response.last_name,UFechaNacimiento:response.birthday,UTelefono:"",UGenero:genero,UCorreo:response.email,UContrasenia:"",UAvatar:response.picture.data.url},
+                                  success: function(data){
+                                      if(data>"0"){
+                                          $.ajax({
+                                              url:"/FutPlayFinal/propietario/registrar",
+                                              method:"post",
+                                              dataType:"json",
+                                              data:{UCorreo:response.email}
+                                          }).done(function(data){
+                                            if(data>"0"){
+                                                swal({
+                                                   title:"Bienvenido",
+                                                   text:"Disfruta de la experiencia futplay!",
+                                                   type:"success",
+                                                   confirmButtonText:"Aceptar",
+                                                   preConfirm:function(){
+                                                       window.location.href="/FutPlayFinal/material-dashboard/pages/propietario/indexPropietario.jsp";
+                                                   }
+                                                }); 
+                                            }
+                                            else{
+                                                swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
+                                            }
+                                          });
+                                      }
+                                      else{
+                                          swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
+                                      }
+                                  }
+                               });
+                            });
+                            $(".btnJugFacebook").on("click",function(){
+                                var gender = response.gender;
+                                var genero="";
+                                if(gender==="male"){
+                                    genero="Masculino";
+                                }
+                                else{
+                                    genero="Femenino";
+                                }
+                               $.ajax({
+                                  url:"/FutPlayFinal/usuario/registrar",
+                                  method:"post",
+                                  dataType:"json",
+                                  data:{UNombre:response.first_name,UApellido:response.last_name,UFechaNacimiento:response.birthday,UTelefono:"",UGenero:genero,UCorreo:response.email,UContrasenia:"",UAvatar:response.picture.data.url},
+                                  success: function(data){
+                                      if(data>"0"){
+                                          window.location.href = "/FutPlayFinal/material-dashboard/jugador/completarPerfilFB.jsp";
+                                      }
+                                      else{
+                                          swal("Error","Ocurrio un error al momento de procesar la solicitud","error");
+                                      }
+                                  }
+                               });
+                            });
+                        }
+                   }
+                });
+             } 
+          });
       }
   }
   (function(d, s, id){
@@ -37,5 +123,5 @@ window.fbAsyncInit = function() {
   $("#loginBtn").on("click",function(){
     FB.login(function(response) {
         statusChangeCallback(response);
-    });
+    },{scope: 'public_profile,email,user_birthday'});
   });

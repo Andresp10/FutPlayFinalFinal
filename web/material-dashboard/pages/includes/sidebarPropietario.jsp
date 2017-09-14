@@ -25,7 +25,11 @@
     <div class="sidebar-wrapper">
         <div class="user">
             <div class="photo">
-                <img src="/FutPlayFinal/material-dashboard/assets/img/avatares/<%=objPropietario.getPersona().getAvatar()%>" />
+                <%if(objPropietario.getPersona().getAvatar().length()>=100){%>
+                    <img class="img" src="<%=objPropietario.getPersona().getAvatar()%>">
+                <%}else{%>
+                    <img class="img" src="/FutPlayFinal/material-dashboard/assets/img/avatares/<%=objPropietario.getPersona().getAvatar()%>">
+                <%}%>
             </div>
             <div class="info">
                 <a data-toggle="collapse" href="#opcionesPerfil" class="collapsed">
