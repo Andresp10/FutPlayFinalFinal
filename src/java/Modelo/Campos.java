@@ -29,8 +29,11 @@ public class Campos implements Serializable{
     @Column(name = "Horario")
     private String Horario;
     
-    @Column(name = "Rating")
-    private int Rating;
+    @Column(name = "Likee")
+    private String Likee;
+    
+    @Column(name = "Dislike")
+    private String Dislike;
     
     @Column(name = "Foto")
     private String Foto;
@@ -42,18 +45,18 @@ public class Campos implements Serializable{
     public Campos() {
     }
 
-    public Campos(int idCampo, String Nombre, String Direccion, String Ubicacion, String Horario, int Rating, String Foto, Propietario Propietario) {
+    public Campos(int idCampo, String Nombre, String Direccion, String Ubicacion, String Horario, String Likee, String Dislike, String Foto, Propietario Propietario) {
         this.idCampo = idCampo;
         this.Nombre = Nombre;
         this.Direccion = Direccion;
         this.Ubicacion = Ubicacion;
         this.Horario = Horario;
-        this.Rating = Rating;
+        this.Likee = Likee;
+        this.Dislike = Dislike;
         this.Foto = Foto;
         this.Propietario = Propietario;
     }
 
-    
     public int getIdCampo() {
         return idCampo;
     }
@@ -94,12 +97,20 @@ public class Campos implements Serializable{
         this.Horario = Horario;
     }
 
-    public int getRating() {
-        return Rating;
+    public String getLike() {
+        return Likee;
     }
 
-    public void setRating(int Rating) {
-        this.Rating = Rating;
+    public void setLike(String Like) {
+        this.Likee = Like;
+    }
+
+    public String getDislike() {
+        return Dislike;
+    }
+
+    public void setDislike(String Dislike) {
+        this.Dislike = Dislike;
     }
 
     public String getFoto() {
@@ -117,8 +128,6 @@ public class Campos implements Serializable{
     public void setPropietario(Propietario Propietario) {
         this.Propietario = Propietario;
     }
-    
-    
     
     
 }

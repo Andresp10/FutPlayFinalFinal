@@ -56,6 +56,12 @@ public class encuentros extends HttpServlet {
                 case "crearencuentro":
                     crearEncuentro(request,response);
                     break;
+                case "encuentrosrealizados":
+                    encuentrosRealizados(request, response);
+                    break;
+                case "estadisticas":
+                    estadisticasEncuentro(request, response);
+                    break;
             
             }    
         }
@@ -236,6 +242,303 @@ public class encuentros extends HttpServlet {
             System.err.println(ex);
         }
     
+    }
+    protected void encuentrosRealizados(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    
+        try{
+        
+            Jugador objJugador = (Jugador) request.getSession().getAttribute("JugadorIngresado");
+            
+            if (!"1".equals(objJugador.getEquipo().toString())) {
+                
+                Session sesion = HibernateUtil.getSessionFactory().openSession();
+                Query queryEncuentros = sesion.createQuery("FROM Encuentros WHERE Equipo_A="+objJugador.getEquipo()+" OR Equipo_B="+objJugador.getEquipo()+" AND Marcador != '' OR Marcador != null AND Estado='Finalizado'");
+                List<Encuentros>listaEncuentros = queryEncuentros.list();
+                if (listaEncuentros.size() > 0) {
+                
+                    for(Encuentros encuentro : listaEncuentros){
+                        String estado = "";
+                        String resultado [] = encuentro.getMarcador().split("/");
+
+                        Query buscarEquipo_A = sesion.createQuery("FROM Equipo WHERE idEquipo="+encuentro.getEquipo_A()+"");
+                        List<Equipo>listaEquipo_A = buscarEquipo_A.list();
+
+                        Query buscarEquipo_B = sesion.createQuery("FROM Equipo WHERE idEquipo="+encuentro.getEquipo_B()+"");
+                        List<Equipo>listaEquipo_B = buscarEquipo_B.list();
+
+
+                        for(Equipo equipo_A : listaEquipo_A){
+
+                            for (Equipo equipo_B : listaEquipo_B){
+
+                                if (String.valueOf(objJugador.getEquipo()).equals(String.valueOf(equipo_A.getIdEquipo())) & Integer.parseInt(resultado[0]) > Integer.parseInt(resultado[1])) {
+                                    estado = "¡GANASTE!";
+                                }else if (String.valueOf(objJugador.getEquipo()).equals(String.valueOf(equipo_B.getIdEquipo())) & Integer.parseInt(resultado[0]) < Integer.parseInt(resultado[1])) {
+                                    estado = "¡GANASTE!";
+                                }else if (String.valueOf(objJugador.getEquipo()).equals(String.valueOf(equipo_A.getIdEquipo())) & Integer.parseInt(resultado[0]) < Integer.parseInt(resultado[1])) {
+                                    estado = "PERDISTE";
+                                }else if (String.valueOf(objJugador.getEquipo()).equals(String.valueOf(equipo_B.getIdEquipo())) & Integer.parseInt(resultado[0]) > Integer.parseInt(resultado[1])) {
+                                    estado = "PERDISTE";
+                                }else{
+
+                                    estado = "EMPATE";
+                                }
+
+                                response.getWriter().write("<div class='col-lg-4'>"
+                                                        +"<div class='card card-pricing card-raised'>"
+                                                            +"<div class='content'>"
+                                                                +"<h4 class='card-title'>"+equipo_A.getNombre()+"  <strong>VS</strong>  "+equipo_B.getNombre()+"</h4>"
+                                                                +"<div class='icon icon-rose'>"
+                                                                    +"<h2>"+resultado[0]+" - "+resultado[1]+"</h2>"
+                                                                +"</div>"
+                                                                +"<h3><strong>"+estado+"</strong></h3>"
+                                                            +"</div>"
+                                                        +"</div>"
+                                                  +"</div>");
+
+                            }
+
+                        }
+
+                    }
+                }else{
+                
+                    response.getWriter().write("2");
+                }
+                
+                sesion.close();
+                
+            }
+            
+        }catch(HibernateException ex){
+            System.err.println(ex);
+            response.getWriter().write("1");
+        }catch(Exception ex){
+            System.err.println(ex);
+            response.getWriter().write("1");
+        }
+        
+    }
+    protected void estadisticasEncuentro(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try{
+            int eneG=0,febG=0,marG=0,abrG=0,mayG=0,junG=0,julG=0,agoG=0,sepG=0,octG=0,novG=0,dicG=0;
+            int eneP=0,febP=0,marP=0,abrP=0,mayP=0,junP=0,julP=0,agoP=0,sepP=0,octP=0,novP=0,dicP=0;
+            int eneE=0,febE=0,marE=0,abrE=0,mayE=0,junE=0,julE=0,agoE=0,sepE=0,octE=0,novE=0,dicE=0;
+            int eneF=0,febF=0,marF=0,abrF=0,mayF=0,junF=0,julF=0,agoF=0,sepF=0,octF=0,novF=0,dicF=0;
+
+            
+            Jugador objJugador = (Jugador) request.getSession().getAttribute("JugadorIngresado");
+        
+            Session sesion = HibernateUtil.getSessionFactory().openSession();
+            Query encuentrosEquipo = sesion.createQuery("FROM Encuentros WHERE Equipo_A = "+objJugador.getEquipo()+" OR Equipo_B = "+objJugador.getEquipo()+" AND Estado = 'Finalizado'");
+            List<Encuentros>listaEncuentros = encuentrosEquipo.list();
+            
+            for(Encuentros encuentro : listaEncuentros){
+            
+                String resultado [] = encuentro.getMarcador().split("/");
+                int estado = 0;
+
+                if (String.valueOf(objJugador.getEquipo()).equals(String.valueOf(encuentro.getEquipo_A())) & Integer.parseInt(resultado[0]) > Integer.parseInt(resultado[1])) {
+                    estado = 1;
+                }else if (String.valueOf(objJugador.getEquipo()).equals(String.valueOf(encuentro.getEquipo_B())) & Integer.parseInt(resultado[0]) < Integer.parseInt(resultado[1])) {
+                    estado = 1;
+                }else if (String.valueOf(objJugador.getEquipo()).equals(String.valueOf(encuentro.getEquipo_A())) & Integer.parseInt(resultado[0]) < Integer.parseInt(resultado[1])) {
+                    estado = 0;
+                }else if (String.valueOf(objJugador.getEquipo()).equals(String.valueOf(encuentro.getEquipo_B())) & Integer.parseInt(resultado[0]) > Integer.parseInt(resultado[1])) {
+                    estado = 0;
+                }else{
+
+                    estado = 2;
+                }
+                
+                
+                String mes [] = String.valueOf(encuentro.getFecha_Hora()).split("-");
+                
+                switch (mes[1]){
+                    case "01":
+                        if (estado == 0) {
+                            eneP++;
+                        }else if (estado == 1) {
+                            eneG++;
+                        }else if (estado == 2) {
+                            eneE++;
+                        }
+                        
+                    break;
+                    case "02":
+                        if (estado == 0) {
+                            febP++;
+                        }else if (estado == 1) {
+                            febG++;
+                        }else if (estado == 2) {
+                            febP++;
+                        }
+                    break;
+                    case "03":
+                        if (estado == 0) {
+                            marP++;
+                        }else if (estado == 1) {
+                            marG++;
+                        }else if (estado == 2) {
+                            marE++;
+                        }
+                    break;
+                    case "04":
+                        if (estado == 0) {
+                            abrP++;
+                        }else if (estado == 1) {
+                            abrG++;
+                        }else if (estado == 2) {
+                            abrE++;
+                        }
+                    break;
+                    case "05":
+                        if (estado == 0) {
+                            mayP++;
+                        }else if (estado == 1) {
+                            mayG++;
+                        }else if (estado == 2) {
+                            mayE++;
+                        }
+                    break;
+                    case "06":
+                        if (estado == 0) {
+                            junP++;
+                        }else if (estado == 1) {
+                            junG++;
+                        }else if (estado == 2) {
+                            junE++;
+                        }
+                    break;
+                    case "07":
+                        if (estado == 0) {
+                            julP++;
+                        }else if (estado == 1) {
+                            julG++;
+                        }else if (estado == 2) {
+                            julE++;
+                        }
+                    break;
+                    case "08":
+                        if (estado == 0) {
+                            agoP++;
+                        }else if (estado == 1) {
+                            agoG++;
+                        }else if (estado == 2) {
+                            agoE++;
+                        }
+                    break;
+                    case "09":
+                        if (estado == 0) {
+                            sepP++;
+                        }else if (estado == 1) {
+                            sepG++;
+                        }else if (estado == 2) {
+                            sepE++;
+                        }
+                    break;
+                    case "10":
+                        if (estado == 0) {
+                            octP++;
+                        }else if (estado == 1) {
+                            octG++;
+                        }else if (estado == 2) {
+                            octE++;
+                        }
+                    break;
+                    case "11":
+                        if (estado == 0) {
+                            novP++;
+                        }else if (estado == 1) {
+                            novG++;
+                        }else if (estado == 2) {
+                            novE++;
+                        }
+                    break;
+                    case "12":
+                        if (estado == 0) {
+                            dicP++;
+                        }else if (estado == 1) {
+                            dicG++;
+                        }else if (estado == 2) {
+                            dicE++;
+                        }
+                    break;
+                
+                }
+                
+            }
+            if (eneG > eneP) {
+                
+                eneF = 65;
+            }else if (eneG < eneP){
+                eneF = 25;
+            }
+            if (febG > febP) {
+                febF = 80;
+            }else if (febG < febP) {
+                febF = 15;
+            }
+            if (marG > marP) {
+                marF = 76;
+            }else if (marG < marP) {
+                marF = 28;
+            }
+            if (abrG > abrP) {
+                abrF = 77;
+            }else if (abrG < abrP) {
+                abrF = 30;
+            }
+            if (mayG > mayP) {
+                mayF = 90;
+            }else if (mayG < mayP) {
+                mayF = 40;
+            }
+            if (junG > junP) {
+                junF = 65;
+            }else if (junG < junP) {
+                junF = 45;
+            }
+            if (julG > julP) {
+                julF = 55;
+            }else if (julG < julP) {
+                julF = 20;
+            }
+            if (agoG > agoP) {
+                agoF = 80;
+            }else if (agoG < agoP) {
+                agoF = 35;
+            }
+            if (sepG > sepP) {
+                sepF = 75;
+            }else if (sepG < sepP) {
+                sepF = 24;
+            }
+            if (octG > octP) {
+                octF = 77;
+            }else if (octG < octP) {
+                octF = 40;
+            }
+            if (novG > novP) {
+                novF = 98;
+            }else if (novG < novP) {
+                novF = 23;
+            }
+            if (dicG > dicP) {
+                dicF = 100;
+            }else if (dicG < dicP) {
+                dicF = 0;
+            }
+            
+            response.getWriter().write(""+eneF+","+febF+","+marF+","+abrF+","+mayF+","+junF+","+julF+","+agoF+","+sepF+","+octF+","+novF+","+dicF+"");
+            sesion.close();
+        }catch(HibernateException ex){
+            System.err.println(ex);
+        }catch(Exception ex){
+            System.err.println(ex);
+        }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -167,22 +167,13 @@ $(".editarUsuario").click(function (e){
         showCancelButton: true,
         closeOnConfirm: false,
         showLoaderOnConfirm: true,
-      },
-      function(){
-        setTimeout(function(){
+    }).then(setTimeout(function(){
                     
             var nombre = $("#txtNombreEditarUsuario").val();
             var apellido = $("#txtApellidoEditarUsuario").val();
-            var fechaNacimiento = $("#txtFechaNacimientoEditarUsuario").val();
             var telefono = $("#txtTelefonoEditarUsuario").val();
             var genero = $("#cmbGeneroEditarUsuario").val();
-            var correo = $("#txtCorreoEditarUsuario").val();
-            var usuario = $("#txtUsuarioEditarUsuario").val();
-            var contrasenia = $("#txtContraseniaEditarUsuario").val();
-            var avatar = $("#txtAvatarEditarUsuario").val();
-            
-                    
-            $.post("../../usuario/editar",{UNombre:nombre,UApellido:apellido,UFechaNacimiento:fechaNacimiento,UTelefono:telefono,UGenero:genero,UCorreo:correo,UUsuario:usuario,UContrasenia:contrasenia,UAvatar:avatar},function (responseText){
+            $.post("/FutPlayFinal/usuario/editar",{UNombre:nombre,UApellido:apellido,UTelefono:telefono,UGenero:genero},function (responseText){
                 
                 if(responseText == "1"){
                     
@@ -194,6 +185,10 @@ $(".editarUsuario").click(function (e){
                         closeOnConfirm: false,
                         showLoaderOnConfirm: true
                           
+                    }).then(function (){
+                        
+                        window.location = "/FutPlayFinal/material-dashboard/pages/jugador/indexJugador.jsp";
+                        
                     });
                     
                 }else{
@@ -203,8 +198,7 @@ $(".editarUsuario").click(function (e){
                 }
                 
             });
-        }, 2000);
-    });
+        }, 2000));
  
 });
 /////////////////////Funcion para animar los tabs de los formularios//////////////
@@ -1687,3 +1681,216 @@ $('.btnCampo').on('click',function(e){
      });
      
  }
+ //////////////////// MOSTRAR LA UBICACION DEL CAMPO EN EL REGISTRO DEL ENCUENTRO ///////////////////////
+ function verUbicacionCampos (ubicacion){
+    var coordenadas = ubicacion.split("/");
+    $("#mapModal").modal("show");
+    $('#map-canvas').addClass('loading');    
+    var latlng = new google.maps.LatLng(coordenadas[0] ,coordenadas[1]); 
+    var settings = {
+        zoom: 16,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: false,
+        scrollwheel: false,
+        draggable: true,
+        styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}],
+        mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+        navigationControl: false,
+        navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},           
+    };
+    var map = new google.maps.Map(document.getElementById("map-canvas"), settings);
+
+    google.maps.event.addDomListener(map, "load", function() {
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "load");
+        map.setCenter(center);
+        $('#map-canvas').removeClass('loading');
+    });
+
+
+    var campoImage = new google.maps.MarkerImage('/FutPlayFinal/material-dashboard/assets/img/map-marker.png',
+        new google.maps.Size(36,62),
+        new google.maps.Point(0,0),
+        new google.maps.Point(18,52)
+    );
+
+    var campoPos = new google.maps.LatLng(coordenadas[0],coordenadas[1]);
+
+    var campoMarker = new google.maps.Marker({
+        position: campoPos,
+        map: map,
+        icon: campoImage,
+        title:"Shapeshift Interactive",
+        zIndex: 3
+    });
+     
+ }
+ ////////////////////// MOSTRAR LOS EQUIPOS SOBRESALIENTES /////////////////////////
+ function mostrarEquiposSobresaliente(){
+     
+     $.post("/FutPlayFinal/equipo/equipossobresalientes",function (responseText){
+         
+         
+        if (responseText == "1") {
+            
+            $.notify({
+                    icon: "perm_identity",
+                    message: "El encuentro no pudo ser programado porque ya tienes un encuentro pendiente con este equipo."
+
+                },{
+                    type: 'danger',
+                    timer: 3000,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
+            
+        }else if (responseText == "2") {
+            
+        }else{
+            
+            $("#contenidoEquipoSobresalientes").html(responseText);   
+            
+        }
+         
+         
+     });
+ }
+ ////////////////// BUSCAR EQUIPOS /////////////////////////////
+ $(".buscarEquipo").keyup(function (){
+    
+    var textoBusqueda = $("#txtBuscarEquipo").val();
+    
+     $.post("/FutPlayFinal/equipo/buscarequipo",{datosEquipo:textoBusqueda},function (responseText){
+        if (responseText != "") {
+            
+            $("#busquedaContainer").html(responseText);
+            
+        }else{
+            $("#busquedaContainer").html("<h5>No se encontraron coincidencias.</h5>");
+            
+        }
+         
+     });
+     
+ });
+ //////////////////// MOSTRAR ENCUENTROS DEL EQUIPO ////////////////////////7
+ function mostrarEncuentrosRealizados (){
+     
+     $.post("/FutPlayFinal/encuentros/encuentrosrealizados",function (responseText){
+        
+        if (responseText == "1") {
+            $.notify({
+                icon: "perm_identity",
+                message: "Ocurrió un erro mientras estabamos buscando tus encuentros, por favor revisa tu conexion e intentalo de nuevo."
+
+            },{
+                type: 'danger',
+                timer: 3000,
+                placement: {
+                    from: 'bottom',
+                    align: 'right'
+                }
+            });
+        }else if (responseText == "2") {
+            $("#encuentrosRealizados").html("<h4>Tu equipo aun no ha participado en ningun encuentro.</h4>");
+        }else{
+            
+            $("#encuentrosRealizados").html(responseText);
+            
+        }
+         
+     });
+     
+ }
+ //////////////////// MOSTRAR LOS CAMPOS SOBRESALIENTES /////////////////////////////
+ function mostrarCamposSobresalientes(){
+     
+     $.post("/FutPlayFinal/campo/sdfdfdfs",function (responseText){
+        
+         
+         
+     });
+     
+ }
+ //////////////// CHART PARA VER LAS ESTADISTICAS DEL EQUIPO ////////////////////////77
+
+function cargarEstadisticas(){
+
+    $.post("/FutPlayFinal/encuentros/estadisticas",function (responseText){
+       
+        //alert(responseText);
+        var das = responseText;
+        var resultados = das.split(",");
+        if (resultados[0] == 0) {
+            resultados[0] = null;
+        }
+        if (resultados[1] == 0) {
+            resultados[1] = null;
+        }
+        if (resultados[2] == 0) {
+            resultados[2] = null;
+        }
+        if (resultados[3] == 0) {
+            resultados[3] = null;
+        }
+        if (resultados[4] == 0) {
+            resultados[4] = null;
+        }
+        if (resultados[5] == 0) {
+            resultados[5] = null;
+        }
+        if (resultados[6] == 10) {
+            resultados[6] = 5;
+        }
+        if (resultados[7] == 0) {
+            resultados[7] = 8;
+        }
+        /**if (resultados[8] == 0) {
+            resultados[8] = null;
+        }*/
+        if (resultados[9] == 0) {
+            resultados[9] = null;
+        }
+        if (resultados[10] == 0) {
+            resultados[10] = null;
+        }
+        if (resultados[11] == 0) {
+            resultados[11] = null;
+        }
+        /*  **************** Coloured Rounded Line Chart - Line Chart ******************** */
+        dataColouredRoundedLineChart = {
+          labels: ['\ene','\'feb','\mar','\abr', '\may', '\jun', '\jul', '\ago', '\sep','\oct','\'nov','\dic'],
+          series: [
+            [resultados[0], resultados[1], resultados[2], resultados[3], resultados[4], resultados[5], resultados[6], resultados[7], resultados[8], resultados[9], resultados[10], resultados[11]]
+          ]
+        };
+
+        optionsColouredRoundedLineChart = {
+          lineSmooth: Chartist.Interpolation.cardinal({
+              tension: 10
+          }),
+          axisY: {
+              showGrid: true,
+              offset: 40
+          },
+          axisX: {
+              showGrid: false,
+          },
+          low: 0,
+          high: 95,
+          showPoint: true,
+          height: '300px'
+        };
+
+
+        var chartEquipo = new Chartist.Line('#chartEquipo', dataColouredRoundedLineChart, optionsColouredRoundedLineChart);
+
+        md.startAnimationForLineChart(colouredRoundedLineChart);
+
+        
+    });
+    
+}

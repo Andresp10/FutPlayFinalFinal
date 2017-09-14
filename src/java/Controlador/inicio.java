@@ -53,9 +53,9 @@ public class inicio extends HttpServlet {
             String Email = request.getParameter("email");
             String Contrasenia = request.getParameter("pass");
             try{
-                // ENCRIPACION DE LA CONTRASEÑA 
-                String contraseniaEncriptada = DigestUtils.sha512Hex(Contrasenia);
                 
+                String contraseniaEncriptada = DigestUtils.sha512Hex(Contrasenia);
+
                 Session sesion = HibernateUtil.getSessionFactory().openSession();
                 Query query = sesion.createQuery("FROM Persona WHERE Correo='"+Email+"' AND Contrasenia='"+contraseniaEncriptada+"'");
 

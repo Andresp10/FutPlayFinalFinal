@@ -32,16 +32,18 @@ public class Calendar implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "campo")
     private Campos campo;
-
+    
     public Calendar() {
+        
     }
 
-    public Calendar(int id, String title, String start, String end, String color) {
+    public Calendar(int id, String title, String start, String end, String color, Campos campo) {
         this.id = id;
         this.title = title;
         this.start = start;
         this.end = end;
         this.color = color;
+        this.campo = campo;
     }
 
     public int getId() {
@@ -91,7 +93,7 @@ public class Calendar implements Serializable{
     public void setCampo(Campos campo) {
         this.campo = campo;
     }
-    
+
     
     
 }

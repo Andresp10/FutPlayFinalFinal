@@ -98,7 +98,7 @@
                                     <div class="card-header text-center" data-background-color="red">
                                         <h4 class="card-title">Inicia Sesión</h4>
                                         <div class="social-line">
-                                            <a href="#btn" class="btn btn-just-icon btn-simple">
+                                            <a href="#" id="loginBtn" class="btn btn-just-icon btn-simple">
                                                 <i class="fa fa-facebook-square"></i>
                                             </a>
                                             <a href="#pablo" class="btn btn-just-icon btn-simple">
@@ -134,7 +134,7 @@
                                     </div>
                                     <div class="footer text-center">
                                         <button type="submit" class="btn btn-reddit btn-simple btn-wd btn-lg btnIniciarSesion">Ingresar</button>
-                                    </div>
+                                    </div>                                    
                                 </div>
                             </form>
                         </div>
@@ -219,10 +219,10 @@
 <script src="../../assets/js/material-dashboard.js"></script>
 <!-- Material Dashboard DEMO methods, don't include it in your project! -->
 <script src="../../assets/js/demo.js"></script>
-
 <!-- Sentencias PERSONALIZADaS -->
 <script src="../../assets/js/main.js"></script>
-
+<!--Facebook js sdk-->
+<script src="../../assets/js/facebookLogin.js"></script>
 
 <script type="text/javascript">
     $().ready(function() {
@@ -231,12 +231,7 @@
         setTimeout(function() {
             // after 1000 ms we add the class animated to the login/register card
             $('.card').removeClass('card-hidden');
-        }, 700)
+        }, 700);
     });
-    /*$("#btninicisarsesion").on('click',function(){
-        
-       alert("este es un error"); 
-    });*/
 </script>
-
 </html>

@@ -152,7 +152,7 @@ $(document).ready(function(){
         }).done(function(data){
             for (var i = 0; i < data.canchas.length; i++) {
                 $("#cardEvents").append("<div class='fc-event btn btn-round btn-xs' style='background-color:#48A44C;'>"+data.canchas[i]+"</div>");
-                //asignarDroppable a cada evento;
+                //asignar atributo droppable a cada evento;
                 asignarDroppable($("#cardEvents").children()); 
             }
         });

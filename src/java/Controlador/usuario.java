@@ -75,7 +75,7 @@ public class usuario extends HttpServlet {
             try{
             
                 String contraseniaEncriptada = DigestUtils.sha512Hex(contrasenia);
-                
+
                 Session sesion = HibernateUtil.getSessionFactory().openSession();
                 Persona objPersona = new Persona(0, nombre, apellido, fechaNacimiento, telefono, genero, correo, contraseniaEncriptada, avatar);
                 sesion.beginTransaction();
@@ -116,24 +116,24 @@ public class usuario extends HttpServlet {
         throws ServletException, IOException {
         
         try{
+            System.out.println("ESSTE EEKJEKWJEKWJEHKWJHEKWEJHKWEJ´´´´´´´´´´´´´´´´´´´´´´´´");
             Persona objPersona = (Persona) request.getSession().getAttribute("UsuarioIngresado");
             String nombre = request.getParameter("UNombre");
-            System.out.println("------------------->pppppppppppppppppppppppeeeeeeeeeeerrrrrrrsssssssooooonnnnnnnnaaaaaa"+nombre);
             String apellido = request.getParameter("UApellido");
-            String fechaNacimiento = request.getParameter("UFechaNacimiento");
+            //String fechaNacimiento = request.getParameter("UFechaNacimiento");
             String telefono = request.getParameter("UTelefono");
             String genero = request.getParameter("UGenero");
-            String correo = request.getParameter("UCorreo");
-            String contrasenia = request.getParameter("UContrasenia");
+            //String correo = request.getParameter("UCorreo");
+            //String contrasenia = request.getParameter("UContrasenia");
             
-            String avatar = request.getParameter("UAvatar");
+            //String avatar = request.getParameter("UAvatar");
             
             try{
                 System.out.println("-------------------- objPersona "+objPersona.getIdPersona());
                 Session sesion = HibernateUtil.getSessionFactory().openSession();
                 sesion.beginTransaction();
                 ///////////////////////////// agregar a la consulta  Fecha_Nacimiento='"+fechaNacimiento+"'////////////////////
-                Query query = sesion.createSQLQuery("UPDATE persona SET Nombres='"+nombre+"', Apellidos='"+apellido+"', Telefono='"+telefono+"', Genero='"+genero+"', Correo='"+correo+"', Contrasenia='"+contrasenia+"' WHERE idPersona='"+objPersona.getIdPersona()+"'");
+                Query query = sesion.createSQLQuery("UPDATE persona SET Nombres='"+nombre+"', Apellidos='"+apellido+"', Telefono='"+telefono+"', Genero='"+genero+"' WHERE idPersona='"+objPersona.getIdPersona()+"'");
                 query.executeUpdate();
                 sesion.getTransaction().commit();;
                 //sesion.close();

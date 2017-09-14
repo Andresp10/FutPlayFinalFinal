@@ -17,7 +17,7 @@
                 System.out.println("EEEEEEEEESTA CONTINUANDO 000000000000000000000000000000000");
                 
             %>
-            <div class="sidebar" data-active-color="red" data-background-color="black" data-image="/FutPlayFinal/GaiaTemplate/assets/img/campofooter.jpg">
+            <div class="sidebar" data-active-color="red" data-background-color="black" data-image="/FutPlayFinal/material-dashboard/assets/img/jugadorimg/football-field-night.jpg">
                 <div class="logo">
                     <a href="/FutPlayFinal/material-dashboard/pages/jugador/indexJugador.jsp" class="simple-text">
                         FutPlay
@@ -47,7 +47,7 @@
                                         <a href="../jugador/editarPerfilJugador.jsp">Editar perfil</a>
                                     </li>
                                     <li>
-                                        <a href="#">Ajustes</a>
+                                        <a href="../usuario/ajustesdecuenta.jsp">Ajustes</a>
                                     </li>
                                 </ul>
                             </div>
@@ -93,4 +93,3 @@
         response.sendRedirect("/FutPlayFinal/index.html");
     }
 %>
-
