@@ -10,7 +10,9 @@ import Modelo.HibernateUtil;
 import Modelo.Jugador;
 import Modelo.Mensaje;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -71,8 +73,13 @@ public class mensaje extends HttpServlet {
 
                 try{
 
+                    int hora, minutos, segundos; 
+                    Calendar calendario = new GregorianCalendar();
+                    hora = calendario.get(Calendar.HOUR);
+                    minutos = calendario.get(Calendar.MINUTE);
                     Session sesion = HibernateUtil.getSessionFactory().openSession();
-                    Mensaje objMensaje = new Mensaje(Contenido, new Date(), "11:11 p.m", objJugador, objJugador.getEquipo());
+                    //Mensaje objMensaje = new Mensaje(Contenido, new Date(), "11:11 p.m", objJugador, objJugador.getEquipo());
+                    Mensaje objMensaje = new Mensaje(Contenido, new Date(), String.valueOf(hora)+":"+String.valueOf(minutos), objJugador, objJugador.getEquipo());
                     sesion.beginTransaction();
                     sesion.save(objMensaje);
                     sesion.getTransaction().commit();

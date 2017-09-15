@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>FurPlay - Charla Tecnica</title>
+        <title>FutPlay - Charla Tecnica</title>
         <%@include file="../includes/importsCSS.jsp" %>
     </head>
     <body>
@@ -141,6 +141,7 @@
                         var remitente="";
                         var icono="";
                         var color = "";
+                        //ar fecha = jsonData[i].Fecha.split
                         if (jsonData[i].Jugador.idJugador == <%=objJugador.getIdJugador()%>) {
 
                             tipo = "<li class='timeline-inverted'>";

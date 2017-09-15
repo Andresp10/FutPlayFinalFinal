@@ -185,11 +185,11 @@
                                         </div>
                                         <div class="wizard-footer">
                                             <div class="pull-right">
-                                                <input type="button" class="btnTipo btn btn-next btn-fill btn-danger btn-wd" name="next" value="Next">
-                                                <input type="button" class="btn btn-finish btn-fill btn-danger btn-wd ingresarEncuentro" name="finish" value="Finish" style="display: none;">
+                                                <input type="button" class="btnTipo btn btn-next btn-fill btn-danger btn-wd" name="next" value="Siguiente">
+                                                <input type="button" class="btn btn-finish btn-fill btn-danger btn-wd ingresarEncuentro" name="finish" value="Finalizar" style="display: none;">
                                             </div>
                                             <div class="pull-left">
-                                                <input type="button" class=" btn btn-previous btn-fill btn-default btn-wd disabled" name="previous" value="Previous">
+                                                <input type="button" class=" btn btn-previous btn-fill btn-default btn-wd disabled" name="previous" value="Volver">
                                             </div>
                                             <div class="clearfix"></div>
                                         </div>

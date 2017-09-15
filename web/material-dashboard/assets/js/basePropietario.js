@@ -540,9 +540,9 @@ $(document).ready(function(){
               };
               var map = new google.maps.Map(document.getElementById("map-canvas"), settings);
 
-              google.maps.event.addDomListener(map, "load", function() {
+              google.maps.event.addDomListener(map, "onload", function() {
                   var center = map.getCenter();
-                  google.maps.event.trigger(map, "load");
+                  google.maps.event.trigger(map, "onload");
                   map.setCenter(center);
                   $('#map-canvas').removeClass('loading');
               });

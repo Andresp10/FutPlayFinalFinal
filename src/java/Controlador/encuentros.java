@@ -62,9 +62,56 @@ public class encuentros extends HttpServlet {
                 case "estadisticas":
                     estadisticasEncuentro(request, response);
                     break;
-            
+                case "finalizarEncuentro":
+                    finalizarEncuentro(request, response);
+                    break;
             }    
         }
+    }
+    protected void finalizarEncuentro(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try{
+            String ma = request.getParameter("mA");
+            String mb = request.getParameter("mB");
+            String ida = request.getParameter("idA");
+            String idb = request.getParameter("idB");
+            String tipo = request.getParameter("tipo");
+            String marcador=ma+"/"+mb;
+            String iden = request.getParameter("iden");
+            Session s = HibernateUtil.getSessionFactory().openSession();
+            /*Equipo eq1 = new Equipo();
+            Equipo eq2 = new Equipo();
+            Encuentros en = new Encuentros();
+            en.setIdEncuantro(Integer.valueOf(iden));
+            en.setMarcador(marcador);
+            en.setEstado("Finalizado");
+            en.setTipo(tipo);
+            eq1.setIdEquipo(Integer.valueOf(ida));
+            eq2.setIdEquipo(Integer.valueOf(idb));
+            en.setEquipo_A(eq1);
+            en.setEquipo_B(eq2);
+            en.setFecha_Hora(new Date());
+            s.beginTransaction();
+            s.update(en);
+            s.getTransaction().commit();*/
+            Query query = s.createSQLQuery("UPDATE Encuentro SET Estado='Finalizado', Marcador='"+marcador+"' WHERE idEncuentro="+iden+"");
+            query.executeUpdate();
+            s.beginTransaction().commit();
+            s.close();
+            response.getWriter().write("1");
+        }
+        catch(HibernateException | NumberFormatException | IOException ex){
+            response.getWriter().write("0");
+            System.err.println(ex);
+        }
+    }
+    
+    public List<Encuentros> getEncuentrosEspera(){
+        List<Encuentros>listen=null;
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        Query q = s.createQuery("FROM Encuentros");
+        listen = q.list();
+        return listen;
     }
     protected void registrarEncuentro(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -194,10 +241,10 @@ public class encuentros extends HttpServlet {
                 objCalendar.setEnd(Hora);
                 objCalendar.setColor("");*/
                 
-                Canchas objCancha = new Canchas();
-                objCancha.setIdCancha(6);
+                //Canchas objCancha = new Canchas();
+                //objCancha.setIdCancha(0);
                 
-                System.out.println(""+objCancha);
+                //System.out.println(""+objCancha);
                 
                 Equipo objEquipo1 = new Equipo();
                 objEquipo1.setIdEquipo(Integer.parseInt(datos[1]));
@@ -207,7 +254,7 @@ public class encuentros extends HttpServlet {
                 
                 System.out.println("------------------> CRANDO EL ENCUENTRO.......||.|..|.|.|.|..|.|");
                 
-                Encuentros objEncuentro = new Encuentros(datos[0], new Date(), "", "En espera", objCancha, objEquipo1, objequipo2);
+                Encuentros objEncuentro = new Encuentros(datos[0], new Date(), "", "En espera", objEquipo1, objequipo2);
                 sesion.beginTransaction();
                 sesion.save(objEncuentro);
                 sesion.getTransaction().commit();

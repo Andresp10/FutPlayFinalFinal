@@ -1,4 +1,17 @@
 $(document).ready(function(){
+    window.fbAsyncInit = function() {
+        FB.init({
+          appId            : '147631892478300',
+          autoLogAppEvents : true,
+          xfbml            : true,
+          version          : 'v2.10'
+        }); 
+    };
+    function logout(){
+        FB.logout(function(response){
+            
+        });
+    }
     $('.btn-ExitSystem').on('click', function(e){
         e.preventDefault();
         swal({ 
@@ -12,6 +25,7 @@ $(document).ready(function(){
             closeOnConfirm: false,
             cancelButtonText: "Cancelar"
         }).then(function(){
+            logout();
             $.post("/FutPlayFinal/inicio/cerrar",function (responseText){
                 
                 if (responseText == "1") {
@@ -22,7 +36,14 @@ $(document).ready(function(){
             });
             
         });
-    }); 
+    });
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/all.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
     $('.btn- ').on('click', function(e){
         e.preventDefault();
         swal({   
@@ -1969,7 +1990,132 @@ $('.btnCampo').on('click',function(e){
     });
  
 });
+//////////////// CHART PARA VER LAS ESTADISTICAS DEL EQUIPO ////////////////////////77
 
+function cargarEstadisticas(){
+
+    $.post("/FutPlayFinal/encuentros/estadisticas",function (responseText){
+       
+        //alert(responseText);
+        var das = responseText;
+        var resultados = das.split(",");
+        if (resultados[0] == 0) {
+            resultados[0] = null;
+        }
+        if (resultados[1] == 0) {
+            resultados[1] = null;
+        }
+        if (resultados[2] == 0) {
+            resultados[2] = null;
+        }
+        if (resultados[3] == 0) {
+            resultados[3] = null;
+        }
+        if (resultados[4] == 0) {
+            resultados[4] = null;
+        }
+        if (resultados[5] == 0) {
+            resultados[5] = null;
+        }
+        if (resultados[6] == 10) {
+            resultados[6] = 5;
+        }
+        if (resultados[7] == 0) {
+            resultados[7] = 8;
+        }
+        /**if (resultados[8] == 0) {
+            resultados[8] = null;
+        }*/
+        if (resultados[9] == 0) {
+            resultados[9] = null;
+        }
+        if (resultados[10] == 0) {
+            resultados[10] = null;
+        }
+        if (resultados[11] == 0) {
+            resultados[11] = null;
+        }
+        /*  **************** Coloured Rounded Line Chart - Line Chart ******************** */
+        dataColouredRoundedLineChart = {
+          labels: ['\ene','\'feb','\mar','\abr', '\may', '\jun', '\jul', '\ago', '\sep','\oct','\'nov','\dic'],
+          series: [
+            [resultados[0], resultados[1], resultados[2], resultados[3], resultados[4], resultados[5], resultados[6], resultados[7], resultados[8], resultados[9], resultados[10], resultados[11]]
+          ]
+        };
+
+        optionsColouredRoundedLineChart = {
+          lineSmooth: Chartist.Interpolation.cardinal({
+              tension: 10
+          }),
+          axisY: {
+              showGrid: true,
+              offset: 40
+          },
+          axisX: {
+              showGrid: false,
+          },
+          low: 0,
+          high: 95,
+          showPoint: true,
+          height: '300px'
+        };
+
+
+        var chartEquipo = new Chartist.Line('#chartEquipo', dataColouredRoundedLineChart, optionsColouredRoundedLineChart);
+
+        md.startAnimationForLineChart(colouredRoundedLineChart);
+
+        
+    });
+    
+}
+//////////////////// MOSTRAR ENCUENTROS DEL EQUIPO ////////////////////////7
+ function mostrarEncuentrosRealizados (){
+     
+     $.post("/FutPlayFinal/encuentros/encuentrosrealizados",function (responseText){
+        
+        if (responseText == "1") {
+            $.notify({
+                icon: "perm_identity",
+                message: "Ocurrió un erro mientras estabamos buscando tus encuentros, por favor revisa tu conexion e intentalo de nuevo."
+
+            },{
+                type: 'danger',
+                timer: 3000,
+                placement: {
+                    from: 'bottom',
+                    align: 'right'
+                }
+            });
+        }else if (responseText == "2") {
+            $("#encuentrosRealizados").html("<h4>Tu equipo aun no ha participado en ningun encuentro.</h4>");
+        }else{
+            
+            $("#encuentrosRealizados").html(responseText);
+            
+        }
+         
+     });
+     
+ }
+ ////////////////// BUSCAR EQUIPOS /////////////////////////////
+ $(".buscarEquipo").keyup(function (){
+    
+    var textoBusqueda = $("#txtBuscarEquipo").val();
+    
+     $.post("/FutPlayFinal/equipo/buscarequipo",{datosEquipo:textoBusqueda},function (responseText){
+        if (responseText != "") {
+            
+            $("#busquedaContainer").html(responseText);
+            
+        }else{
+            $("#busquedaContainer").html("<h5>No se encontraron coincidencias.</h5>");
+            
+        }
+         
+     });
+     
+ });
 //////////////////////////////////// DAR LIKE A UN JUGADOR ///////////////////////
 //$(".likeCampo").click(function (){
 //    $.post("/FutPlayFinal/campos/likeCampo",function (responseText){

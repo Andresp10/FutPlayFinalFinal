@@ -97,7 +97,13 @@
                     <i class="material-icons">today</i>
                     <p>Cronograma</p>
                 </a>
-            </li>           
+            </li>
+            <li id="encuentros">
+                <a href="/FutPlayFinal/material-dashboard/pages/encuentro/encuentrosEspera.jsp">
+                    <i class="material-icons">flash_on</i>
+                    <p>Encuentros</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

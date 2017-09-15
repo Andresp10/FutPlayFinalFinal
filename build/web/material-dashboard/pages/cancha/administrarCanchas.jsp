@@ -77,7 +77,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
-                        <h5 class="modal-title" id="myModalLabel">Fichar jugador</h5>
+                        <h5 class="modal-title" id="myModalLabel">Encuentros pendientes</h5>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -132,8 +132,8 @@
                                                             <td><%=NombreEquipo1%></td>
                                                             <td><%=NombreEquipo2%></td>
                                                             <td><%=Contenido[0]%></td>
-                                                            <td><input id="fechaEncuentro" type="date"></td>
-                                                            <td><input id="horaEncuentro" type="time"></td>
+                                                            <td><input id="fechaEncuentro" type="text" class="datepicker form-control"></td>
+                                                            <td><input id="horaEncuentro" type="text" class="timepicker form-control"></td>
                                                             <td><button class="btn btn-success btn-simple btnAceptarEncuentro" value="<%=nf.getIdNotificacion()%>" rel="tooltip" title="Aceptar solicitud" data-placement="bottom"><i class="material-icons">check</i></button></td>
                                                         </tr>
                                                     </tbody>

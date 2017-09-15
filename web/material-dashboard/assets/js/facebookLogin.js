@@ -37,7 +37,6 @@ window.fbAsyncInit = function() {
                         else{
                             $("#modalRuta").modal("show");
                             $(".btnPropFacebook").on("click",function(){
-                                alert(response.email);
                                 var gender = response.gender;
                                 var genero="";
                                 if(gender==="male"){

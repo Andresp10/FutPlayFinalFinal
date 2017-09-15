@@ -71,7 +71,7 @@ public class campos extends HttpServlet {
                 foto="no_preview.jpg";
             }
             Session s = HibernateUtil.getSessionFactory().openSession();
-            Campos cmp = new Campos(0,nombrecampo, direccioncampo, ubicacion, horario, "0", "0", foto, prop);
+            Campos cmp = new Campos(0,nombrecampo, direccioncampo, ubicacion, horario, foto, prop);
             try{
                 s.beginTransaction();
                 s.save(cmp);
@@ -141,7 +141,7 @@ public class campos extends HttpServlet {
             Propietario pr = new Propietario();
             Propietario prs = (Propietario) request.getSession().getAttribute("PropietarioIngresado");
             pr.setIdPropietario(prs.getIdPropietario());
-            Campos cmp = new Campos(idcampo,nombreUP, direccionUP, ubicacionUP, horariosUP, "", "", foto, pr);
+            Campos cmp = new Campos(idcampo,nombreUP, direccionUP, ubicacionUP, horariosUP, foto, pr);
             Session s = HibernateUtil.getSessionFactory().openSession();
             try{
                 s.beginTransaction();

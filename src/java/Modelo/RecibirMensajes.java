@@ -2,6 +2,7 @@ package Modelo;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -40,6 +41,11 @@ public class RecibirMensajes {
         
         try{
             
+            int hora, minutos, segundos; 
+            java.util.Calendar calendario = new GregorianCalendar();
+            hora = calendario.get(java.util.Calendar.HOUR);
+            minutos = calendario.get(java.util.Calendar.MINUTE);
+            
             Equipo objEquipo = new Equipo();
             objEquipo.setIdEquipo(Integer.parseInt(datosMensajes[2]));
             
@@ -49,7 +55,7 @@ public class RecibirMensajes {
             System.out.println("EQUIPO:    "+objEquipo + "JUGADOR:     "+objEquipo);
             
             Session sesion = HibernateUtil.getSessionFactory().openSession();
-            Mensaje objMensaje = new Mensaje(datosMensajes[0], new Date(), "11:11 p.m", objJugador, objEquipo);
+            Mensaje objMensaje = new Mensaje(datosMensajes[0], new Date(), String.valueOf(hora)+":"+String.valueOf(minutos), objJugador, objEquipo);
             sesion.beginTransaction();
             sesion.save(objMensaje);
             sesion.getTransaction().commit();

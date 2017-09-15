@@ -153,6 +153,7 @@ public class inicio extends HttpServlet {
                         for (Jugador ju : listJu) {
                             Jugador jug = new Jugador(ju.getIdJugador(),ju.getAlias(), ju.getPosicion(), ju.getPierna(), ju.getDescripcion(), ju.getRankingSystem(), ju.getRankingUsers(), ju.getEstado(), ju.getCapitan(), ju.getEquipo(), ju.getPersona());
                             request.getSession().setAttribute("JugadorIngresado", jug);
+                            request.getSession().setAttribute("UsuarioIngresado", ju.getPersona());
                             response.setContentType("application/json");
                             response.getWriter().write("2");
                         }   

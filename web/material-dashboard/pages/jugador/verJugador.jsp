@@ -27,7 +27,11 @@
                             <div class="card card-profile">
                                 <div class="card-avatar">
                                     <a href="#pablo">
-                                        <img class="img" src="../../assets/img/avatares/<%=objPersonaVisto.getAvatar()%>">
+                                        <%if(objPersonaVisto.getAvatar().length()>=100){%>
+                                            <img class="img" src="<%=objPersonaVisto.getAvatar()%>">
+                                        <%}else{%>
+                                            <img class="img" src="/FutPlayFinal/material-dashboard/assets/img/avatares/<%=objPersonaVisto.getAvatar()%>">
+                                        <%}%>
                                     </a>
                                 </div>
                                 <div class="card-content">

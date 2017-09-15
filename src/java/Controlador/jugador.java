@@ -293,7 +293,6 @@ public class jugador extends HttpServlet {
                         }else if (likes > 5 & likes <= 10 & dislike <=5) {
                             rankingUsuariosFinal=25;
                         }
-                        
                         double ranking = (jugador.getRankingSystem()+rankingUsuariosFinal) / 2;
                         String colorStar1 ="#d8bb21",colorStar2 ="#d8bb21",colorStar3 ="#d8bb21",colorStar4 ="#d8bb21",colorStar5 ="#d8bb21";
                         if (ranking > 0 & ranking <= 20) {
@@ -312,14 +311,19 @@ public class jugador extends HttpServlet {
                         }else if (ranking > 60 & ranking <= 80) {
                             colorStar5 = "#999999";
                         }
-                        
+                        String imagen="";
                         for(Persona persona : ListaPersona){
+                            if(persona.getAvatar().length()>100){
+                                imagen= "<img class='avatar' src='"+persona.getAvatar()+"' style='width: 150px;height: 150px;'>";
+                            }else{
+                                imagen= "<img class='avatar' src='../../assets/img/avatares/"+persona.getAvatar()+"' style='width: 150px;height: 150px;'>";
+                            }
                             response.getWriter().write("<div class='col-lg-4'>"
                                         + "<div class='card card-pricing card-raised'>"
                                             + "<div class='content'>"
                                                 + "<h6 class='category'>"+jugador.getAlias()+"</h6>"
                                                 + "<div class='icon icon-rose'>"
-                                                        + "<img class='avatar' src='../../assets/img/avatares/"+persona.getAvatar()+"' style='width: 150px;height: 150px;'>"
+                                                   +imagen
                                                 + "</div>"
                                                 + "<h3 class='card-title'>"+jugador.getPosicion()+"</h3>"
                                                 + "<i class='material-icons' style='font-size: 25px; color: "+colorStar1+"'>stars</i>"
@@ -436,20 +440,23 @@ public class jugador extends HttpServlet {
                     Session sesion = HibernateUtil.getSessionFactory().openSession();
                     Query query = sesion.createQuery("FROM Jugador WHERE Alias like '%"+valor+"%'");
                     List<Jugador>ListaJugador = query.list();
-
+                    String imagen = "";
                     response.setCharacterEncoding("UTF-8");
                     for(Jugador jugador : ListaJugador){
-                        
                         Query queryPersona = sesion.createQuery("FROM Persona WHERE idPersona = "+jugador.getPersona()+"");
                         List<Persona>ListaPersona = queryPersona.list();
                             for(Persona persona : ListaPersona){
-                            
+                                if(persona.getAvatar().length()>100){
+                                    imagen= "<img class='avatar' src='"+persona.getAvatar()+"' style='width: 100%;height: 100%;'>";
+                                }else{
+                                    imagen= "<img class='avatar' src='../../assets/img/avatares/"+persona.getAvatar()+"' style='width: 100%;height: 100%;'>";
+                                }
                                 response.getWriter().write("<div class='col-md-4'>"
                                                     + "<div class='card card-pricing card-raised'>"
                                                         + "<div class='content'>"
                                                             + "<h6>"+jugador.getAlias()+"</h6>"
                                                             +"<div class='icon'>"
-                                                                + "<img src='../../assets/img/avatares/"+persona.getAvatar()+"'>"
+                                                                + imagen
                                                             + "</div>"
                                                             +"<button class='btn label label-info' onclick='ficharJugador(this.value)' style='margin: 0;' value='"+objJugador.getIdJugador()+"/"+jugador.getIdJugador()+"/"+jugador.getAlias()+"'>Fichar</button><br>"
                                                             +"<a href='/FutPlayFinal/jugador/verjugador/"+jugador.getIdJugador()+"' class='text-muted'>Ver perfil</a>"
