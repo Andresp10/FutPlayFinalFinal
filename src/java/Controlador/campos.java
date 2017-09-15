@@ -2,6 +2,7 @@ package Controlador;
 
 import Modelo.Campos;
 import Modelo.HibernateUtil;
+import Modelo.Jugador;
 import Modelo.Propietario;
 import java.io.IOException;
 import java.util.List;
@@ -37,6 +38,18 @@ public class campos extends HttpServlet {
                 case "checkCampos":
                     checkCampos(request,response);
                     break;
+                case "camposSobresalientes":
+                    camposSobresalientes(request,response);
+                    break;  
+                case "buscarCampo":
+                    buscarCampo(request,response);
+                    break;
+//                case "likeCampo":
+//                    likesCampo(request,response);
+//                    break; 
+//                case "dislikeCampo":
+//                    dislikeCampo(request,response);
+//                    break;    
             }    
         }       
     }
@@ -200,6 +213,345 @@ public class campos extends HttpServlet {
         return listaCampos;
     
     }
+    protected void camposSobresalientes(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+           try{
+               
+           Session se= HibernateUtil.getSessionFactory().openSession();
+           Query query = se.createQuery("FROM Campos");
+            query.setMaxResults(10);
+            List<Campos>listaCampos = query.list();
+            for(Campos campos : listaCampos){
+
+                 Query queryCapitan = se.createQuery("FROM Propietario WHERE idPropietario = "+campos.getPropietario()+"");
+                    List<Propietario>listPropi = queryCapitan.list();
+                        for(Propietario Prop : listPropi){
+                           // String ubicacion = campos.getUbicacion();
+                
+                    response.getWriter().write("<div class='card-description'>"
+                                                    +"<div class='col-lg-4'>"
+                                                        +"<div class='card card-pricing card-raised'>"
+                                                            +"<div class='content'>"
+                                                                +"<h3 class='category'>"+campos.getNombre()+"</h3>"
+                                                                +"<div class='icon icon-rose'>"
+                                                                    +"<img class='avatar' src='/FutPlayFinal/Imagenes/"+campos.getFoto()+"' style='width: 120px;height: 120px;'>"
+                                                                +"</div>"     
+                                                                    +"<button class='btn btn-primary btn-simple btnMapCampo' rel='tooltip' data-placement='bottom' title='Ubicacion en Google maps' value="+campos.getUbicacion()+">"
+                                                                        +"<i class='material-icons' style='font-size: 25px;'>location_on</i>"
+                                                                    +"</button>"
+                                                                        +"<p class='card-description'>"+campos.getDireccion()+"</p>"
+                                                                        +"<p><i class='material-icons' style='font-size:20px;'>face</i> Propietario: "+Prop.getPersona().getNombres() +" "+Prop.getPersona().getApellidos()+"</p>"    
+                                                                //+"<a class='btn btn-primary  btnCalificar' rel='tooltip' data-toggle='modal' data-target='#modalCampoCalificar' id='idCampo' value='"+campos.getIdCampo()+"'>Calificar</a>"
+                                                            +"</div>"
+                                                        +"</div>"
+                                                    +"</div>"
+                                                +"</div>");
+                
+                }
+                
+            }
+            se.close();
+           }catch(HibernateException ex){
+               System.err.print(ex);
+           }
+            }
+       
+       protected void buscarCampo(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+            String valor = request.getParameter("Valor");
+           
+           try{    
+               
+                if (valor.equals("") || valor == null) {
+                    
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write("0");
+                    
+                }else{
+               Session sesion = HibernateUtil.getSessionFactory().openSession();
+                    Query query = sesion.createQuery("FROM Campos WHERE Nombre like '%"+valor+"%' OR Direccion like '%"+valor+"%' OR Propietario like '%"+valor+"%'");
+                    List<Campos>listCampo = query.list();
+
+                    response.setCharacterEncoding("UTF-8");
+                    for(Campos campo : listCampo){
+                        
+                        Query q = sesion.createQuery("FROM Propietario WHERE idPropietario = "+campo.getPropietario()+"");
+                        List<Propietario> ListaPro = q.list();
+                            for(Propietario propietario : ListaPro){
+                    response.getWriter().write("<div class='card-description'>"
+                                                    +"<div class='col-lg-6'>"
+                                                        +"<div class='card card-pricing card-raised'>"
+                                                            +"<div class='content'>"
+                                                                +"<h3 class='category'>"+campo.getNombre()+"</h3>"
+                                                                +"<div class='icon icon-rose'>"
+                                                                    +"<img class='avatar' src='/FutPlayFinal/Imagenes/"+campo.getFoto()+"' style='width: 120px;height: 120px;'>"
+                                                                +"</div>"     
+                                                                    +"<button class='btn btn-primary btn-simple btnMapCampo' rel='tooltip' data-placement='bottom' title='Ubicacion en Google maps' value="+campo.getUbicacion()+">"
+                                                                        +"<i class='material-icons' style='font-size: 25px;'>location_on</i>"
+                                                                    +"</button>"
+                                                                        +"<p class='card-description'>"+campo.getDireccion()+"</p>"
+                                                                        +"<p><i class='material-icons' style='font-size:20px;'>face</i> Propietario: "+propietario.getPersona().getNombres() +" "+propietario.getPersona().getApellidos()+"</p>"    
+                                                               // +"<a href='/FutPlayFinal/jugador/verCampo' class='btn btn-danger btn-round'>Calificar</a>"
+                                                            +"</div>"
+                                                        +"</div>"
+                                                    +"</div>"
+                                                +"</div>");
+                    }
+
+                    }
+                    sesion.close();
+                }
+                }catch(HibernateException ex){
+            
+                System.err.println(ex);
+            
+            }
+        }
+//protected void likesCampo(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//     try{
+//            String finalCalf = "";
+//            int tipoDeCalificacion = 0;
+//            
+//            Jugador objSesion = (Jugador) request.getSession().getAttribute("JugadorIngresado");
+//            Campos campo=new Campos();
+//            Session sesion = HibernateUtil.getSessionFactory().openSession();
+//            if (!"".equals(campo.getLike())) {
+//                
+//                String likesCampos = campo.getLike();
+//                String calificados[] = likesCampos.split("/");
+//                if (calificados.length >= 1) {
+//                    
+//                    for (int i = 0; i < calificados.length; i++) {
+//                        
+//                        String campos[] = calificados[i].split("~");
+//                        
+//                        if (campos[0].equals(String.valueOf(objSesion.getIdJugador())) & campos[1].equals("1")) {
+//                            
+//                            response.getWriter().write("1");
+//                            //////////// INDICA QUE YA ESTA CALIFICADO //////////
+//                            System.out.println("EL CAMPO YA TIENE UN LIKE..");
+//                            
+//                        }else{
+//                            System.out.println("    no tiene lo que quire hacer");
+//                            if (campos[0].equals(String.valueOf(objSesion.getIdJugador())) & campos[1].equals("0")) {
+//                                
+//                                String contenedor = "";
+//                               
+//                                /////////// HAY QUE DESARMAR Y VOLVER A ARMAR EL STRING ////////
+//                                for (int j = 0; j < calificados.length; j++) {
+//                                    
+//                                    String desarmar[] = calificados[j].split("~"); 
+//                                    
+//                                    if (desarmar[0].equals(String.valueOf(objSesion.getIdJugador()))) {
+//                                        
+//                                        contenedor += ""+String.valueOf(objSesion.getIdJugador())+"~1/";
+//                                        System.out.println("CONTENECOR 1---> "+contenedor);
+//                                    }else{
+//                                    
+//                                        contenedor += calificados[j]+"/";
+//                                        System.out.println("CONTENEDOR 2----> "+contenedor);
+//                                    }
+//                                    
+//                                }
+//                                System.out.println("ESTE EL EL ERROR MAS GAY ---> " + contenedor);
+//                                System.out.println("cacacacacacacacacacacacacacacacacacacca....cacacac...caca...ca");
+//                                
+//                                finalCalf = "";
+//                                finalCalf = contenedor;
+//                                
+//                                System.out.println("ESTE EL EL FINAL CALF ---> " +finalCalf);
+//                                
+//                                tipoDeCalificacion = 1;
+//                                
+//                            }else{
+//                                ////// HAY QUE AGREGAR LA NUEVA CALIFICACION ///////////
+//                                finalCalf = ""+campo.getLike()+String.valueOf(objSesion.getIdJugador())+"~1/";
+//                                System.out.println("olpoopopo ---> " +i);
+//                                if (i+1 == calificados.length) {
+//                                
+//                                    tipoDeCalificacion = 2;
+//                                }
+//                            
+//                            }
+//                        }
+//                        
+//                    }
+//                    
+//                    if (tipoDeCalificacion == 1) {
+//                        
+//                        System.out.println("HACIENDO EL INSERT %%%%%%%%%%% -->  " + finalCalf);
+//                        
+//                        ////// SE EJECUTA LA ACTUALIZACION O EL INGRESO DE LA CALIFICACION ////
+//                        Query UpdateCampo = sesion.createSQLQuery("UPDATE Campos SET Likee='"+finalCalf+"'");
+//                        sesion.beginTransaction();
+//                        UpdateCampo.executeUpdate();
+//                        sesion.getTransaction().commit();
+//
+//                        
+//
+//                        response.getWriter().write("2");
+//                        
+//                    }else if (tipoDeCalificacion == 2) {
+//                        
+//                        System.out.println("TIPO DE CALIFICACION #2 -----<>");
+//                        ////// SE EJECUTA LA ACTUALIZACION O EL INGRESO DE LA CALIFICACION ////
+//                        Query updateCampo = sesion.createSQLQuery("UPDATE Campos SET Likee='"+finalCalf+"'");
+//                        sesion.beginTransaction();
+//                        updateCampo.executeUpdate();
+//                        sesion.getTransaction().commit();
+//
+//                        
+//                        response.getWriter().write("2");
+//                        
+//                    }
+//                    
+//                }
+//                
+//            }else{
+//            
+//                finalCalf = ""+String.valueOf(objSesion.getIdJugador())+"~1/";
+//                Query actCampo = sesion.createSQLQuery("UPDATE Campos SET Likee='"+finalCalf+"'");
+//                sesion.beginTransaction();
+//                actCampo.executeUpdate();
+//                sesion.getTransaction().commit();
+//                           
+//                response.getWriter().write("2");
+//                
+//            }
+//        
+//            sesion.close();
+//            
+//            
+//        }catch(HibernateException ex){
+//        
+//            System.err.println(ex);
+//        }catch(Exception ex){
+//        
+//            System.err.println(ex);
+//        }
+//        
+//
+//}
+//protected void dislikeCampo(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//    
+//        try{
+//                   
+//            String finalCalf = "";
+//            int tipoDeCalificacion = 0;
+//            
+//            Jugador objJugadorSesion = (Jugador) request.getSession().getAttribute("JugadorIngresado");
+//              Campos campo=new Campos();
+//            
+//            Session sesion = HibernateUtil.getSessionFactory().openSession();
+//            if (!"".equals(campo.getDislike())) {
+//                
+//                String dislikeCampo = campo.getDislike();
+//                String calificados[] = dislikeCampo.split("/");
+//                System.out.println("LLLLLOOOOOOOOOLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL"+calificados[0]);
+//                if (calificados.length >= 1) {
+//                    
+//                    for (int i = 0; i < calificados.length; i++) {
+//                        
+//                        String usuario[] = calificados[i].split("~");
+//                        
+//                        if (usuario[0].equals(String.valueOf(objJugadorSesion.getIdJugador())) & usuario[1].equals("0")) {
+//                            
+//                            response.getWriter().write("1");
+//                            //////////// INDICA QUE YA ESTA CALIFICADO //////////
+//                            System.out.println("EL JUGADOR YA TIENE UN DISLIKE..");
+//                            
+//                        }else{
+//                            System.out.println("    no tiene lo que quire hacer");
+//                            if (usuario[0].equals(String.valueOf(objJugadorSesion.getIdJugador())) & usuario[1].equals("1")) {
+//                                
+//                                String contenedor = "";
+//                                System.out.println("HAY QUE CAMBIAR DE LIKE A DISLIKE. lol");
+//                                /////////// HAY QUE DESARMAR Y VOLVER A ARMAR EL STRING ////////
+//                                for (int j = 0; j < calificados.length; j++) {
+//                                    
+//                                    String desarmar[] = calificados[j].split("~"); 
+//                                    
+//                                    if (desarmar[0].equals(String.valueOf(objJugadorSesion.getIdJugador()))) {
+//                                        
+//                                        contenedor += ""+String.valueOf(objJugadorSesion.getIdJugador())+"~0/";
+//                                    }else{
+//                                    
+//                                        contenedor += calificados[j]+"/";
+//                                    }
+//                                    System.out.println("ESTE EL EL ERROR MAS GAY ---> " + contenedor);
+//                                    System.out.println("cke");
+//                                    finalCalf = contenedor;
+//                                    tipoDeCalificacion = 1;
+//                                    
+//                                }
+//                            }else{
+//                                ////// HAY QUE AGREGAR LA NUEVA CALIFICACION ///////////
+//                                finalCalf = ""+campo.getDislike()+String.valueOf(objJugadorSesion.getIdJugador())+"~0/";
+//                                System.out.println("olpoopopo ---> " +i);
+//                                if (i+1 == calificados.length) {
+//                                
+//                                    tipoDeCalificacion = 2;
+//                                }
+//                            
+//                            }
+//                        }
+//                        
+//                    }
+//                    
+//                    if (tipoDeCalificacion == 1) {
+//                        
+//                        ////// SE EJECUTA LA ACTUALIZACION O EL INGRESO DE LA CALIFICACION ////
+//                        Query actuCampo = sesion.createSQLQuery("UPDATE Campos SET Dislike='"+finalCalf+"'");
+//                        sesion.beginTransaction();
+//                        actuCampo.executeUpdate();
+//                        sesion.getTransaction().commit();
+//
+//                        
+//                        response.getWriter().write("2");
+//                        
+//                    }else if (tipoDeCalificacion == 2) {
+//                        
+//                        
+//                        ////// SE EJECUTA LA ACTUALIZACION O EL INGRESO DE LA CALIFICACION ////
+//                        Query actualizarCampo = sesion.createSQLQuery("UPDATE Campos SET Dislike='"+finalCalf+"'");
+//                        sesion.beginTransaction();
+//                        actualizarCampo.executeUpdate();
+//                        sesion.getTransaction().commit();
+//
+//                    
+//                        response.getWriter().write("2");
+//                        
+//                    }
+//                    
+//                }
+//                
+//            }else{
+//            
+//                finalCalf = ""+String.valueOf(objJugadorSesion.getIdJugador())+"~0/";
+//                Query actualizarCampo = sesion.createSQLQuery("UPDATE Campos SET Dislike='"+finalCalf+"'");
+//                sesion.beginTransaction();
+//                actualizarCampo.executeUpdate();
+//                sesion.getTransaction().commit();
+//            
+//                
+//                response.getWriter().write("2");
+//                
+//            }
+//        
+//            sesion.close();
+//            
+//        }catch(HibernateException ex){
+//        
+//            System.err.println(ex);
+//            
+//        }catch(Exception ex){
+//        
+//            System.err.println(ex);
+//        }
+//}        
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

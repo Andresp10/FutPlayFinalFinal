@@ -1924,10 +1924,127 @@ $('.btnCampo').on('click',function(e){
  //////////////////// MOSTRAR LOS CAMPOS SOBRESALIENTES /////////////////////////////
  function mostrarCamposSobresalientes(){
      
-     $.post("/FutPlayFinal/campo/sdfdfdfs",function (responseText){
+     $.post("/FutPlayFinal/campos/camposSobresalientes",function (responseText){
         
-         
+               if (responseText == "1") {
+            
+            $.notify({
+                    icon: "perm_identity",
+                    message: "campos..........................."
+
+                },{
+                    type: 'danger',
+                    timer: 3000,
+                    placement: {
+                        from: 'bottom',
+                        align: 'right'
+                    }
+                });
+            
+        }else if (responseText == "2") {
+            
+        }else{
+            
+            $("#contenidoCampoSobresalientes").html(responseText);   
+            
+        }
          
      });
      
  }
+///////////////////////////////////Buscar campo por ciudad nombre y propietario/////////////////////7
+ $(".buscarCampo").keyup(function (){
+    var valor = $("#buscarCampo").val();
+    $.post("/FutPlayFinal/campos/buscarCampo",{Valor:valor},function (responseText){
+        if(responseText == "0" || responseText == ""){
+            
+            $("#busquedaContainer").html("<p> No se encontraron coincidencias </p>");
+            
+        }else{
+
+            //$("#btlBuscarJugador").find("tbody").html("");
+            $("#busquedaContainer").html(responseText);
+        }
+        
+    });
+ 
+});
+
+//////////////////////////////////// DAR LIKE A UN JUGADOR ///////////////////////
+//$(".likeCampo").click(function (){
+//    $.post("/FutPlayFinal/campos/likeCampo",function (responseText){
+//        
+//        if (responseText == "1") {
+//            
+//            $.notify({
+//                icon: "sentiment_satisfied",
+//                message: "Solo puedes dar like una vez al campo."
+//
+//            },{
+//                type: 'danger',
+//                timer: 2500,
+//                placement: {
+//                    from: 'bottom',
+//                    align: 'right'
+//                }
+//            });
+//            
+//        }else if (responseText =="2") {
+//            
+//            $.notify({
+//                icon: "mood",
+//                message: "La calificacion del campo fue exitosa."
+//
+//            },{
+//                type: 'success',
+//                timer: 2500,
+//                placement: {
+//                    from: 'bottom',
+//                    align: 'right'
+//                }
+//            });
+//            window.location = "/FutPlayFinal/material-dashboard/pages/campo/camposSobresalientes.jsp";
+//        }
+//        
+//    });
+//    
+//});
+//////////////////////////////////// DAR DISLIKE A UN JUGADOR //////////////////////////
+//$(".dislikeJugador").click(function (){
+//    
+//    $.post("/FutPlayFinal/campos/dislikeCampo",function (responseText){
+//        
+//        if (responseText == "1") {
+//            $.notify({
+//                icon: "sentiment_satisfied",
+//                message: "Solo puedes dar dislike una vez al campo."
+//
+//            },{
+//                type: 'danger',
+//                timer: 2500,
+//                placement: {
+//                    from: 'bottom',
+//                    align: 'right'
+//                }
+//            });
+//        }else if (responseText == "2") {
+//            
+//            $.notify({
+//                icon: "mood",
+//                message: "La calificacion del campo fue exitosa."
+//
+//            },{
+//                type: 'success',
+//                timer: 2500,
+//                placement: {
+//                    from: 'bottom',
+//                    align: 'right'
+//                }
+//            });
+//            
+//            window.location = "/FutPlayFinal/material-dashboard/pages/campo/camposSobresalientes.jsp";
+//        }
+//        
+//    });
+//    
+//});
